@@ -1,5 +1,24 @@
 
 /* Login pages styles */
+.showMessage{
+  display: block;
+  color: var(--whiteColor);
+  padding: 10px;
+  background:
+  rgb(255, 0, 0);
+  border-radius: 3px;
+  text-align: center;
+}
+
+.showMessage {
+  display: block;
+  color: var(--whiteColor);
+  background: rgb(255, 0, 0);
+  border-radius: 3px;
+  text-align: center;
+}
+
+
 .loginPage{
   
     height: 100vh;
@@ -118,6 +137,7 @@
           }
   
           h3{
+            margin: 0px 0px -38px 0px;
             font-size: 25px;
             color: var(--blackColor);
             font-weight: 600;

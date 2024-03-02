@@ -67,7 +67,8 @@
   .message {
     display: none;
   }
-  
+
+    
   .showMessage {
     display: block;
     color: var(--whiteColor);
