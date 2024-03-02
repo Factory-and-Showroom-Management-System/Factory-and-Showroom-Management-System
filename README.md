@@ -1,6 +1,10 @@
 
 # Polyethene Factory Management System 🌐
 
+
+https://github.com/Factory-and-Showroom-Management-System/Factory-and-Showroom-Management-System/assets/104630433/450915e1-2e77-4b37-afc8-c5daf4b9dbfb
+
+
 ![pfmS](https://github.com/Factory-and-Showroom-Management-System/Factory-and-Showroom-Management-System/assets/104630433/766a883a-f7e3-46f7-9de6-07df42a45cfa)
 
 
