@@ -1,6 +1,5 @@
 import React from 'react'
-import './UserLogin.css'
-import '../../styles/App.css'
+import '../../styles/UserLogin.css'
 import { Link } from 'react-router-dom'
 
 // import our assets login 
@@ -41,8 +40,7 @@ const UserLogin = () => {
                   <h3>Welcome Back!</h3>
                 </div>
                 <form action='' className='form grid'>
-                  <span>Login Status will go here</span>
-
+                  {/* <span>Login Status will go here</span> */}
                 <div className="inputDiv">
                   <label htmlFor="username">Username</label>
                   <div className="input flex">
