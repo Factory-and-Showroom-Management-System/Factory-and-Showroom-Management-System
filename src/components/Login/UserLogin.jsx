@@ -4,8 +4,8 @@ import '../../styles/App.css'
 import { Link } from 'react-router-dom'
 
 // import our assets login 
-import video from '../../assets/Login/backsitebackground222.mp4'
-import logo from '../../assets/Login/mainLogo.png'
+import video from '../../assets/login/backsitebackground222.mp4'
+import logo from '../../assets/login/mainLogo.png'
 
 //import react icons
 import { FaUserShield } from 'react-icons/fa'
