@@ -4,8 +4,8 @@ import '../../styles/App.css'
 import { Link } from 'react-router-dom'
 
 // import our assets login 
-import video from '../../assets/Login/backsitebackground222.mp4'
-import logo from '../../assets/Login/mainLogo.png'
+import video from '../../assets/login/backsitebackground222.mp4'
+import logo from '../../assets/login/mainLogo.png'
 
 //import react icons
 import { FaUserShield } from 'react-icons/fa'
@@ -20,8 +20,7 @@ const UserLogin = () => {
       <div className="container flex">
           <div className="videoDiv">
               <video src = {video} autoPlay muted loop ></video> 
-              
-              {/* <div className='textDiv'>
+               {/* <div className='textDiv'>
                 <h2 className='title'>Creat and Seell Extraordinary Products</h2>
                 <p>Adopt the peace of natuer!</p>
               </div>
