@@ -1,8 +1,5 @@
 import UserLogin from './components/login/UserLogin'
 import './styles/App.css'
-import './styles/UserLogin.css'
-
-
 
 
 //Import react router dom
