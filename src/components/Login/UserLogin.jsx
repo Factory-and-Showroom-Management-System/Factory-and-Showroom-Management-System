@@ -20,8 +20,7 @@ const UserLogin = () => {
       <div className="container flex">
           <div className="videoDiv">
               <video src = {video} autoPlay muted loop ></video> 
-              
-              {/* <div className='textDiv'>
+               {/* <div className='textDiv'>
                 <h2 className='title'>Creat and Seell Extraordinary Products</h2>
                 <p>Adopt the peace of natuer!</p>
               </div>
