@@ -1,7 +1,6 @@
-import AdminDashboard from './components/Dashboards/AdminDashboard'
-import UserLogin from './components/Login/UserLogin'
-// import UserRegister from './components/Register/UserRegister'
+import UserLogin from './components/login/UserLogin'
 import './styles/App.css'
+import './styles/UserLogin.css'
 
 
 
@@ -14,8 +13,6 @@ RouterProvider
  const router = createBrowserRouter(
   [
   { path: '/', element: <div><UserLogin /></div> },
-  // { path: '/register', element: <div><UserRegister /></div> },
-  { path: '/dashboards', element: <div><AdminDashboard /></div> },
 ]);
 
 
