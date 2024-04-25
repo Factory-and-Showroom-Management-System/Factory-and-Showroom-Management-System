@@ -190,3 +190,4 @@ export default function SubTotalMonthSalarySheet() {
     );
 }
 
+// Path: Front/src/pages/Finance/Salary/TotalMonthSalarySheet.jsx
