@@ -26,6 +26,7 @@ export default function BasicSalaries() {
         const fetchSalaries = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/salary/showallsalary');
+                // i need to post the data to the backend http://localhost:3000/salary/showearning
                 setSalaries(response.data);
             } catch (error) {
                 console.error('Failed to fetch salaries:', error);

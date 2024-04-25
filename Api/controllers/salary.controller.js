@@ -207,21 +207,23 @@ async function bssalaryAll(req, res) {
         for (const userId in attenCountMap) {
             if (attenCountMap.hasOwnProperty(userId)) {
                 const attenCount = attenCountMap[userId];
-
+                
                 // Fetch existing basic salary record for the userId
                 let basicSalary = await models.BasicSalary.findOne({ where: { userId: userId } });
 
+                // Fetch role income record which includes dateIncome
+                const user = await models.User.findOne({ where: { id: userId } });
+                if (!user) {
+                    continue; // Skip if user not found
+                }
+                const roleId = user.roleId;
+                const roleIncome = await models.RoleIncome.findOne({ where: { id: roleId } });
+                if (!roleIncome) {
+                    continue; // Skip if role not found
+                }
+
                 if (!basicSalary) {
                     // If no existing record found, create a new one
-                    const user = await models.User.findOne({ where: { id: userId } });
-                    if (!user) {
-                        continue; // Skip if user not found
-                    }
-                    const roleId = user.roleId;
-                    const roleIncome = await models.RoleIncome.findOne({ where: { id: roleId } });
-                    if (!roleIncome) {
-                        continue; // Skip if role not found
-                    }
                     basicSalary = await models.BasicSalary.create({
                         userId: userId,
                         name: user.name,
@@ -233,7 +235,8 @@ async function bssalaryAll(req, res) {
                 } else {
                     // If existing record found, update it
                     basicSalary.attenCount = attenCount;
-                    basicSalary.basicSalary = attenCount * basicSalary.dateIncome;
+                    basicSalary.dateIncome = roleIncome.dateIncome;  // Update dateIncome to the latest value
+                    basicSalary.basicSalary = attenCount * roleIncome.dateIncome;  // Recalculate basicSalary using latest dateIncome
                     await basicSalary.save();
                 }
 
@@ -253,6 +256,17 @@ async function bssalaryAll(req, res) {
         });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

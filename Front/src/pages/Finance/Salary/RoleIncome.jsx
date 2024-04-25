@@ -266,5 +266,8 @@ export default function RoleIncome() {
 
             </div>
         </div>
+
+        //i need to BasicSalary.jsx file to add the basic salary of the employee
+        
     );
 }
