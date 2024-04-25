@@ -128,21 +128,21 @@ export default function Additions() {
                     </span>
                     <ul className="pr-10 inline-flex -space-x-px text-sm">
                         <li>
-                            <button onClick={handlePrevPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100" disabled={currentPage === 1}>
-                                Previous
-                            </button>
+                        <button onClick={handlePrevPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100" disabled={currentPage === 1}>
+                            Previous
+                        </button>
                         </li>
                         {Array.from({ length: totalPages }, (_, index) => (
                             <li key={index}>
-                                <button onClick={() => setCurrentPage(index + 1)} className={`px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ${currentPage === index + 1 ? 'bg-gray-200' : 'hover:bg-gray-100'}`}>
-                                    {index + 1}
-                                </button>
-                            </li>
+                            <button onClick={() => setCurrentPage(index + 1)} className={`px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ${currentPage === index + 1 ? 'bg-gray-200' : ''}`}>
+                                {index + 1}
+                            </button>
+                        </li>
                         ))}
                         <li>
-                            <button onClick={handleNextPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100" disabled={currentPage === totalPages}>
-                                Next
-                            </button>
+                        <button onClick={handleNextPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100" disabled={currentPage === totalPages}>
+                            Next
+                        </button>
                         </li>
                     </ul>
                 </nav>
