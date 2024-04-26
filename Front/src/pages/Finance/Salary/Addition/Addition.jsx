@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Button } from "flowbite-react";
+import { TiArrowBackOutline } from "react-icons/ti";
+import { TbHandClick } from "react-icons/tb";
+
+
+
 
 export default function Addition() {
     const [addition, setAddition] = useState([]);
@@ -7,7 +14,22 @@ export default function Addition() {
     const [rowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
 
+    //dashboard
+    const handleDashboard = () => {
+        navigate('/finance?tab=salarydash');
+    }
+
+    //monthfoodAllowance
+    const handleMonthFoodAllowance = () => {
+        navigate('/finance?tab=monthfoodAllwance');
+    }
+
+    //monthOT
+    const hadelMonthOT = () => {
+        navigate('/finance?tab=monthot');
+    }
 
 
     const handleSubmit = async (event) => {
@@ -169,70 +191,96 @@ export default function Addition() {
 
     return (
 
-        <div className="shadow-lg p-20 bg-white ">
-            <div className="relative overflow-x-auto  sm:rounded-lm">
-                <h1 className="text-3xl text-blue-500 pl-2 pt-2">Addition Table: {currentDateTime}</h1>
+        <div className="w-full bg-white ">
 
-                <div className="pb-2 pt-2 pl-2 bg-white">
-                    <div className="relative mt-5">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
-                            </svg>
+            <div className="relative overflow-x-auto sm:rounded-lg ">
+
+                <div className=''>
+
+                    <h1 className="  text-3xl text-blue-500">Addition Table</h1>
+
+                    <div className="pt-2 pb-2 bg-white">
+                        <div className="relative ">
+
+                            <div className='flex'>
+                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                </div>
+                                <input
+                                    type="text"
+                                    className="block w-80 h-10 pl-10 pr-3 py-2 text-ml border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500 "
+                                    placeholder="Search by User ID or Name"
+                                    value={searchTerm}
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                />
+
+                                <Button.Group outline className='ml-2'>
+                                    <Button color="gray" onClick={handleDashboard} >
+                                        <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
+                                        Dashboard
+                                    </Button>
+                                    <Button color="gray" onClick={handleMonthFoodAllowance}>
+                                        <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                        Monthly Food Allowance
+                                    </Button>
+
+                                    <Button color="gray" onClick={hadelMonthOT}>
+                                        <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                        Monthly OT
+                                    </Button>
+
+
+                                </Button.Group>
+                            </div>
                         </div>
-                        <input
-                            type="text"
-                            className="block w-80 h-10 pl-10 pr-3 py-2 text-ml border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500 focus:border-red-500"
-                            placeholder="Search by User ID or Name"
-                            value={searchTerm}
-                            onChange={e => setSearchTerm(e.target.value)}
-                        />
                     </div>
-                </div>
 
-                <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
-                    <thead className="text-xs text-white uppercase bg-blue-600 border-b border-blue-400">
-                        <tr>
-                            <th scope="col" className="px-6 py-7">ID</th>
-                            <th scope="col" className="px-6 py-3">User ID</th>
-                            <th scope="col" className="px-6 py-3">Name</th>
-                            <th scope="col" className="px-6 py-3">Total OT</th>
-                            <th scope="col" className="px-6 py-3">Total Allowance</th>
-                            <th scope="col" className="px-6 py-3">Total Addition</th>
-                            <th scope="col" className="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentRows.map((item) => (
-                            <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                <td className="px-6 py-4">{item.id}</td>
-                                <td className="px-6 py-4">{item.userId}</td>
-                                <td className="px-6 py-4">{item.name}</td>
-                                <td className="px-6 py-4">Rs. {item.totalOT}</td>
-                                <td className="px-6 py-4">Rs. {item.totalAllowance}</td>
-                                <td className="px-6 py-4">Rs. {item.totalAddition}</td>
-                                <td className="px-6 py-4">
-                                    <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }}>Edit</a>
-                                    <a href="#" className="font-medium text-white hover:underline">Remove</a>
-                                </td>
+                    <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+                        <thead className="text-xs text-white uppercase bg-blue-600 border-b border-blue-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-7">ID</th>
+                                <th scope="col" className="px-6 py-3">User ID</th>
+                                <th scope="col" className="px-6 py-3">Name</th>
+                                <th scope="col" className="px-6 py-3">Total OT</th>
+                                <th scope="col" className="px-6 py-3">Total Food Allowance</th>
+                                <th scope="col" className="px-6 py-3">Total Addition</th>
+                                <th scope="col" className="px-6 py-3">Actions</th>
                             </tr>
-                        ))}
-                        <tr className="bg-blue-800 text-white">
-                            <td className="px-20 py-2 text-right font-bold" colSpan="3">Sub Total (Rs.) :</td>
-                            <td className="px-6  font-bold">Rs. {totalOT.toFixed(2)}</td>
-                            <td className="px-6  font-bold">Rs. {totalAllowance.toFixed(2)}</td>
-                            <td className="px-6  font-bold">Rs. {totalAddition.toFixed(2)}</td>
-                            <td className="px-6  font-bold"></td>
-                        </tr>
-                        <tr className="bg-blue-800 text-white ">
-                            <td className="px-20 py-2 text-right font-bold " colSpan="3">Total (Rs.) :</td>
-                            <td className="px-6 font-bold">Rs. {totalAddition.toFixed(4)}</td>
-                            <td className="px-6 font-bold"></td>
-                            <td className="px-6 font-bold"></td>
-                            <td className="px-6 font-bold"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {currentRows.map((item) => (
+                                <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                    <td className="px-6 py-4">{item.id}</td>
+                                    <td className="px-6 py-4">{item.userId}</td>
+                                    <td className="px-6 py-4">{item.name}</td>
+                                    <td className="px-6 py-4">Rs. {item.totalOT}</td>
+                                    <td className="px-6 py-4">Rs. {item.totalAllowance}</td>
+                                    <td className="px-6 py-4">Rs. {item.totalAddition}</td>
+                                    <td className="px-6 py-4">
+                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }}>Edit</a>
+                                        <a href="#" className="font-medium text-white hover:underline">Remove</a>
+                                    </td>
+                                </tr>
+                            ))}
+                            <tr className="bg-blue-800 text-white">
+                                <td className="px-20 py-2 text-right font-bold" colSpan="3">Sub Total (Rs.) :</td>
+                                <td className="px-6  font-bold">Rs. {totalOT.toFixed(2)}</td>
+                                <td className="px-6  font-bold">Rs. {totalAllowance.toFixed(2)}</td>
+                                <td className="px-6  font-bold">Rs. {totalAddition.toFixed(2)}</td>
+                                <td className="px-6  font-bold"></td>
+                            </tr>
+                            <tr className="bg-blue-800 text-white ">
+                                <td className="px-20 py-2 text-right font-bold " colSpan="3">Total (Rs.) :</td>
+                                <td className="px-6 font-bold">Rs. {totalAddition.toFixed(4)}</td>
+                                <td className="px-6 font-bold"></td>
+                                <td className="px-6 font-bold"></td>
+                                <td className="px-6 font-bold"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
             <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-2 " aria-label="Table navigation">

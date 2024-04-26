@@ -13,7 +13,10 @@ import RoleIncome from "../Finance/Salary/Earning/RoleIncome";
 import BudgetedAllowance from "../Finance/Salary/Earning/BudgetedAllowance";
 import UserMonrthLoan from "../Finance/Salary/Deduction/UserMonrhLoan";
 import UserTotalLoane from "../Finance/Salary/Deduction/UserTotalLoane";
-
+import MonthFoodAllwance from "../Finance/Salary/Addition/MonthFoodAllowance";
+import MonthOT from "../Finance/Salary/Addition/MonthOT";
+import FoodAllowance from "../Finance/Salary/Addition/FoodAllowance";
+import RoleOTIncome from "../Finance/Salary/Addition/RoleOTIncome";
 
 
 
@@ -48,7 +51,11 @@ export function FinanceManager() {
           {tab === "handleRoleIncome" && <RoleIncome/>}
           {tab === "hadelBugetAllowance" && <BudgetedAllowance/>}
           {tab === "usermonthloan" && <UserMonrthLoan/>}
-          {tab === "usertotalloane" && <UserTotalLoane/>}          
+          {tab === "usertotalloane" && <UserTotalLoane/>}
+          {tab === "monthfoodAllwance" && <MonthFoodAllwance/>}
+          {tab === "monthot" && <MonthOT/>}
+          {tab === "foodallowance" && <FoodAllowance/>}
+          {tab === "roleotincome" && <RoleOTIncome/>}     
           </div>
       </div>
     
