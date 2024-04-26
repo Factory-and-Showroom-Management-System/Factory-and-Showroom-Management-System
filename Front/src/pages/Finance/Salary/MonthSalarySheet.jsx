@@ -8,6 +8,107 @@ export default function MonthSalarySheet() {
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
+
+
+    const handleSubmit = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addsalary
+        const response = await axios.post('http://localhost:3000/salary/addsalary', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitEarning = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addearning', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitUserLoan = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddusermonthloan', {
+        });
+        console.log(response);
+    };
+
+    const handleSubmitDeduct = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoadddeduction', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitEpsEtf = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthepfetf', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitMonthFoodAllwance = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthfoodallowance', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitMonthOT = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthot', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitAdditon = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addadditions', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitNetPay = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addusernetpay', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+    const handleSubmitSubMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addsubtotalmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitAllMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addallmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+
+
+
     useEffect(() => {
         const timer = setInterval(() => {
             const now = new Date();
@@ -28,6 +129,19 @@ export default function MonthSalarySheet() {
             }
         };
         fetchData();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
     }, []);
 
     const filteredSalarySheets = searchTerm
@@ -143,7 +257,7 @@ export default function MonthSalarySheet() {
                                 </td>
                             </tr>
                         ))}
-                          <tr className="bg-blue-800 text-white">
+                        <tr className="bg-blue-800 text-white">
                             <td className="px-20 py-7 text-right font-bold" colSpan="5">Sub Total ( Rs. ) :</td>
                             <td className="px-10 font-bold" >Rs.{basicSalary.toFixed(2)}</td>
                             <td className="px-10 font-bold" >Rs.{baValue.toFixed(2)}</td>
@@ -159,37 +273,37 @@ export default function MonthSalarySheet() {
                             <td className="px-10 font-bold" colSpan="5">Rs.{totaNetPay.toFixed(2)}</td>
 
                         </tr>
-                      
+
                     </tbody>
                 </table>
-                
+
             </div>
             <nav className="flex items-center justify-between pt-2 ">
-                    <span className="pl-10 text-sm font-normal text-gray-500">
-                        Showing <span className="font-semibold text-gray-900">
-                            {indexOfFirstRow + 1}-{indexOfLastRow > filteredSalarySheets.length ? filteredSalarySheets.length : indexOfLastRow}
-                        </span> of <span className="font-semibold text-gray-900">{filteredSalarySheets.length}</span>
-                    </span>
-                    <ul className="pr-10 inline-flex -space-x-px text-sm">
-                        <li>
-                            <button onClick={handlePrevPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100" disabled={currentPage === 1}>
-                                Previous
+                <span className="pl-10 text-sm font-normal text-gray-500">
+                    Showing <span className="font-semibold text-gray-900">
+                        {indexOfFirstRow + 1}-{indexOfLastRow > filteredSalarySheets.length ? filteredSalarySheets.length : indexOfLastRow}
+                    </span> of <span className="font-semibold text-gray-900">{filteredSalarySheets.length}</span>
+                </span>
+                <ul className="pr-10 inline-flex -space-x-px text-sm">
+                    <li>
+                        <button onClick={handlePrevPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100" disabled={currentPage === 1}>
+                            Previous
+                        </button>
+                    </li>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <li key={index}>
+                            <button onClick={() => setCurrentPage(index + 1)} className={`px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ${currentPage === index + 1 ? 'bg-gray-200' : ''}`}>
+                                {index + 1}
                             </button>
                         </li>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <li key={index}>
-                                <button onClick={() => setCurrentPage(index + 1)} className={`px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ${currentPage === index + 1 ? 'bg-gray-200' : ''}`}>
-                                    {index + 1}
-                                </button>
-                            </li>
-                        ))}
-                        <li>
-                            <button onClick={handleNextPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100" disabled={currentPage === totalPages}>
-                                Next
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+                    ))}
+                    <li>
+                        <button onClick={handleNextPage} className="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100" disabled={currentPage === totalPages}>
+                            Next
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
     );
 }

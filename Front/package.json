@@ -13,6 +13,7 @@
     "animate.css": "^4.1.1",
     "axios": "^1.6.8",
     "flatpickr": "^4.6.13",
+    "flowbite-react": "^0.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
