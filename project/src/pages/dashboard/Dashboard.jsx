@@ -2,8 +2,7 @@
 import Table from "./Table";
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Table2 from "./Table2";
-import {Dash_Sidebar} from "../../components/sidebar/Admin_Sidebar";
+
 import Navbar from "../../components/Navbar/Navbar";
 
 
@@ -24,12 +23,10 @@ export function Dashboard() {
       
       <div className='md:w-56 '>
       
-     <Dash_Sidebar/>
+  
       </div>
       
 
-{tab === 'table' && <Table />}
-{tab === 'table2' && <Table2 />}
 
 
    </div>
@@ -37,4 +34,5 @@ export function Dashboard() {
   );
 }
 
+export default Dashboard;
 

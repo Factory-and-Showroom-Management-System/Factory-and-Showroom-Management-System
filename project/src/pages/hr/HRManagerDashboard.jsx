@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
+import { Hr_Sidebar } from '../../components/sidebar/Hr_Sidebar';
 
-import { Finance_Sidebar } from '../../components/sidebar/Finance_Sidebar';
 
-
-export function FinanceManagerDashboard() {
+export function HRManagerDashboard() {
   const location = useLocation();
   const [tab, setTab] = useState('');
   useEffect(() => {
@@ -22,7 +21,7 @@ export function FinanceManagerDashboard() {
       
       <div className='md:w-56 '>
       
-    <Finance_Sidebar/> 
+ <Hr_Sidebar/>
       </div>
       
 
@@ -34,4 +33,4 @@ export function FinanceManagerDashboard() {
   );
 }
 
-export default FinanceManagerDashboard;
+export default HRManagerDashboard;
