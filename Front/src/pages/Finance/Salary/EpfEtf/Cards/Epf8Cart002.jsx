@@ -2,29 +2,31 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export default function Epf8Carts001() {
-    // State to store deductions data
-    const [deductions, setDeductions] = useState([]);
+export default function Epf8Cart002() {
+    // States for basic salaries and EPF8
+    const [epf8, setEPF8] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/salary/showdeduction');
-                setDeductions(response.data); // Update state with fetched data
+                const response = await axios.get('http://localhost:3000/salary/showmonthepfetf');
+                // Check if response.data has the expected structure
+                console.log(response.data);
+                // Calculate EPF8
+                const epf8 = response.data.reduce((total, item) => total + item.epf8, 0);
+                setEPF8(epf8);
             } catch (error) {
-                console.error('Failed to fetch deductions:', error);
+                console.error('Failed to fetch basic salaries:', error);
             }
         };
         fetchData();
     }, []);
 
-    // Calculate total epf8 from deductions data
-    const totalEpf8 = deductions.reduce((total, item) => total + item.epf8, 0);
-
 
     return (
         <div className="h-40 max-w-sm p-4 bg-blue-700 border border-gray-200 rounded-lg shadow w-72 dark:bg-blue-600 dark:border-gray-100 hover:bg-blue-600 dark:hover:bg-blue-70 transition duration-300 ease-in-out transform hover:scale-105">
             <div className='flex'>
+                {/* SVG Icon */}
                 <svg className='' width="60px" height="60px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" strokeWidth="0.00024">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0" transform="translate(0,0), scale(1)"></g>
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.048"></g>
@@ -34,9 +36,9 @@ export default function Epf8Carts001() {
                 </svg>
                 <label className="mt-4 ml-3 text-3xl font-semibold text-white dark:text-white">Epf 8%</label>
             </div>
-         
-            <p className="mb-2 ml-3 text-2xl font-normal text-white dark:text-white">Rs: {totalEpf8.toFixed(2)}</p>
-            <Link to='/finance?tab=epfetfdash' className="inline-flex items-center ml-3 font-medium text-white hover:underline hover:text-slate-100">
+    
+            <p className="mb-2 ml-3 text-2xl font-normal text-white dark:text-white">Rs: {epf8.toFixed(2)}</p>
+            <Link to='/finance?tab=basicsalarytb' className="inline-flex items-center ml-3 font-medium text-white hover:underline hover:text-slate-100">
                 See Tables
                 <svg className="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"></path>

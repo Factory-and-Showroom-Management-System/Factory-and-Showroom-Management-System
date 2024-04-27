@@ -22,6 +22,7 @@ import RoleOTIncome from "../Finance/Salary/Addition/RoleOTIncome";
 
 
 
+
 export function FinanceManager() {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -55,7 +56,9 @@ export function FinanceManager() {
           {tab === "monthfoodAllwance" && <MonthFoodAllwance/>}
           {tab === "monthot" && <MonthOT/>}
           {tab === "foodallowance" && <FoodAllowance/>}
-          {tab === "roleotincome" && <RoleOTIncome/>}     
+          {tab === "roleotincome" && <RoleOTIncome/>}
+          
+
           </div>
       </div>
     
