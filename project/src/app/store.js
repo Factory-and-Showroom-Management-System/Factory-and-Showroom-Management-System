@@ -1,8 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from '../features/authSlice'
+// store.js
+import { createStore, combineReducers } from 'redux';
+import authReducer from '../reducers/authReducer';
 
-export const store = configureStore({
-  reducer: {
-    auth:authReducer
-  },
+const rootReducer = combineReducers({
+  auth: authReducer,
+  // Other reducers...
 });
+
+const store = createStore(rootReducer);
+
+export default store; // Exporting the store as the default export

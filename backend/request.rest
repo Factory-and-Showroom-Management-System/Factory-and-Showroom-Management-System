@@ -1,14 +1,27 @@
 //create a user
 
-POST http://localhost:5000/users
+POST http://localhost:3000/users/createUser
 Content-Type: application/json
 
 {
-    "name" : "Prageeth",
-    "username" : "sales001",
+    
+    "name" : "dhananjaya",
+    "username" : "admin001",
     "password" : "123456",
-    "confPassword": "123456",
-    "role" : "sales_manager"
+    "role" : "admin"
+   
+}
+
+//login a user
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    
+    "username" : "sales002",
+    "password" : "123456"
+   
 }
 
 //create hr manager 

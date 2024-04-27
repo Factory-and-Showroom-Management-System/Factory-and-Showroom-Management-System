@@ -1,7 +1,8 @@
 import React from 'react'
 import { FaCog, FaHome } from "react-icons/fa";
 
-export const Dashboard = () => {
+
+const AdminDashboard = () => {
   return (
     <div>
     
@@ -14,7 +15,7 @@ export const Dashboard = () => {
         <li className="py-2 mb-2 rounded hover:shadow hover:bg-blue-500">
           <a href="" className="px-3">
             <FaHome className="inline-block w-6 h-6 mr-2 -mt-2" />
-            Dashboard
+            admin Dashboard
           </a>
         </li>
        
@@ -59,3 +60,5 @@ export const Dashboard = () => {
     </div>
   )
 }
+
+export default AdminDashboard
