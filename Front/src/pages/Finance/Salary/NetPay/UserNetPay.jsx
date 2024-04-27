@@ -9,12 +9,104 @@ export default function UserNetPays() {
     const [searchTerm, setSearchTerm] = useState('');
 
 
+    const handleSubmit = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addsalary
+        const response = await axios.post('http://localhost:3000/salary/addsalary', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitEarning = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addearning', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitUserLoan = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddusermonthloan', {
+        });
+        console.log(response);
+    };
+
+    const handleSubmitDeduct = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoadddeduction', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitEpsEtf = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthepfetf', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitMonthFoodAllwance = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthfoodallowance', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitMonthOT = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthot', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitAdditon = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addadditions', {
+        });
+        console.log(response);
+    };
+
+
     const handleSubmitNetPay = async (event) => {
-        
+
         const response = await axios.post('http://localhost:3000/salary/addusernetpay', {
         });
         console.log(response);
     };
+
+
+    const handleSubmitMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+    const handleSubmitSubMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addsubtotalmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitAllMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addallmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+
+
 
 
 
@@ -40,7 +132,19 @@ export default function UserNetPays() {
             }
         };
         fetchData();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
         handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+        
     }, []);
 
     const filteredNetPays = searchTerm

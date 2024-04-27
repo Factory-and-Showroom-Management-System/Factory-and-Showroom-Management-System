@@ -13,14 +13,106 @@ export default function RoleOTIncome() {
     const [currentDateTime, setCurrentDateTime] = useState('');
 
 
+    const handleSubmit = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addsalary
+        const response = await axios.post('http://localhost:3000/salary/addsalary', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitEarning = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addearning', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitUserLoan = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddusermonthloan', {
+        });
+        console.log(response);
+    };
+
+    const handleSubmitDeduct = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoadddeduction', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitEpsEtf = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthepfetf', {
+        });
+        console.log(response);
+    };
+
+
+
+    const handleSubmitMonthFoodAllwance = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/autoaddmonthfoodallowance', {
+        });
+        console.log(response);
+    };
+
+
+
     const handleSubmitMonthOT = async (event) => {
-        
+
         const response = await axios.post('http://localhost:3000/salary/autoaddmonthot', {
         });
         console.log(response);
     };
 
-    
+
+    const handleSubmitAdditon = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addadditions', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitNetPay = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addusernetpay', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+    const handleSubmitSubMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addsubtotalmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+
+    const handleSubmitAllMonthSalarySheet = async (event) => {
+
+        const response = await axios.post('http://localhost:3000/salary/addallmonthsalarysheet', {
+        });
+        console.log(response);
+    };
+
+
+
+
+
 
 
 
@@ -40,7 +132,18 @@ export default function RoleOTIncome() {
 
     useEffect(() => {
         fetchRoleOTIncomes();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
         handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
     }, []);
 
     const fetchRoleOTIncomes = async () => {
@@ -83,7 +186,18 @@ export default function RoleOTIncome() {
                     text: 'New role overtime income has been added.',
                 });
                 fetchRoleOTIncomes();
+                handleSubmit();
+                handleSubmitEarning();
+                handleSubmitUserLoan();
+                handleSubmitDeduct();
+                handleSubmitEpsEtf();
+                handleSubmitMonthFoodAllwance();
                 handleSubmitMonthOT();
+                handleSubmitAdditon();
+                handleSubmitNetPay();
+                handleSubmitMonthSalarySheet();
+                handleSubmitSubMonthSalarySheet();
+                handleSubmitAllMonthSalarySheet();
             } catch (error) {
                 console.error('Failed to add role overtime income:', error);
                 MySwal.fire({
@@ -126,7 +240,19 @@ export default function RoleOTIncome() {
                     text: 'Role overtime income has been updated.',
                 });
                 fetchRoleOTIncomes();
+                handleSubmit();
+                handleSubmitEarning();
+                handleSubmitUserLoan();
+                handleSubmitDeduct();
+                handleSubmitEpsEtf();
+                handleSubmitMonthFoodAllwance();
                 handleSubmitMonthOT();
+                handleSubmitAdditon();
+                handleSubmitNetPay();
+                handleSubmitMonthSalarySheet();
+                handleSubmitSubMonthSalarySheet();
+                handleSubmitAllMonthSalarySheet();
+
             } catch (error) {
                 console.error('Failed to update role overtime income:', error);
                 MySwal.fire({
@@ -158,7 +284,19 @@ export default function RoleOTIncome() {
                     icon: 'success',
                 });
                 fetchRoleOTIncomes();
+                handleSubmit();
+                handleSubmitEarning();
+                handleSubmitUserLoan();
+                handleSubmitDeduct();
+                handleSubmitEpsEtf();
+                handleSubmitMonthFoodAllwance();
                 handleSubmitMonthOT();
+                handleSubmitAdditon();
+                handleSubmitNetPay();
+                handleSubmitMonthSalarySheet();
+                handleSubmitSubMonthSalarySheet();
+                handleSubmitAllMonthSalarySheet();
+                
             } catch (error) {
                 console.error('Failed to delete role overtime income:', error);
                 MySwal.fire({
@@ -245,7 +383,7 @@ export default function RoleOTIncome() {
                         </tr>
                         <tr className="bg-blue-800 text-white">
                             <td className="px-20 text-right font-bold" colSpan="2">Total (Rs.) :</td>
-                            <td className="px-6 py-2 font-bold"colSpan="2">Rs. {totalIncome.toFixed(4)}</td>
+                            <td className="px-6 py-2 font-bold" colSpan="2">Rs. {totalIncome.toFixed(4)}</td>
 
                         </tr>
                     </tbody>
