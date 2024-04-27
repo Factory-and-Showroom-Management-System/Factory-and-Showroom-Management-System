@@ -38,6 +38,9 @@ import { Button } from "flowbite-react";
 import Button01 from './Buttons/Button01';
 import MonthSalarySheet from './MonthSalarySheet';
 import Card001 from './Cards/Card001';
+import AreaChart01 from './Charts/AreaChart01';
+
+
 
 
 
@@ -45,7 +48,10 @@ export default function DashBaord() {
   return (
     <div>
 
-        <Card001 /> 
+        <Card001 />
+        <AreaChart01 /> 
+       
+        
         
       {/* <Button01 />
       <MonthSalarySheet /> */}

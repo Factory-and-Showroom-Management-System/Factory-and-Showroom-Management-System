@@ -30,7 +30,6 @@ import DashBaord from './pages/Finance/Salary/DashBaord';
 
 
 
-
 export default function App() {
   return (
     <div>
@@ -67,10 +66,9 @@ export default function App() {
       <AllMonthSalarySheet /> 
 
 
-
  */}
 
-
+<UserNetPay />
 
     </div>
   );
