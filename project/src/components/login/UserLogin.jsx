@@ -27,7 +27,16 @@ export default function UserLogin() {
         // Redirect based on user role
         if (data.role === 'admin') {
           navigate('/admin/dashboard');
-        } 
+        }else if (data.role === 'sales_manager') {
+            navigate('/sales/dashboard');}
+        //   } else if (data.role === 'finance_manager') {
+        //     navigate('');
+        //   } else if (data.role === 'inventory_manager') {
+        //     navigate('');
+        //   }else  (data.role === 'hr_manager') 
+        //     navigate('');
+          
+          
       } else {
         // Handle login failure
         console.error("Login failed");

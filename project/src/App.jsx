@@ -10,11 +10,9 @@ import { BrowserRouter,Routes, Route } from 'react-router-dom'
 import './index.css'
 import { Dashboard } from './pages/dashboard/Dashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
-// import CreateUser from './components/createUser/CreateUser'
+import SalesManagerDashboard from './pages/sales/SalesManagerDashboard';
+import InventoryManagerDashboard from './pages/inventory/InventoryManagerDashboard';
 
-// import SalesManagerDashboard from './pages/sales/SalesManagerDashboard';
-// import FinanceManagerDashboard from './pages/financial/FinanceManagerDashboard';
-// import InventoryManagerDashboard from './pages/inventory/InventoryManagerDashboard';
 
 function App() {
   return (
@@ -29,9 +27,10 @@ function App() {
           <Route path="/users/add" element={<AddUser />} />
           <Route path="/users/edit/:id" element={<EditUser />} /> */}
           <Route path="/admin/dashboard" element={<AdminDashboard/>} />
-        {/* <Route path="/sales-manager/dashboard" component={SalesManagerDashboard} />
-        <Route path="/finance-manager/dashboard" component={FinanceManagerDashboard} />
-        <Route path="/inventory-manager/dashboard" component={InventoryManagerDashboard} /> */}
+          <Route path="/sales/dashboard" element={<SalesManagerDashboard/>} />
+          <Route path="/inventory/dashboard" element={<InventoryManagerDashboard/>} />
+         
+       
           
 
 
