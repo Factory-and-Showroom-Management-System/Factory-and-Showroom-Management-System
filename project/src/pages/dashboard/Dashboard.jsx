@@ -3,7 +3,7 @@ import Table from "./Table";
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Table2 from "./Table2";
-import {Dash_Sidebar} from "../../components/sidebar/Dash_Sidebar";
+import {Dash_Sidebar} from "../../components/sidebar/Admin_Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 
 

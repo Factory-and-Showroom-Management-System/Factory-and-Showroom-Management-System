@@ -114,7 +114,12 @@ const Table2 = () => {
         </tbody>
     </table>
 </div>
+
     </div>
+    
+
+    
+    
   )
 }
 

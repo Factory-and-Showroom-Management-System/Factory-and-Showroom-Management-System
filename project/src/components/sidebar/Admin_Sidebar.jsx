@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 
 
-export function Dash_Sidebar() {
+export function Admin_Sidebar() {
   
   return (
     
@@ -19,7 +19,7 @@ export function Dash_Sidebar() {
       <Sidebar.Items >
         <Sidebar.ItemGroup >
           <Sidebar.Item href="#" icon={HiChartPie} >
-            <Link to="/dashboard?tab=table">Dashboard</Link>
+            <Link to="/dashboard?tab=table">Admin Dashboard</Link>
           
           </Sidebar.Item>
           <Sidebar.Item href="#" icon={HiViewBoards}>
