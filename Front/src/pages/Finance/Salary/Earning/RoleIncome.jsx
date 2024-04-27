@@ -235,7 +235,6 @@ export default function RoleIncome() {
                 handleSubmitMonthSalarySheet();
                 handleSubmitSubMonthSalarySheet();
                 handleSubmitAllMonthSalarySheet();
-              
 
             } catch (error) {
                 console.error('Failed to add role income:', error);
