@@ -132,15 +132,6 @@ export default function RoleIncome() {
         console.log(response);
     };
 
-  
-    const handleEarningxx = async (event) => {
-            
-        const response = await axios.post('http://localhost:3000/salary/addearning', {
-        });
-        console.log(response);
-    }
-
-
 
 
     useEffect(() => {
