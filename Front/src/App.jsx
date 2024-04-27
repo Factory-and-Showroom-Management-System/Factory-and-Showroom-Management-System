@@ -24,7 +24,10 @@ import SubTotalMonthSalarySheet from './pages/Finance/Salary/SubTotalMonthSalary
 import AllMonthSalarySheet from './pages/Finance/Salary/AllMonthSalarySheet ';
 
 
-// import DashBaord from './pages/Finance/Salary/DashBaord';
+import DashBaord from './pages/Finance/Salary/DashBaord';
+
+
+
 
 
 
@@ -32,11 +35,12 @@ export default function App() {
   return (
     <div>
 
-      {/* <DashBaord /> */}
+      <DashBaord />
 
 
-      {/* <Addition /> */}
 
+
+{/* 
       <RoleIncome />
       <BasicSalaries />
       <BudgetedAllowance />
@@ -64,7 +68,7 @@ export default function App() {
 
 
 
-
+ */}
 
 
 

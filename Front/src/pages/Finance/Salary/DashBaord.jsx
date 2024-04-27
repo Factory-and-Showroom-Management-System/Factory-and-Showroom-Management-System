@@ -1,7 +1,7 @@
 // import React, { useState } from 'react'
 // import { Button } from "flowbite-react";
-// import RoleIncome from './RoleIncome';
-// import BasicSalaries from './BasicSalaries';
+// import RoleIncome from './Earning/RoleIncome';
+// import BasicSalaries from './Earning/BasicSalaries';
 
 // export default function DashBaord() {
 //     const [openRole, setRole] = useState(false);
@@ -30,3 +30,22 @@
 //         </div>
 //     )
 // }
+
+
+
+import React from 'react'
+import { Button } from "flowbite-react";
+import Button01 from './Buttons/Button01';
+import MonthSalarySheet from './MonthSalarySheet';
+
+
+
+export default function DashBaord() {
+  return (
+    <div>
+      <Button01 />
+      <MonthSalarySheet />
+    </div>
+  )
+}
+
