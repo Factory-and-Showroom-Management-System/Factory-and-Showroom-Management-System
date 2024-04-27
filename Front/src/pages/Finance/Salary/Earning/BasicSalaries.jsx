@@ -125,6 +125,7 @@ export default function BasicSalaries() {
 
 
 
+
     useEffect(() => {
         const timer = setInterval(() => {
             const now = new Date();

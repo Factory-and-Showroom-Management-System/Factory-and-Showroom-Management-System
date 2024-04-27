@@ -214,11 +214,15 @@ async function bssalaryAll(req, res) {
             if (attenCountMap.hasOwnProperty(userId)) {
                 const attenCount = attenCountMap[userId];
 
+                
+
                 // Fetch existing basic salary record for the userId
                 let basicSalary = await models.BasicSalary.findOne({ where: { userId: userId } });
-
+                
                 // Fetch role income record which includes dateIncome
                 const bioData = await models.BioData.findOne({ where: { userId: userId } });
+                
+
                 if (!bioData) {
                     continue; // Skip if bioData not found
                 }
@@ -264,6 +268,8 @@ async function bssalaryAll(req, res) {
         });
     }
 }
+
+
 
 
 
@@ -467,6 +473,7 @@ async function earningcal(req, res) {
                 });
             } else {
                 // If existing record found, update it
+                earning.basicSalary = basicSalary.basicSalary; // Update basicSalary
                 earning.baValue = budgetedAllowance.baValue;
                 earning.totalEarning = basicSalary.basicSalary + budgetedAllowance.baValue;
                 await earning.save();
@@ -486,6 +493,11 @@ async function earningcal(req, res) {
         });
     }
 }
+
+
+
+
+
 
 //creat function show Earning Table data
 function earningShow(req, res) {

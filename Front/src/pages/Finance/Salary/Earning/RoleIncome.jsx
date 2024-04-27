@@ -52,6 +52,7 @@ export default function RoleIncome() {
 
 
 
+
     const handleSubmitUserLoan = async (event) => {
 
         const response = await axios.post('http://localhost:3000/salary/autoaddusermonthloan', {
@@ -131,6 +132,14 @@ export default function RoleIncome() {
         console.log(response);
     };
 
+  
+    const handleEarningxx = async (event) => {
+            
+        const response = await axios.post('http://localhost:3000/salary/addearning', {
+        });
+        console.log(response);
+    }
+
 
 
 
@@ -164,6 +173,7 @@ export default function RoleIncome() {
         handleSubmitMonthSalarySheet();
         handleSubmitSubMonthSalarySheet();
         handleSubmitAllMonthSalarySheet();
+
 
 
     }, []);
@@ -225,6 +235,7 @@ export default function RoleIncome() {
                 handleSubmitMonthSalarySheet();
                 handleSubmitSubMonthSalarySheet();
                 handleSubmitAllMonthSalarySheet();
+              
 
             } catch (error) {
                 console.error('Failed to add role income:', error);
@@ -285,6 +296,7 @@ export default function RoleIncome() {
 
 
 
+
             } catch (error) {
                 console.error('Failed to update role income:', error);
                 MySwal.fire({
@@ -328,6 +340,7 @@ export default function RoleIncome() {
                 handleSubmitMonthSalarySheet();
                 handleSubmitSubMonthSalarySheet();
                 handleSubmitAllMonthSalarySheet();
+
 
             } catch (error) {
                 console.error('Failed to delete role income:', error);
