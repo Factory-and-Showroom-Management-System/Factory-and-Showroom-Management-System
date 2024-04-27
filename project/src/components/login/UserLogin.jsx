@@ -26,7 +26,7 @@ export default function UserLogin() {
         const data = await res.json();
         // Redirect based on user role
         if (data.role === 'admin') {
-          navigate('/admin/dashboard');
+          navigate('/dashboard');
         }else if (data.role === 'sales_manager') {
             navigate('/sales/dashboard');}
         //   } else if (data.role === 'finance_manager') {

@@ -12,6 +12,9 @@ import { Dashboard } from './pages/dashboard/Dashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import SalesManagerDashboard from './pages/sales/SalesManagerDashboard';
 import InventoryManagerDashboard from './pages/inventory/InventoryManagerDashboard';
+import Table from './pages/dashboard/Table';
+import Table2 from './pages/dashboard/Table2';
+
 
 
 function App() {
@@ -29,6 +32,10 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard/>} />
           <Route path="/sales/dashboard" element={<SalesManagerDashboard/>} />
           <Route path="/inventory/dashboard" element={<InventoryManagerDashboard/>} />
+          <Route path="/table" element={<Table />} />
+          <Route path="/table2" element={<Table2/>}/>
+        
+
          
        
           

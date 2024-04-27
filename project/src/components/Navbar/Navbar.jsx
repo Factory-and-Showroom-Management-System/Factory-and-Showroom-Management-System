@@ -1,25 +1,25 @@
 import React from 'react'
-import {FaBars} from 'react-icons/fa'
+
 
 const Navbar = () => {
   return (
-    <nav className='flex justify-between px-4 py-3 ml-64 bg-gray-800'>
-        <div className='flex items-center text-x1'>
-          
-          
-        </div>
-        <div className='flex item-center gap-x-5'>
-          <div className='relative md:w-65'>
-            <span className='relative inset-y-0 left-0 flex pl-2 md:absolute ite-center'/>
-              <button className='p-1 text-white focus:outline-none md:text-black' ></button>
-            
-            <input type="text" className='hidden w-full px-4 py-1 pl-12 rounded shadow outline-none md:block'>
-              
-            </input>
-          </div>
+    <div className="bg-gray-500">
+        
+        
 
-        </div>
-    </nav>
+        <nav class="bg-white border-gray-200 dark:bg-gray-900">
+          <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+            </a>
+            <button className="px-4 py-2 font-bold bg-blue-500 border border-blue-700 rounded hover:bg-blue-700">
+          Logout
+        </button>
+
+          </div>
+        </nav>
+  </div>
   )
 }
 
