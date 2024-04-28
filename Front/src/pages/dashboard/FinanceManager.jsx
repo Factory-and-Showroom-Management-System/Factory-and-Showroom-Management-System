@@ -11,6 +11,8 @@ import NettPayDash from "../Finance/Salary/NetPay/NettPayDash";
 import BasicSalaries from "../Finance/Salary/Earning/BasicSalaries";
 import RoleIncome from "../Finance/Salary/Earning/RoleIncome";
 import BudgetedAllowance from "../Finance/Salary/Earning/BudgetedAllowance";
+import UserMonrthLoan from "../Finance/Salary/Deduction/UserMonrhLoan";
+import UserTotalLoane from "../Finance/Salary/Deduction/UserTotalLoane";
 
 
 
@@ -45,7 +47,8 @@ export function FinanceManager() {
           {tab === "basicsalarytb" && <BasicSalaries/>}
           {tab === "handleRoleIncome" && <RoleIncome/>}
           {tab === "hadelBugetAllowance" && <BudgetedAllowance/>}
-          
+          {tab === "usermonthloan" && <UserMonrthLoan/>}
+          {tab === "usertotalloane" && <UserTotalLoane/>}          
           </div>
       </div>
     
