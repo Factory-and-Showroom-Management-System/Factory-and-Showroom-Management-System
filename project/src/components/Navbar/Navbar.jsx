@@ -1,79 +1,26 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch , useSelector } from 'react-redux'
-import { LogOut, reset } from '../../features/authSlice'
-import Modal from "../model/Model";
+import React from 'react'
+import image from '../../assets/favicon/mainLogo.png'
 
-function Navbar() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const {user} = useSelector((state) => state.auth);
-
-  const [showModal, setShowModal] = useState(false);
-
-  const logout = () => {
-    setShowModal(true);
-  }
-
-  const confirmLogout = () => {
-    dispatch(LogOut());
-    dispatch(reset());
-    navigate("/");
-    setShowModal(false);
-  }
-
-  const cancelLogout = () => {
-    setShowModal(false);
-  }
-
-
+const Navbar = () => {
   return (
-    <div>
-      <nav className="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation"  style={{ backgroundColor: "white" }}>
-        <div className="navbar-brand">
-          <NavLink to="/dashboard" className="navbar-item">
-            {/* <img
-              src="https://bulma.io/images/bulma-logo.png"
-              width="112"
-              height="28"
-              alt="logo"
-            /> */}
-            <h1>Logo</h1>
-          </NavLink>
+    <div className="bg-gray-500">
+        
+        
 
-          <a
-            href="!#"
-            role="button"
-            className="navbar-burger burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasicExample"
-          >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
+        <nav class="bg-white border-gray-200 dark:bg-gray-900">
+          <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src={image} class="h-8" alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">DOLPHIN ECO PACK (PVT) LYD</span>
+            </a>
+            <button className="px-4 py-2 font-bold bg-blue-500 border border-blue-700 rounded hover:bg-blue-700">
+          Logout
+        </button>
 
-        <div id="navbarBasicExample" className="navbar-menu">
-          <div className="navbar-end">
-            <div className="navbar-item">
-              <div className="buttons">
-                <button onClick={logout} className="button is-light">Log out</button>
-              </div>
-            </div>
           </div>
-        </div>
-      </nav>
-      {showModal && (
-        <Modal 
-          message="Do you want to log out?" 
-          onConfirm={confirmLogout} 
-          onCancel={cancelLogout} 
-        />
-      )}
-    </div>
-  );
+        </nav>
+  </div>
+  )
 }
 
-export default Navbar;
+export default Navbar
