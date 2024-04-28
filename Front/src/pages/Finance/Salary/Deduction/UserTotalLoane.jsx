@@ -412,7 +412,7 @@ export default function UserTotalLoans() {
                         </div>
                         <input
                             type="text"
-                            className="w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500 focus:border-red-500"
+                            className="w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500 "
                             placeholder="Search by Name or User ID"
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
