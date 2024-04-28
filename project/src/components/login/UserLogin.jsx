@@ -151,15 +151,15 @@ export default function UserLogin() {
         const data = await res.json();
         // Redirect based on user role
         if (data.role === 'admin') {
-          navigate('/admin/dashboard');
+          navigate('/admin');
         } else if (data.role === 'sales_manager') {
-          navigate('/sales/dashboard');
+          navigate('/sales');
         }else if (data.role === 'finance_manager') {
-          navigate('/finance/dashboard');
+          navigate('/finance');
         }else if (data.role === 'inventory_manager') {
-          navigate('/inventory/dashboard');
+          navigate('/inventory');
         }else(data.role === 'hr_manager') 
-          navigate('/hr/dashboard');
+          navigate('/hr');
       } else {
         // Handle login failure
         setError('Incorrect username or password.');

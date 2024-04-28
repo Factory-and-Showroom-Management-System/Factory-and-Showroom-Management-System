@@ -27,8 +27,7 @@ export function InventoryManagerDashboard() {
       
 
 
-
-
+{/* {tab === 'User' && <CreateUser />} */}
    </div>
    </div>
   );

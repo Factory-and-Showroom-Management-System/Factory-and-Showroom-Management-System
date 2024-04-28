@@ -24,12 +24,12 @@ function App() {
         <Routes>
           
           <Route path="/" element={<UserLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard/>} />
-          <Route path="/sales/dashboard" element={<SalesManagerDashboard/>} />
-          <Route path="/inventory/dashboard" element={<InventoryManagerDashboard/>} />
+          <Route path="/admin" element={<AdminDashboard/>} />
+          <Route path="/sales" element={<SalesManagerDashboard/>} />
+          <Route path="/inventory" element={<InventoryManagerDashboard/>} />
        
-          <Route path="/finance/dashboard" element={<FinanceManagerDashboard/>} />
-          <Route path="/hr/dashboard" element={<HRManagerDashboard/>} />
+          <Route path="/finance" element={<FinanceManagerDashboard/>} />
+          <Route path="/hr" element={<HRManagerDashboard/>} />
     
 
         
