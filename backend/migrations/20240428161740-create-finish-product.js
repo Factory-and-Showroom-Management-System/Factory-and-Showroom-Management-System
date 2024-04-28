@@ -2,26 +2,20 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Deductions', {
+    await queryInterface.createTable('FinishProducts', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.INTEGER
-      },
-      name: {
+      pid: {
         type: Sequelize.STRING
       },
-      monthLoan: {
-        type: Sequelize.FLOAT
+      product_name: {
+        type: Sequelize.STRING
       },
-      epf8: {
-        type: Sequelize.FLOAT
-      },
-      totalDeduction: {
+      username: {
         type: Sequelize.FLOAT
       },
       createdAt: {
@@ -35,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Deductions');
+    await queryInterface.dropTable('FinishProducts');
   }
 };
