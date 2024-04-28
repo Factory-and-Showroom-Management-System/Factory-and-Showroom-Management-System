@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
 import { Hr_Sidebar } from '../../components/sidebar/Hr_Sidebar';
+import Attendance from './Attendance/Attendance';
 
 
 export function HRManagerDashboard() {
@@ -26,7 +27,7 @@ export function HRManagerDashboard() {
       
 
 
-{/* {tab === 'User' && <CreateUser />} */}
+{tab === 'attendance' && <Attendance/>} 
 
    </div>
    </div>
