@@ -154,7 +154,12 @@ export default function UserLogin() {
           navigate('/admin/dashboard');
         } else if (data.role === 'sales_manager') {
           navigate('/sales/dashboard');
-        }
+        }else if (data.role === 'finance_manager') {
+          navigate('/finance/dashboard');
+        }else if (data.role === 'inventory_manager') {
+          navigate('/inventory/dashboard');
+        }else(data.role === 'hr_manager') 
+          navigate('/hr/dashboard');
       } else {
         // Handle login failure
         setError('Incorrect username or password.');
