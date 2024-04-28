@@ -11,6 +11,24 @@ Content-Type: application/json
     "role" : "hr_manager"
    
 }
+//get product
+###
+GET http://localhost:3000/products/showProduct
+
+//add product
+###
+POST http://localhost:3000/products/addProduct
+Content-Type: application/json
+
+{
+    
+    "pid" : "p02",
+    "product_name" : "test",
+    "available_product" : 200.00
+   
+   
+}
+
 
 //login a user
 ###

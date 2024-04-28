@@ -15,7 +15,7 @@ module.exports = {
       product_name: {
         type: Sequelize.STRING
       },
-      username: {
+      available_product: {
         type: Sequelize.FLOAT
       },
       createdAt: {

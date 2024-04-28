@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   FinishProduct.init({
     pid: DataTypes.STRING,
     product_name: DataTypes.STRING,
-    username: DataTypes.FLOAT
+    available_product: DataTypes.FLOAT
   }, {
     sequelize,
     modelName: 'FinishProduct',
