@@ -11,6 +11,27 @@ import { useNavigate } from 'react-router-dom';
 import RoleIncomeCard001 from './Carts/RoleIncomeCard001';
 
 
+
+import { motion } from 'framer-motion';
+
+const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.2, // Delay the animation to make it more noticeable
+        when: "beforeChildren", // Animate children after the parent
+        staggerChildren: 0.2, // Add a small stagger effect to each child
+      },
+    },
+  };
+  
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+  
+
 const MySwal = withReactContent(Swal);
 
 export default function RoleIncome() {
@@ -374,7 +395,13 @@ export default function RoleIncome() {
 
     return (
 
-        <div className="w-full bg-white ">
+        <motion.div
+        className='w-full'
+        variants={container}
+        initial='hidden'
+        animate='visible'
+        exit='hidden'
+      >
             <div className="relative overflow-x-auto sm:rounded-lg ">
 
                 <div className='w-full'>
@@ -503,7 +530,7 @@ export default function RoleIncome() {
                 </nav>
 
             </div>
-        </div>
+        </motion.div>
 
         //i need to BasicSalary.jsx file to add the basic salary of the employee
 

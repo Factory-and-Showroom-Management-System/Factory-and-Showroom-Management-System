@@ -7,6 +7,27 @@ import { Button } from "flowbite-react";
 import { useNavigate } from 'react-router-dom'
 
 
+import { motion } from 'framer-motion';
+
+const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.2, // Delay the animation to make it more noticeable
+        when: "beforeChildren", // Animate children after the parent
+        staggerChildren: 0.2, // Add a small stagger effect to each child
+      },
+    },
+  };
+  
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+  
+
+
 export default function MonthFoodAllowance() {
     const [allowances, setAllowances] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -81,7 +102,13 @@ export default function MonthFoodAllowance() {
     };
 
     return (
-        <div className="w-full ">
+        <motion.div
+      className='w-full'
+      variants={container}
+      initial='hidden'
+      animate='visible'
+      exit='hidden'
+    >
             <div className="relative overflow-x-auto sm:rounded-lg">
 
                 <div className='w-full'>
@@ -206,6 +233,6 @@ export default function MonthFoodAllowance() {
                     </ul>
                 </nav>
             </div>
-        </div>
+        </motion.div>
     );
 }
