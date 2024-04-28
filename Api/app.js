@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 const usersRouter = require('./routes/user');
 const testRouter = require('./routes/tests');
 const attendanceRouter = require('./routes/attendance');
+//salary
 const salaryRouter = require('./routes/salary');
 //order
 const orderRouter = require('./routes/order');
