@@ -33,7 +33,7 @@ import AreaChart04 from './pages/Finance/Salary/Charts/AreaChart04';
 import AreaChart05 from './pages/Finance/Salary/Charts/AreaChart05';
 import AreaChart06 from './pages/Finance/Salary/Charts/AreaChart06';
 import AreaChart07 from './pages/Finance/Salary/Charts/AreaChart07';
-import  AreaChart08 from './pages/Finance/Salary/Charts/AreaChart08';
+
 
 
 
@@ -50,15 +50,12 @@ export default function App() {
         {/* <AreaChart04 /> */}
         {/* <AreaChart05 /> */}
         {/* <AreaChart06 /> */}
-        {/* <AreaChart07 /> */}
-        <AreaChart08 />
+        <AreaChart07 />
+
 
        
 
 
-
-
-{/* 
       <RoleIncome />
       <BasicSalaries />
       <BudgetedAllowance />
@@ -85,7 +82,6 @@ export default function App() {
       <AllMonthSalarySheet /> 
 
 
- */}
 
 <UserNetPay />
 
