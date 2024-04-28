@@ -18,29 +18,29 @@ export function Admin_Sidebar() {
     <Sidebar  >
       <Sidebar.Items >
         <Sidebar.ItemGroup >
-          <Sidebar.Item href="#" icon={HiChartPie} >
-            <Link to="/dashboard?tab=table">Admin Dashboard</Link>
+          <Sidebar.Item href="" icon={HiChartPie} >
+            <Link to="">Admin Dashboard</Link>
           
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiViewBoards}>
-          <Link to="/dashboard?tab=table2">Dashboard 2 </Link>
+          <Sidebar.Item href="" icon={HiViewBoards}>
+          <Link to="">Dashboard 2 </Link>
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiInbox}>
+          <Sidebar.Item href="" icon={HiInbox}>
             Inbox
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiUser}>
+          <Sidebar.Item href="" icon={HiUser}>
             Users
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiShoppingBag}>
+          <Sidebar.Item href="" icon={HiShoppingBag}>
             Products
           </Sidebar.Item>
           
-          <Sidebar.Item href="#" icon={HiTable}>
+          <Sidebar.Item href="" icon={HiTable}>
             Sign Up
           </Sidebar.Item>
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
-        <Sidebar.Item href="#" icon={HiArrowSmRight}>
+        <Sidebar.Item href="" icon={HiArrowSmRight}>
             Logout
           </Sidebar.Item>
           

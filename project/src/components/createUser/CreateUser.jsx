@@ -3,8 +3,7 @@
 
 // export default function CreateUser() {
 //   const [formData, setFormData] = useState({});
- 
-//   const [loading, setLoading] = useState(false);
+
 //   const handleChange = (e) => {
 //     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
 //   };
@@ -13,16 +12,16 @@
 //     e.preventDefault();
     
 //     try {
-//         setLoading(true);
+    
 //       const res = await fetch("http://localhost:3000/users/createUser", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify(formData),
 //       });
 //       const data = await res.json();
-//       setLoading(false);
+     
 //     } catch (error) {
-//         setLoading(false);
+        
 //     }
 //   };
 
@@ -60,15 +59,9 @@
 //             </div>
 //             <Button type="submit" className="text-blue-500" disabled={loading}>
 
-//                 {loading ?(
-//                     <>
-//                         <Spinner size='sm'/>
-//                         <span className="pl-3">Loading...</span>
-//                     </>
-//                 )
-//                 )}
+             
                 
-//               Sign Up
+//             Add
 //             </Button>
 //           </form>
 
