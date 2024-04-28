@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { FaUserShield } from 'react-icons/fa';
+import { BsFillShieldLockFill } from 'react-icons/bs';
+import { AiOutlineSwapRight } from 'react-icons/ai';
+import video from '../../assets/login/videotest.mp4';
+import logo from '../../assets/login/mainLogo.png';
+import '../../styles/login.css';
 
 
 export default function UserLogin() {
@@ -49,21 +55,23 @@ export default function UserLogin() {
   };
 
   return (
-    <div className="min-h-screen mt-20 ">
-      <div className="flex max-w-3xl p-3 mx-auto flx-col md:flex-row md:items-center">
-        <div className="">
-          {/* <video src={video} autoPlay muted loop></video> */}
+    <div className='flex loginPage'>
+    <div className="container flex">
+      <div className="videoDiv">
+        <video src={video} autoPlay muted loop ></video>
+      </div>
+
+      <div className="flex formDiv">
+        <div className="headerDiv">
+          <img src={logo} alt="logo" />
+          <h3>Welcome Back!</h3>
         </div>
-        <div className="">
-          <div className="" >
-            {/* <img src={logo} alt="logo" /> */}
-            {/* <h3 className="">Welcome Back!</h3> */}
-          </div>
           <div className="">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4" >
+            <form onSubmit={handleSubmit} className='grid form' >
               <div className="">
                 <label htmlFor="username" className="">Username</label>
-                <div className="">
+                <div className="flex input">
+                <FaUserShield className='icon' />
                   <input
                     type="text"
                     className="input"
@@ -75,7 +83,8 @@ export default function UserLogin() {
               </div>
               <div className="">
                 <label htmlFor="password" className="">Password</label>
-                <div className="">
+                <div className="flex input">
+                <BsFillShieldLockFill className='icon' />
                   <input
                     type="password"
                     className="input"
@@ -88,10 +97,11 @@ export default function UserLogin() {
               <div className="">
                 <button
                   type="submit"
-                  className=""
+                  className='flex btn'
                   disabled={loading}
                 >
                   {loading ? 'Logging in...' : 'Login'}
+                  <AiOutlineSwapRight className='icon' />
                 </button>
               </div>
             </form>
