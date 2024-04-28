@@ -22,25 +22,25 @@ export function Admin_Sidebar() {
             <Link to="">Admin Dashboard</Link>
           
           </Sidebar.Item>
-          <Sidebar.Item href="" icon={HiViewBoards}>
+          <Sidebar.Item  icon={HiViewBoards}>
           <Link to="">Dashboard 2 </Link>
           </Sidebar.Item>
-          <Sidebar.Item href="" icon={HiInbox}>
+          <Sidebar.Item  icon={HiInbox}>
             Inbox
           </Sidebar.Item>
-          <Sidebar.Item href="" icon={HiUser}>
+          <Sidebar.Item  icon={HiUser}>
             Users
           </Sidebar.Item>
-          <Sidebar.Item href="" icon={HiShoppingBag}>
+          <Sidebar.Item  icon={HiShoppingBag}>
             Products
           </Sidebar.Item>
           
-          <Sidebar.Item href="" icon={HiTable}>
+          <Sidebar.Item  icon={HiTable}>
             Sign Up
           </Sidebar.Item>
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
-        <Sidebar.Item href="" icon={HiArrowSmRight}>
+        <Sidebar.Item  icon={HiArrowSmRight}>
             Logout
           </Sidebar.Item>
           
