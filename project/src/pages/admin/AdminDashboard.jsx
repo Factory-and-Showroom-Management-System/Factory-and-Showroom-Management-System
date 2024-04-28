@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
 import { Admin_Sidebar } from '../../components/sidebar/Admin_Sidebar';
+// import CreateUser from '../../components/createUser/CreateUser';
 
 
 export function AdminDashboard() {
@@ -23,6 +24,8 @@ export function AdminDashboard() {
       
     <Admin_Sidebar/>
       </div>
+
+      {/* {tab === 'User' && <CreateUser />} */}
       
 
 
