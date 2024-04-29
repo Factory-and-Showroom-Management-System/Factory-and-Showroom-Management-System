@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
 
 import { Inventory_Sidebar } from '../../components/sidebar/Inventory_Sidebar';
+import Data from '../../components/sidebar/Data';
 
 
 export function InventoryManagerDashboard() {
@@ -27,7 +28,7 @@ export function InventoryManagerDashboard() {
       
 
 
-{/* {tab === 'User' && <CreateUser />} */}
+ {tab === 'User' && <Data />}
    </div>
    </div>
   );

@@ -29,6 +29,12 @@ Content-Type: application/json
    
 }
 
+//get a procut by id
+###
+GET http://localhost:3000/products/getProduct/7
+
+
+
 
 //login a user
 ###
@@ -54,6 +60,7 @@ Content-Type: application/json
     "confPassword": "123456",
     "role" : "hr_manager"
 }
+
 
 
 //create finance manager

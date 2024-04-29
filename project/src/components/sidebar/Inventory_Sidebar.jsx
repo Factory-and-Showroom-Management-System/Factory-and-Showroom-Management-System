@@ -19,7 +19,7 @@ export function Inventory_Sidebar() {
       <Sidebar.Items >
         <Sidebar.ItemGroup >
           <Sidebar.Item  icon={HiChartPie} >
-            <Link to="/dashboard?tab=">Inventory Dashboard</Link>
+            <Link to="/inventory?tab=User">Inventory Dashboard</Link>
           
           </Sidebar.Item>
           <Sidebar.Item  icon={HiViewBoards}>
