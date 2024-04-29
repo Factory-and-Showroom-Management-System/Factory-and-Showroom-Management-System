@@ -6,6 +6,7 @@ import NettPayCard001 from './Cards/NettPayCard001'
 
 
 import { motion } from 'framer-motion';
+import MonthSalarySheet from './MonthSalarySheet'
 
 const container = {
   hidden: { opacity: 0 },
@@ -53,9 +54,15 @@ export default function SalaryDashboard() {
         <div className='p-4 mt-3'>
           <NettPayCard001 />
         </div>
-
-
+       
       </div>
+      <div className='flex gap-1'>
+  <div className='p-4 mt-3 w-full'>
+    <MonthSalarySheet />
+  </div>
+</div>
+
+
     </motion.div>
   )
 }
