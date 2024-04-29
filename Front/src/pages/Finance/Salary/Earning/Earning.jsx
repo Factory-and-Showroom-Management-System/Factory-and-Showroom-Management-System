@@ -162,12 +162,11 @@ export default function Earnings() {
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
     return (
-        <div className="shadow-lg p-20 bg-white rounded-lg">
+        <div className="w-full bg-white ">
             <div className="relative overflow-x-auto sm:rounded-lg">
-                <h1 className="text-3xl text-blue-500 pl-2 pt-2">Earnings Table: {currentDateTime}</h1>
-
-                <div className="pb-2 pt-2 pl-2 bg-white">
-                    <div className="relative mt-5">
+                <h1 className="pt-2 pl-2 text-3xl text-blue-500">Earnings Table: {currentDateTime}</h1>
+                <div className="pt-2 pb-2 pl-2 bg-white">
+                    <div className="relative ml-4">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
@@ -186,7 +185,7 @@ export default function Earnings() {
                 <table className="w-full text-sm text-left text-gray-900 dark:text-white">
                     <thead className="text-xs text-white uppercase bg-blue-600">
                         <tr>
-                            <th scope="col" className="px-6 py-3">ID</th>
+                            <th scope="col" className="px-6 py-7">ID</th>
                             <th scope="col" className="px-6 py-3">User ID</th>
                             <th scope="col" className="px-6 py-3">Name</th>
                             <th scope="col" className="px-6 py-3">Basic Salary</th>
@@ -197,7 +196,7 @@ export default function Earnings() {
                     </thead>
                     <tbody>
                         {currentRows.map((item) => (
-                            <tr key={item.id} className="bg-blue-500 hover:bg-blue-400">
+                            <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
                                 <td className="px-6 py-4">{item.id}</td>
                                 <td className="px-6 py-4">{item.userId}</td>
                                 <td className="px-6 py-4">{item.name}</td>

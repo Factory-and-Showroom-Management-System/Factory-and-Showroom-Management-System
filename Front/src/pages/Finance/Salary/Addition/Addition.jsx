@@ -169,7 +169,7 @@ export default function Addition() {
 
     return (
 
-        <div className="shadow-lg p-20 bg-white rounded-lg">
+        <div className="shadow-lg p-20 bg-white ">
             <div className="relative overflow-x-auto  sm:rounded-lm">
                 <h1 className="text-3xl text-blue-500 pl-2 pt-2">Addition Table: {currentDateTime}</h1>
 
