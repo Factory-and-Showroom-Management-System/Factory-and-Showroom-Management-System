@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button } from "flowbite-react";
+import { TiArrowBackOutline } from "react-icons/ti";
+import { TbHandClick } from "react-icons/tb";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function MonthSalarySheet() {
     const [salarySheets, setSalarySheets] = useState([]);
@@ -7,6 +12,20 @@ export default function MonthSalarySheet() {
     const [rowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+
+    const navigate = useNavigate();
+
+
+    //dashboard
+    const handleDashboard = () => {
+        navigate('/finance?tab=financedash');
+    }
+
+    //User Total Loan
+    const handleAllMonthSalarySheets = () => {
+        navigate('/finance?tab=allmonthsalrysheet');
+    }
+
 
 
 
@@ -209,6 +228,18 @@ export default function MonthSalarySheet() {
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
                         />
+
+                        <Button.Group outline className='ml-2'>
+                            <Button color="gray" onClick={handleDashboard} >
+                                <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
+                                Main Dashboard
+                            </Button>
+                            <Button color="gray" onClick={handleAllMonthSalarySheets}>
+                                <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                All Month Salary Sheets
+                            </Button>
+                        </Button.Group>
+
                     </div>
                 </div>
             </div>
@@ -230,6 +261,7 @@ export default function MonthSalarySheet() {
                                         <th scope="col" className="px-2 py-3">Role</th>
                                         <th scope="col" className="px-10 py-3">Basic Salary</th>
                                         <th scope="col" className="px-10 py-3">BA Value</th>
+                                        <th scope="col" className="px-10 py-3">Total Earning</th>
                                         <th scope="col" className="px-10 py-3">Month Loan</th>
                                         <th scope="col" className="px-10 py-3">EPF 8%</th>
                                         <th scope="col" className="px-10 py-3">Total Deduction</th>
@@ -253,6 +285,7 @@ export default function MonthSalarySheet() {
                                             <td className="px-2 py-1">{sheet.role}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.basicSalary)}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.baValue)}</td>
+                                            <td className="px-10 py-1">Rs.{formatNumber(sheet.totalEarning)}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.monthLoan)}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.epf8)}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.totalDeduction)}</td>
@@ -273,6 +306,7 @@ export default function MonthSalarySheet() {
                                         <td className="px-20 py-7 text-right font-bold" colSpan="5">Sub Total ( Rs. ) :</td>
                                         <td className="px-10 font-bold" >Rs.{basicSalary.toFixed(2)}</td>
                                         <td className="px-10 font-bold" >Rs.{baValue.toFixed(2)}</td>
+                                        <td className="px-10 font-bold" >Rs.{(basicSalary + baValue).toFixed(2)}</td>
                                         <td className="px-10 font-bold" >Rs.{monthLoan.toFixed(2)}</td>
                                         <td className="px-10 font-bold" >Rs.{epf8.toFixed(2)}</td>
                                         <td className="px-10 font-bold" >Rs.{totalDeduction.toFixed(2)}</td>

@@ -54,13 +54,13 @@ export default function SalaryDashboard() {
         <div className='p-4 mt-3'>
           <NettPayCard001 />
         </div>
-       
+
       </div>
       <div className='flex gap-1'>
-  <div className='p-4 mt-3 w-full'>
-    <MonthSalarySheet />
-  </div>
-</div>
+        <div className='p-4 mt-3 w-full'>
+          <MonthSalarySheet />
+        </div>
+      </div>
 
 
     </motion.div>

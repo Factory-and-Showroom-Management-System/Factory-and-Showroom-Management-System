@@ -18,6 +18,7 @@ import MonthOT from "../Finance/Salary/Addition/MonthOT";
 import FoodAllowance from "../Finance/Salary/Addition/FoodAllowance";
 import RoleOTIncome from "../Finance/Salary/Addition/RoleOTIncome";
 import MonthSalarySheets from "../Finance/Salary/SalaryDashboard/MonthSalarySheet";
+import AllMonthSalarySheet from "../Finance/Salary/SalaryDashboard/AllMonthSalarySheet ";
 
 
 
@@ -59,6 +60,7 @@ export function FinanceManager() {
           {tab === "foodallowance" && <FoodAllowance/>}
           {tab === "roleotincome" && <RoleOTIncome/>}
           {tab === "monthsalarysheets" && <MonthSalarySheets/>}
+          {tab === "allmonthsalrysheet" && <AllMonthSalarySheet/>}
           
 
           </div>
