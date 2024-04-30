@@ -10,6 +10,7 @@ import EpfEtfDash from "../Finance/Salary/EpfEtf/EpfEtfDash";
 import NettPayDash from "../Finance/Salary/NetPay/NettPayDash";
 import BasicSalaries from "../Finance/Salary/Earning/BasicSalaries";
 import RoleIncome from "../Finance/Salary/Earning/RoleIncome";
+import BudgetedAllowance from "../Finance/Salary/Earning/BudgetedAllowance";
 
 
 
@@ -43,6 +44,7 @@ export function FinanceManager() {
           {tab === 'nettpaydash' && <NettPayDash/>}
           {tab === "basicsalarytb" && <BasicSalaries/>}
           {tab === "handleRoleIncome" && <RoleIncome/>}
+          {tab === "hadelBugetAllowance" && <BudgetedAllowance/>}
           
           </div>
       </div>

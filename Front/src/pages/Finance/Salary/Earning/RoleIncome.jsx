@@ -384,93 +384,96 @@ export default function RoleIncome() {
                     </div>
                 </div>
 
+                <div className='p-5'>
 
-                <h1 className="text-3xl text-blue-500 pl-1 pt-2">Role Income Table</h1>
+                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Role Income Table</h1>
 
-                <div className='mb-2 mt-5 flex items-center'>
+                    <div className='mb-2 mt-5 flex items-center'>
 
-                    <Button onClick={handleAdd} className='bg-green-600'>
-                        <IoIosAddCircle className="mr-2 h-5 w-5 " />
-                        Add Role Income
-                    </Button>
-                    {/*                     
+                        <Button onClick={handleAdd} className='bg-green-600'>
+                            <IoIosAddCircle className="mr-2 h-5 w-5 " />
+                            Add Role Income
+                        </Button>
+                        {/*                     
                     <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Add Role Income
                     </button> */}
 
 
 
-                    <div className="relative ml-4">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
-                            </svg>
+                        <div className="relative ml-4">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
+                                </svg>
+                            </div>
+
+                            <div className='flex'>
+
+                                <input
+                                    type="text"
+                                    className="w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500"
+                                    placeholder="Search by Role or ID"
+                                    value={searchTerm}
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                />
+
+                                <Button.Group outline className='ml-2'>
+                                    <Button color="gray" onClick={handleEarning} >
+                                        <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
+                                        Back
+                                    </Button>
+                                    <Button color="gray" onClick={handleBasicSalary}>
+                                        <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                        Basic Salary
+                                    </Button>
+
+
+                                </Button.Group>
+
+                            </div>
+
+
+
                         </div>
-
-                        <div className='flex'>
-
-                            <input
-                                type="text"
-                                className="w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500"
-                                placeholder="Search by Role or ID"
-                                value={searchTerm}
-                                onChange={e => setSearchTerm(e.target.value)}
-                            />
-
-                            <Button.Group outline className='ml-2'>
-                                <Button color="gray" onClick={handleEarning} >
-                                    <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
-                                    Back
-                                </Button>
-                                <Button color="gray" onClick={handleBasicSalary}>
-                                    <TbHandClick className="mr-3 h-4 w-4 mt-1" />
-                                    Basic Salary
-                                </Button>
-
-
-                            </Button.Group>
-
-                        </div>
-
-
-
                     </div>
-                </div>
 
-                <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-white uppercase bg-blue-600">
-                        <tr>
-                            <th scope="col" className="px-6 py-7">ID</th>
-                            <th scope="col" className="px-6 py-3">Role</th>
-                            <th scope="col" className="px-6 py-3">Date Income</th>
-                            <th scope="col" className="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentRows.map((income) => (
-                            <tr key={income.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                <td className="px-6 py-4">{income.id}</td>
-                                <td className="px-6 py-4">{income.role}</td>
-                                <td className="px-6 py-4">Rs. {income.dateIncome}</td>
-                                <td className="px-6 py-4">
-                                    <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(income.id, income.role, income.dateIncome)}>Edit</a>
-                                    <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
-                                </td>
+
+                    <table className="w-full text-sm text-left text-gray-500">
+                        <thead className="text-xs text-white uppercase bg-blue-600">
+                            <tr>
+                                <th scope="col" className="px-6 py-7">ID</th>
+                                <th scope="col" className="px-6 py-3">Role</th>
+                                <th scope="col" className="px-6 py-3">Date Income</th>
+                                <th scope="col" className="px-6 py-3">Actions</th>
                             </tr>
-                        ))}
-                        <tr className="bg-blue-800 text-white">
-                            <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.) :</td>
-                            <td className="px-6  font-bold">Rs. {totalIncome.toFixed(2)}</td>
-                            <td className="px-6  font-bold"></td>
-                        </tr>
-                        <tr className="bg-blue-800 text-white">
-                            <td className="px-20  text-right font-bold" colSpan="2">Total (Rs.) :</td>
-                            <td className="px-6 font-bold">Rs. {totalIncome.toFixed(4)}</td>
-                            <td className="px-6 font-bold"></td>
+                        </thead>
+                        <tbody>
+                            {currentRows.map((income) => (
+                                <tr key={income.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                    <td className="px-6 py-4">{income.id}</td>
+                                    <td className="px-6 py-4">{income.role}</td>
+                                    <td className="px-6 py-4">Rs. {income.dateIncome}</td>
+                                    <td className="px-6 py-4">
+                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(income.id, income.role, income.dateIncome)}>Edit</a>
+                                        <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
+                                    </td>
+                                </tr>
+                            ))}
+                            <tr className="bg-blue-800 text-white">
+                                <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.) :</td>
+                                <td className="px-6  font-bold">Rs. {totalIncome.toFixed(2)}</td>
+                                <td className="px-6  font-bold"></td>
+                            </tr>
+                            <tr className="bg-blue-800 text-white">
+                                <td className="px-20  text-right font-bold" colSpan="2">Total (Rs.) :</td>
+                                <td className="px-6 font-bold">Rs. {totalIncome.toFixed(4)}</td>
+                                <td className="px-6 font-bold"></td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
                     <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
