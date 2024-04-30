@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button } from "flowbite-react";
+import { HiOutlineArrowRight, HiShoppingCart } from "react-icons/hi";
+import { NavLink, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import { HiAdjustments, HiCloudDownload, HiUserCircle } from "react-icons/hi";
+import { TiArrowBackOutline } from "react-icons/ti";
+import { TbHandClick } from "react-icons/tb";
+
+
 
 export default function Earnings() {
     const [earnings, setEarnings] = useState([]);
@@ -7,6 +17,7 @@ export default function Earnings() {
     const [rowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
 
 
 
@@ -161,24 +172,64 @@ export default function Earnings() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
+    const handleBasicSalary = () => {
+        navigate('/finance?tab=basicsalarytb');
+
+    }
+    //dashboard
+    const handleDashboard = () => {
+        navigate('/finance?tab=salarydash');
+    }
+
     return (
         <div className="w-full bg-white ">
-            <div className="relative overflow-x-auto sm:rounded-lg">
-                <h1 className="pt-2 pl-2 text-3xl text-blue-500">Earnings Table: {currentDateTime}</h1>
+
+            <div className="relative overflow-x-auto sm:rounded-lg ">
+                <h1 className=" pl-2 text-3xl text-blue-500">Earnings Table</h1>
                 <div className="pt-2 pb-2 pl-2 bg-white">
                     <div className="relative ml-4">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
                             </svg>
+
+
+
                         </div>
-                        <input
-                            type="text"
-                            className="block w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg focus:ring-blue-500 focus:border-red-500"
-                            placeholder="Search by User ID or Name"
-                            value={searchTerm}
-                            onChange={e => setSearchTerm(e.target.value)}
-                        />
+                        <div className='flex'>
+
+                            <input
+                                type="text"
+                                className="block w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg focus:ring-blue-500"
+                                placeholder="Search by User ID or Name"
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                            />
+
+                            <Button.Group outline className='ml-2'>
+                                <Button color="gray" onClick={handleDashboard} >
+                                    <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
+                                    Dashboard
+                                </Button>
+                                <Button color="gray" onClick={handleBasicSalary}>
+                                    <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                    Basic Salary
+                                </Button>
+
+                                <Button color="gray" onClick={handleBasicSalary}>
+                                    <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                    Role Income
+                                </Button>
+
+                                <Button color="gray" onClick={handleBasicSalary}>
+                                    <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                    Bugeted Allowance
+                                </Button>
+
+                            </Button.Group>
+
+                        </div>
+
                     </div>
                 </div>
 
