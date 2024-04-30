@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 export default function BACart001() {
@@ -43,12 +44,12 @@ export default function BACart001() {
             </div>
             {/* Display total basic salary */}
             <p className="mb-2 ml-3 text-2xl font-normal text-white dark:text-white">Rs: {totalBAValue.toFixed(2)}</p>
-            <a href="/" className="inline-flex items-center ml-3 font-medium text-white hover:underline hover:text-slate-100">
+            <Link to='/finance?tab=hadelBugetAllowance' className="inline-flex items-center ml-3 font-medium text-white hover:underline hover:text-slate-100">
                 See Tables
                 <svg className="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"></path>
                 </svg>
-            </a>
+            </Link>
         </div>
     );
 }

@@ -211,7 +211,7 @@ export default function BasicSalaries() {
                 <div className='p-5'>
 
 
-                    <h1 className="text-3xl text-blue-500 pl-2 pt-2">Basic Salary Table</h1>
+                    <h1 className="text-3xl text-blue-500  pt-2">Basic Salary Table</h1>
                     <div className="pt-2 pb-2 bg-white">
                         <div className="relative pb-2 ">
 
