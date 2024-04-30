@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 app.use ("/users", UserRoute);
 
-//app.use ("/products", ProductRoute);
+app.use ("/products", ProductRoute);
 app.use ("/orders", OrderRoute);
 app.use ("/customers", CustomerRoute);
 

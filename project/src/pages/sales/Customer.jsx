@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -32,8 +31,12 @@ export default function Customer() {
 
     const fetchCustomers = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/customer/view');
-            setCustomers(response.data);
+            const response = await fetch('http://localhost:3000/customers/view');
+            if (!response.ok) {
+                throw new Error('Failed to fetch customers');
+            }
+            const data = await response.json();
+            setCustomers(data);
         } catch (error) {
             console.error('Failed to fetch customers:', error);
         }
@@ -66,12 +69,18 @@ export default function Customer() {
 
         if (formValues) {
             try {
-                await axios.post(`http://localhost:3000/customer/save`, {
-                    customerId: formValues[0],
-                    name: formValues[1],
-                    address: formValues[2],
-                    phone: formValues[3],
-                    numberOf: parseFloat(formValues[4])
+                await fetch('http://localhost:3000/customers/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        customerId: formValues[0],
+                        name: formValues[1],
+                        address: formValues[2],
+                        phone: formValues[3],
+                        numberOf: parseFloat(formValues[4])
+                    })
                 });
                 MySwal.fire({
                     icon: 'success',
@@ -101,7 +110,7 @@ export default function Customer() {
                 <input id="swal-input5" class="swal2-input" value="${currentData.numberOf}" type="number" required>`,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#008000',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Save Changes',
             preConfirm: () => {
@@ -117,12 +126,18 @@ export default function Customer() {
 
         if (formValues) {
             try {
-                await axios.put(`http://localhost:3000/customer/update/${id}`, {
-                    customerId: formValues[0],
-                    name: formValues[1],
-                    address: formValues[2],
-                    phone: formValues[3],
-                    numberOf: parseFloat(formValues[4])
+                await fetch(`http://localhost:3000/customers/update/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        customerId: formValues[0],
+                        name: formValues[1],
+                        address: formValues[2],
+                        phone: formValues[3],
+                        numberOf: parseFloat(formValues[4])
+                    })
                 });
                 MySwal.fire({
                     icon: 'success',
@@ -154,7 +169,9 @@ export default function Customer() {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/customer/delete/${id}`);
+                await fetch(`http://localhost:3000/customers/delete/${id}`, {
+                    method: 'DELETE'
+                });
                 MySwal.fire({
                     title: 'Deleted!',
                     text: 'Customer has been deleted.',
@@ -223,25 +240,32 @@ export default function Customer() {
                             <th scope="col" className="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {currentRows.map((customer) => (
-                            <tr key={customer.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                <td className="px-6 py-4">{customer.customerId}</td>
-                                <td className="px-6 py-4">{customer.name}</td>
-                                <td className="px-6 py-4">{customer.address}</td>
-                                <td className="px-6 py-4">{customer.phone}</td>
-                                <td className="px-6 py-4">{customer.numberOf}</td>
-                                <td className="px-6 py-4">
-                                    <button className="font-medium text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-3 rounded mr-2" onClick={() => handleEdit(customer.id, customer)}>
-                                        Edit
-                                    </button>
-                                    <button className="font-medium text-white bg-red-500 hover:bg-red-600 py-1 px-3 rounded" onClick={() => handleRemove(customer.id)}>
-                                        Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
+                
+<tbody>
+<tr>
+            <td className="px-6 py-4 font-bold">Total Customers: {filteredCustomers.length}</td>
+            <td className="px-6 py-4" colSpan="8"></td>
+        </tr>
+    {currentRows.map((customer) => (
+        <tr key={customer.id} className="bg-blue-500 text-black border-b border-blue-400 hover:bg-blue-400">
+            <td className="px-6 py-4">{customer.customerId}</td>
+            <td className="px-6 py-4">{customer.name}</td>
+            <td className="px-6 py-4">{customer.address}</td>
+            <td className="px-6 py-4">{customer.phone}</td>
+            <td className="px-6 py-4">{customer.numberOf}</td>
+            <td className="px-6 py-4">
+                <button className="font-medium text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-3 rounded mr-2" onClick={() => handleEdit(customer.id, customer)}>
+                    Edit
+                </button>
+                <button className="font-medium text-white bg-red-500 hover:bg-red-600 py-1 px-3 rounded" onClick={() => handleRemove(customer.id)}>
+                    Remove
+                </button>
+            </td>
+        </tr>
+    ))}
+</tbody>
+
+
                 </table>
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">

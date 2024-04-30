@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -32,8 +31,12 @@ export default function Order() {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/order/view');
-            setOrders(response.data);
+            const response = await fetch('http://localhost:3000/orders/view');
+            if (!response.ok) {
+                throw new Error('Failed to fetch orders');
+            }
+            const data = await response.json();
+            setOrders(data);
         } catch (error) {
             console.error('Failed to fetch orders:', error);
         }
@@ -70,14 +73,20 @@ export default function Order() {
 
         if (formValues) {
             try {
-                await axios.post(`http://localhost:3000/order/save`, {
-                    orderId: formValues[0],
-                    customerId: formValues[1],
-                    productId: formValues[2],
-                    orderDate: formValues[3],
-                    quantity: parseFloat(formValues[4]),
-                    unitPrice: parseFloat(formValues[5]),
-                    status: formValues[6]
+                await fetch(`http://localhost:3000/orders/save`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: formValues[0],
+                        customerId: formValues[1],
+                        productId: formValues[2],
+                        orderDate: formValues[3],
+                        quantity: parseFloat(formValues[4]),
+                        unitPrice: parseFloat(formValues[5]),
+                        status: formValues[6]
+                    })
                 });
                 MySwal.fire({
                     icon: 'success',
@@ -109,7 +118,7 @@ export default function Order() {
                 <input id="swal-input7" class="swal2-input" value="${currentData.status}">`,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#008000',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Save Changes',
             preConfirm: () => {
@@ -127,14 +136,20 @@ export default function Order() {
 
         if (formValues) {
             try {
-                await axios.put(`http://localhost:3000/order/update/${id}`, {
-                    orderId: formValues[0],
-                    customerId: formValues[1],
-                    productId: formValues[2],
-                    orderDate: formValues[3],
-                    quantity: parseFloat(formValues[4]),
-                    unitPrice: parseFloat(formValues[5]),
-                    status: formValues[6]
+                await fetch(`http://localhost:3000/orders/update/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: formValues[0],
+                        customerId: formValues[1],
+                        productId: formValues[2],
+                        orderDate: formValues[3],
+                        quantity: parseFloat(formValues[4]),
+                        unitPrice: parseFloat(formValues[5]),
+                        status: formValues[6]
+                    })
                 });
                 MySwal.fire({
                     icon: 'success',
@@ -166,7 +181,9 @@ export default function Order() {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/order/delete/${id}`);
+                await fetch(`http://localhost:3000/orders/delete/${id}`, {
+                    method: 'DELETE'
+                });
                 MySwal.fire({
                     title: 'Deleted!',
                     text: 'Order has been deleted.',
@@ -226,42 +243,47 @@ export default function Order() {
                 </div>
 
                 <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-white uppercase bg-blue-600">
-                        <tr>
-                            <th scope="col" className="px-6 py-7">Order ID</th>
-                            <th scope="col" className="px-6 py-3">Customer ID</th>
-                            <th scope="col" className="px-6 py-3">Product ID</th>
-                            <th scope="col" className="px-6 py-3">Order Date</th>
-                            <th scope="col" className="px-6 py-3">Quantity</th>
-                            <th scope="col" className="px-6 py-3">Unit Price</th>
-                            <th scope="col" className="px-6 py-3">Total Price</th>
-                            <th scope="col" className="px-6 py-3">Status</th>
-                            <th scope="col" className="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentRows.map((order) => (
-                            <tr key={order.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                <td className="px-6 py-4">{order.orderId}</td>
-                                <td className="px-6 py-4">{order.customerId}</td>
-                                <td className="px-6 py-4">{order.productId}</td>
-                                <td className="px-6 py-4">{order.orderDate}</td>
-                                <td className="px-6 py-4">{order.quantity}</td>
-                                <td className="px-6 py-4">{order.unitPrice}</td>
-                                <td className="px-6 py-4">{order.quantity * order.unitPrice}</td>
-                                <td className="px-6 py-4">{order.status}</td>
-                                <td className="px-6 py-4">
-                                    <button className="font-medium text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-3 rounded mr-2" onClick={() => handleEdit(order.id, order)}>
-                                        Edit
-                                    </button>
-                                    <button className="font-medium text-white bg-red-500 hover:bg-red-600 py-1 px-3 rounded" onClick={() => handleRemove(order.id)}>
-                                        Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+    <thead className="text-xs text-white uppercase bg-blue-600">
+        <tr>
+            <th scope="col" className="px-6 py-7">Order ID</th>
+            <th scope="col" className="px-6 py-3">Customer ID</th>
+            <th scope="col" className="px-6 py-3">Product ID</th>
+            <th scope="col" className="px-6 py-3">Order Date</th>
+            <th scope="col" className="px-6 py-3">Quantity</th>
+            <th scope="col" className="px-6 py-3">Unit Price</th>
+            <th scope="col" className="px-6 py-3">Total Price</th>
+            <th scope="col" className="px-6 py-3">Status</th>
+            <th scope="col" className="px-6 py-3">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td className="px-6 py-4 font-bold">Total Orders: {filteredOrders.length}</td>
+            <td className="px-6 py-4" colSpan="8"></td>
+        </tr>
+        {currentRows.map((order) => (
+            <tr key={order.id} className="bg-blue-500 text-black border-b border-blue-400 hover:bg-blue-400">
+                <td className="px-6 py-4">{order.orderId}</td>
+                <td className="px-6 py-4">{order.customerId}</td>
+                <td className="px-6 py-4">{order.productId}</td>
+                <td className="px-6 py-4">{order.orderDate}</td>
+                <td className="px-6 py-4">{order.quantity}</td>
+                <td className="px-6 py-4">{order.unitPrice}</td>
+                <td className="px-6 py-4">{order.quantity * order.unitPrice}</td>
+                <td className="px-6 py-4">{order.status}</td>
+                <td className="px-6 py-4">
+                    <button className="font-medium text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-3 rounded mr-2" onClick={() => handleEdit(order.id, order)}>
+                        Edit
+                    </button>
+                    <button className="font-medium text-white bg-red-500 hover:bg-red-600 py-1 px-3 rounded" onClick={() => handleRemove(order.id)}>
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        ))}
+    </tbody>
+</table>
+
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
                     <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">

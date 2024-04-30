@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
-
-
 
 export default function Product() {
     const [products, setProducts] = useState([]);
@@ -34,8 +31,9 @@ export default function Product() {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/product/view');
-            setProducts(response.data);
+            const response = await fetch('http://localhost:3000/products/view');
+            const data = await response.json();
+            setProducts(data);
         } catch (error) {
             console.error('Failed to fetch products:', error);
         }
@@ -51,7 +49,7 @@ export default function Product() {
                 <input id="swal-input4" class="swal2-input" placeholder="Unit Price" type="number">`,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#008000',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Add',
             preConfirm: () => {
@@ -66,11 +64,17 @@ export default function Product() {
 
         if (formValues) {
             try {
-                await axios.post(`http://localhost:3000/product/save`, {
-                    productId: formValues[0],
-                    p_name: formValues[1],
-                    available: parseFloat(formValues[2]),
-                    unitPrice: parseFloat(formValues[3])
+                await fetch(`http://localhost:3000/products/save`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: formValues[0],
+                        p_name: formValues[1],
+                        available: parseFloat(formValues[2]),
+                        unitPrice: parseFloat(formValues[3])
+                    })
                 });
                 MySwal.fire({
                     icon: 'success',
@@ -99,7 +103,7 @@ export default function Product() {
                 <input id="swal-input4" class="swal2-input" value="${currentData.unitPrice}" type="number">`,
             focusConfirm: false,
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#008000',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Save Changes',
             preConfirm: () => {
@@ -114,11 +118,17 @@ export default function Product() {
 
         if (formValues) {
             try {
-                await axios.put(`http://localhost:3000/product/update/${id}`, {
-                    productId: formValues[0],
-                    p_name: formValues[1],
-                    available: parseFloat(formValues[2]),
-                    unitPrice: parseFloat(formValues[3])
+                await fetch(`http://localhost:3000/products/update/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: formValues[0],
+                        p_name: formValues[1],
+                        available: parseFloat(formValues[2]),
+                        unitPrice: parseFloat(formValues[3])
+                    })
                 });
                 MySwal.fire({
                     icon: 'success',
@@ -143,14 +153,16 @@ export default function Product() {
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#008000',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         });
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/product/delete/${id}`);
+                await fetch(`http://localhost:3000/products/delete/${id}`, {
+                    method: 'DELETE'
+                });
                 MySwal.fire({
                     title: 'Deleted!',
                     text: 'Product has been deleted.',
@@ -211,16 +223,20 @@ export default function Product() {
                 <table className="w-full text-sm text-left text-gray-500">
                     <thead className="text-xs text-white uppercase bg-blue-600">
                         <tr>
-                            <th scope="col" className="px-6 py-7">Product ID</th>
+                            <th scope="col" className="px-6 py-3">Product ID</th>
                             <th scope="col" className="px-6 py-3">Product Name</th>
-                            <th scope="col" className="px-6 py-3">Available</th>
-                            <th scope="col" className="px-6 py-3">Unit Price</th>
+                            <th scope="col" className="px-6 py-3">Available Quantity(Kg)</th>
+                            <th scope="col" className="px-6 py-3">Unit Price(Rs.)</th>
                             <th scope="col" className="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td className="px-6 py-4 font-bold">Total Products: {filteredProducts.length}</td>
+                        <td className="px-6 py-4" colSpan="8"></td>
+                    </tr>
                         {currentRows.map((product) => (
-                            <tr key={product.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                            <tr key={product.id} className="bg-blue-50 text-gray-700 border-b border-blue-200 hover:bg-blue-100">
                                 <td className="px-6 py-4">{product.productId}</td>
                                 <td className="px-6 py-4">{product.p_name}</td>
                                 <td className="px-6 py-4">{product.available}</td>
