@@ -19,6 +19,22 @@ export default function Earnings() {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
+    
+    const handleBasicSalary = () => {
+        navigate('/finance?tab=basicsalarytb');
+
+    }
+    //dashboard
+    const handleDashboard = () => {
+        navigate('/finance?tab=salarydash');
+    }
+
+    //Role Income
+    const handleRoleIncome = () => {
+        navigate('/finance?tab=handleRoleIncome');
+    }
+
+
 
 
     const handleSubmit = async (event) => {
@@ -172,14 +188,6 @@ export default function Earnings() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
-    const handleBasicSalary = () => {
-        navigate('/finance?tab=basicsalarytb');
-
-    }
-    //dashboard
-    const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
-    }
 
     return (
         <div className="w-full bg-white ">
@@ -216,15 +224,15 @@ export default function Earnings() {
                                     Basic Salary
                                 </Button>
 
-                                <Button color="gray" onClick={handleBasicSalary}>
+                                <Button color="gray" onClick={handleRoleIncome}>
                                     <TbHandClick className="mr-3 h-4 w-4 mt-1" />
                                     Role Income
                                 </Button>
-
-                                <Button color="gray" onClick={handleBasicSalary}>
+{/* 
+                                <Button color="gray" onClick={handleBugetedAllovance}>
                                     <TbHandClick className="mr-3 h-4 w-4 mt-1" />
                                     Bugeted Allowance
-                                </Button>
+                                </Button> */}
 
                             </Button.Group>
 

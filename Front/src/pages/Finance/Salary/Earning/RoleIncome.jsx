@@ -3,7 +3,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import BasicSalaries from './BasicSalaries';
+import { IoIosAddCircle } from "react-icons/io";
+import { Button } from "flowbite-react";
+import { TiArrowBackOutline } from "react-icons/ti";
+import { TbHandClick } from "react-icons/tb";
+import { useNavigate } from 'react-router-dom';
+import RoleIncomeCard001 from './Carts/RoleIncomeCard001';
 
 
 const MySwal = withReactContent(Swal);
@@ -15,9 +20,17 @@ export default function RoleIncome() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     //BasicSalary
-    const [basicSalaries, setBasicSalaries] = useState([]);
-    const [salaries, setSalaries] = useState([]);
+    const navigate = useNavigate();
 
+
+    const handleBasicSalary = () => {
+        navigate('/finance?tab=basicsalarytb');
+
+    }
+    //dashboard
+    const handleEarning = () => {
+        navigate('/finance?tab=erningdash');
+    }
 
 
 
@@ -358,27 +371,69 @@ export default function RoleIncome() {
 
     return (
 
-        <div className="shadow-lg p-20 bg-white rounded-lg">
-            <div className="relative overflow-x-auto l:rounded-lg">
-                <h1 className="text-3xl text-blue-500 pl-1 pt-2">Role Income Table: {currentDateTime}</h1>
+        <div className="w-full bg-white ">
+            <div className="relative overflow-x-auto sm:rounded-lg ">
+
+                <div className='w-full'>
+                    <div className='flex gap-4 '>
+
+                        <div className='p-4 mt-3'>
+                            <RoleIncomeCard001 />
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <h1 className="text-3xl text-blue-500 pl-1 pt-2">Role Income Table</h1>
 
                 <div className='mb-2 mt-5 flex items-center'>
+
+                    <Button onClick={handleAdd} className='bg-green-600'>
+                        <IoIosAddCircle className="mr-2 h-5 w-5 " />
+                        Add Role Income
+                    </Button>
+                    {/*                     
                     <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Add Role Income
-                    </button>
+                    </button> */}
+
+
+
                     <div className="relative ml-4">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
-                        <input
-                            type="text"
-                            className="w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500 focus:border-red-500"
-                            placeholder="Search by Role or ID"
-                            value={searchTerm}
-                            onChange={e => setSearchTerm(e.target.value)}
-                        />
+
+                        <div className='flex'>
+
+                            <input
+                                type="text"
+                                className="w-80 h-10 pl-10 pr-3 py-2 border border-blue-400 rounded-lg text-blue-500 focus:ring-blue-500"
+                                placeholder="Search by Role or ID"
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                            />
+
+                            <Button.Group outline className='ml-2'>
+                                <Button color="gray" onClick={handleEarning} >
+                                    <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
+                                    Back
+                                </Button>
+                                <Button color="gray" onClick={handleBasicSalary}>
+                                    <TbHandClick className="mr-3 h-4 w-4 mt-1" />
+                                    Basic Salary
+                                </Button>
+
+
+                            </Button.Group>
+
+                        </div>
+
+
+
                     </div>
                 </div>
 
