@@ -30,6 +30,7 @@ function App() {
        
           <Route path="/finance" element={<FinanceManagerDashboard/>} />
           <Route path="/hr" element={<HRManagerDashboard/>} />
+
     
 
         

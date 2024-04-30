@@ -2,27 +2,33 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Deductions', {
+    await queryInterface.createTable('Orders', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.INTEGER
-      },
-      name: {
+      orderId: {
         type: Sequelize.STRING
       },
-      monthLoan: {
+      customerId: {
+        type: Sequelize.STRING
+      },
+      productId: {
+        type: Sequelize.STRING
+      },
+      orderDate: {
+        type: Sequelize.DATE
+      },
+      quantity: {
         type: Sequelize.FLOAT
       },
-      epf8: {
+      unitPrice: {
         type: Sequelize.FLOAT
       },
-      totalDeduction: {
-        type: Sequelize.FLOAT
+      status: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Deductions');
+    await queryInterface.dropTable('Orders');
   }
 };

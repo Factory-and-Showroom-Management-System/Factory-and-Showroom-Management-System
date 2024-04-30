@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 
 
+
 export function Sales_Sidebar() {
   
   return (
@@ -19,20 +20,20 @@ export function Sales_Sidebar() {
       <Sidebar.Items >
         <Sidebar.ItemGroup >
           <Sidebar.Item  icon={HiChartPie} >
-            <Link to="/dashboard?tab=">Sales & Product Dashboard</Link>
+            <Link to="/sales/product">Sales & Product Dashboard</Link>
           
           </Sidebar.Item>
           <Sidebar.Item  icon={HiViewBoards}>
-          <Link to="/dashboard?tab=">Dashboard 2 </Link>
+          <Link to="">Dashboard 2 </Link>
           </Sidebar.Item>
           <Sidebar.Item  icon={HiInbox}>
-            Inbox
+          <Link to="/sales?tab=order"> Orders </Link>
           </Sidebar.Item>
           <Sidebar.Item  icon={HiUser}>
-            Users
+          <Link to="/sales?tab=customer"> Customers </Link>
           </Sidebar.Item>
           <Sidebar.Item  icon={HiShoppingBag}>
-            Products
+            <Link to="/sales?tab=product"> Products </Link>
           </Sidebar.Item>
           
           <Sidebar.Item  icon={HiTable}>

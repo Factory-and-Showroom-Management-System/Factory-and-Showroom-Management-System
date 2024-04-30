@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Route,Routes, useLocation } from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
 
 import { Sales_Sidebar } from '../../components/sidebar/Sales_Sidebar';
+import Product from './Product';
+import Order from './Order';  
+import Customer from './Customer';
 
 
 export function SalesManagerDashboard() {
@@ -24,8 +27,11 @@ export function SalesManagerDashboard() {
       
     <Sales_Sidebar/>
       </div>
-      {/* {tab === 'User' && <CreateUser />} */}
 
+   {tab === 'product' && <Product/>}
+    {tab === 'order' && <Order/>}
+    {tab === 'customer' && <Customer/>}
+   
 
 
 

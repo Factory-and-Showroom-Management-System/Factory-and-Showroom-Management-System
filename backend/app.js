@@ -8,10 +8,19 @@ app.use(cors());
 
 
 const UserRoute = require('./routes/UserRoute');
-const dashboardRoutes = require('./routes/dashboard');
+
+const ProductRoute = require('./routes/product');
+const OrderRoute = require('./routes/order');
+const CustomerRoute = require('./routes/customer');
+
+
 app.use(bodyParser.json());
 
 app.use ("/users", UserRoute);
-// app.use ("/dashboard", dashboardRoutes);
+
+//app.use ("/products", ProductRoute);
+app.use ("/orders", OrderRoute);
+app.use ("/customers", CustomerRoute);
+
 
 module.exports = app;

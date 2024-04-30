@@ -1,14 +1,13 @@
 //create a user
-
 POST http://localhost:3000/users/createUser
 Content-Type: application/json
 
 {
     
-    "name" : "buddhi",
-    "username" : "hr001",
+    "name" : "prageeth",
+    "username" : "sales001",
     "password" : "123456",
-    "role" : "hr_manager"
+    "role" : "sales_manager"
    
 }
 

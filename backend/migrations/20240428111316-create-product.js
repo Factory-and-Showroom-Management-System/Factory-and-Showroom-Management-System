@@ -2,26 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('MonthFoodAllowances', {
+    await queryInterface.createTable('Products', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      productId: {
         type: Sequelize.STRING
       },
-      name: {
+      p_name: {
         type: Sequelize.STRING
       },
-      attenCount: {
-        type: Sequelize.INTEGER
-      },
-      allowance: {
+      available: {
         type: Sequelize.FLOAT
       },
-      totalAllowance: {
+      unitPrice: {
         type: Sequelize.FLOAT
       },
       createdAt: {
@@ -35,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('MonthFoodAllowances');
+    await queryInterface.dropTable('Products');
   }
 };

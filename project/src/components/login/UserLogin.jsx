@@ -158,7 +158,7 @@ export default function UserLogin() {
           navigate('/finance');
         }else if (data.role === 'inventory_manager') {
           navigate('/inventory');
-        }else(data.role === 'hr_manager') 
+        }else if(data.role === 'hr_manager') 
           navigate('/hr');
       } else {
         // Handle login failure
