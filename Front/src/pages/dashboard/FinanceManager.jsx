@@ -2,6 +2,17 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Finance_Sidebar } from "../..//components/sidebar/Finance_Sidebar";
 import FinanceDashboard from "../Finance/FinanceDashboard/FinanceDashboard";
+import SalaryDashboard from "../Finance/Salary/SalaryDashboard/SalaryDashboard";
+import EaringDash from "../Finance/Salary/Earning/EaringDash";
+import DeductionDash from "../Finance/Salary/Deduction/DeductionDash";
+import AdditionDash from "../Finance/Salary/Addition/AdditionDash";
+import EpfEtfDash from "../Finance/Salary/EpfEtf/EpfEtfDash";
+import NettPayDash from "../Finance/Salary/NetPay/NettPayDash";
+
+
+
+
+
 
 export function FinanceManager() {
   const location = useLocation();
@@ -21,8 +32,15 @@ export function FinanceManager() {
           <Finance_Sidebar />
         </div >
         <div className="w-full">
-          {/* {tab === 'User' && <<BasicSalaries />/>}  */}
           {tab === "financedash" && <FinanceDashboard/>}
+          {tab === 'salarydash' && <SalaryDashboard />}
+          {tab === 'erningdash' && <EaringDash/>}
+          {tab === 'deductiondash' && <DeductionDash/>}
+          {tab === 'additiondash' && <AdditionDash/>}
+          {tab === 'epfetfdash' && <EpfEtfDash/>}
+          {tab === 'nettpaydash' && <NettPayDash/>}
+
+          
           </div>
       </div>
     

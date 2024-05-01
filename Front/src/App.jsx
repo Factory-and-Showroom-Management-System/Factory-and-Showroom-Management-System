@@ -61,39 +61,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
 
-      {/* <DashBaord /> */}
-      {/* <AreaChart01 />  */}
-      {/* <AreaChart02 /> */}
-      {/* <AreaChart03 /> */}
-      {/* <AreaChart04 /> */}
-      {/* <AreaChart05 /> */}
-      {/* <AreaChart06 /> */}
-      {/* <AreaChart07 /> */}
-
-      {/* <RoleIncome />
-      <BasicSalaries />
-      <BudgetedAllowance />
-      <Earning /> */}
-
-      {/* 
-      <UserTotalLoane />
-      <UserMonrhLoan />
-      <MonthEpfEtfs />
-      <Deduction /> */}
-
-      {/* <Addition />
-      <FoodAllowance />
-      <MonthFoodAllowance /> */}
-
-      {/* <RoleOTIncome />
-      <MonthOT />
-      <UserNetPay /> */}
-
-      {/* <MonthSalarySheet />
-      <SubTotalMonthSalarySheet />
-      <AllMonthSalarySheet />  */}
-
-      {/* <UserNetPay /> */}
     </div>
   );
 }

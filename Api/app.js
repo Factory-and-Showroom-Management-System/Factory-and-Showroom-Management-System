@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 const usersRouter = require('./routes/user');
 const testRouter = require('./routes/tests');
 // const attendanceRouter = require('./routes/attendance');
-// const salaryRouter = require('./routes/salary');
+const salaryRouter = require('./routes/salary');
 
 
 
@@ -22,7 +22,7 @@ const testRouter = require('./routes/tests');
 app.use ("/users", usersRouter);
 app.use('/tests', testRouter);
 // app.use('/attendance', attendanceRouter);
-// app.use('/salary', salaryRouter);
+app.use('/salary', salaryRouter);
 
 
 
