@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Admin_Sidebar } from "../../components/sidebar/admin_sidebar";
 import AdminDashboard from "../Admin/AdminDashboard/AdminDashboard";
+import AdminProduct from "../Admin/AdminProduct/AdminProduct";
 
 
 
@@ -23,6 +24,7 @@ export function Admin() {
         <div className="w-full">
           {/* {tab === 'User' && <<BasicSalaries />/>}  */}
           {tab === "admindash" && <AdminDashboard/>}
+          {tab === "adminproduct" && <AdminProduct/>}
           </div>
       </div>
   );

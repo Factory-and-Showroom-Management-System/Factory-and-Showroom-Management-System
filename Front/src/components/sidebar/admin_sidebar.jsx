@@ -9,6 +9,7 @@ import {
   HiViewBoards,
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 
 export function Admin_Sidebar() {
   return (
@@ -16,10 +17,10 @@ export function Admin_Sidebar() {
       <Sidebar.Items className="bg-[#F5FFF5] ">
         <Sidebar.ItemGroup className="">
           <Sidebar.Item href="" icon={HiChartPie}>
-            <Link to="/finance?tab=admin">Admin Dashboard</Link>
+            <Link to="/admin?tab=admindash">Admin Dashboard</Link>
           </Sidebar.Item>
-          <Sidebar.Item icon={HiViewBoards}>
-            <Link to=""></Link>
+          <Sidebar.Item icon={HiShoppingBag}>
+          <Link to="/admin?tab=adminproduct">Product</Link>
           </Sidebar.Item>
           <Sidebar.Item icon={HiInbox}>
             <Link to=""></Link>

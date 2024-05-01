@@ -18,8 +18,7 @@ const productRouter = require('./routes/product');
 
 
 
- 
-app.use('/products', productRouter);
+app.use('/product', productRouter);
 app.use ("/users", usersRouter);
 app.use('/tests', testRouter);
 // app.use('/attendance', attendanceRouter);
