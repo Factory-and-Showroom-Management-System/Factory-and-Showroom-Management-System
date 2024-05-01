@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Admin_Sidebar } from "../../components/sidebar/admin_sidebar";
 import AdminDashboard from "../Admin/AdminDashboard/AdminDashboard";
 import AdminProduct from "../Admin/AdminProduct/AdminProduct";
+import AdminRowMaterial from "../Admin/RowMaterial/AdminRowMaterial";
 
 
 
@@ -25,8 +26,11 @@ export function Admin() {
           {/* {tab === 'User' && <<BasicSalaries />/>}  */}
           {tab === "admindash" && <AdminDashboard/>}
           {tab === "adminproduct" && <AdminProduct/>}
+        
+          {tab === "adminmaterial" && <AdminRowMaterial/>}
           </div>
-      </div>
+          </div>
+      
   );
 }
 
