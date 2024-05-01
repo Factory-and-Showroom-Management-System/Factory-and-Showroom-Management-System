@@ -14,11 +14,12 @@ const usersRouter = require('./routes/user');
 const testRouter = require('./routes/tests');
 // const attendanceRouter = require('./routes/attendance');
 // const salaryRouter = require('./routes/salary');
+const productRouter = require('./routes/product');
 
 
 
  
-
+app.use('/products', productRouter);
 app.use ("/users", usersRouter);
 app.use('/tests', testRouter);
 // app.use('/attendance', attendanceRouter);
