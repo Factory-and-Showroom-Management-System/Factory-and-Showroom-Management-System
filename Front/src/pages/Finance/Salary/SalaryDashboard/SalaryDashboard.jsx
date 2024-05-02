@@ -10,8 +10,9 @@ import NettPayCard001 from './Cards/NettPayCard001'
 
 export default function SalaryDashboard() {
   return (
+
     <div className='w-full'>
-      <div className='flex gap-3'>
+      <div className='flex gap-1'>
 
         <div className='p-4 mt-3 '>
           <EarningCard001 />
