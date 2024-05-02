@@ -183,7 +183,3 @@ module.exports = {
     productUpdate: productUpdate,
     productDelete: productDelete
 };
-
-
-
-

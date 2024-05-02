@@ -185,8 +185,9 @@ export default function AdminRowMaterial() {
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
     return (
-        <div className='w-full p-4'>
-        <div className="pt-0 pl-5 pr-5 shadow-2xl runded-lg bag-white">
+        
+        <div className='p-10 '>
+        <div className="pt-0 pl-5 pr-5 runded-lg bag-white">
             <div className="relative overflow-x-auto l:rounded-lg">
 
 

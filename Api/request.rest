@@ -1,19 +1,19 @@
 //create a user
-
-POST http://localhost:3000/users/createUser
+PUT http://localhost:3000/adminproduct/update/5
 Content-Type: application/json
 
 {
     
-    "name" : "buddhi2",
-    "username" : "hr002",
-    "password" : "123456",
-    "role" : "hr_manager"
+    "productId" : "pm",
+    "p_name" : "hr",
+    "available" :250,
+    "unitPrice" : 23456
+  
    
 }
 //get product
 ###
-GET http://localhost:3000/products/showProduct
+GET http://localhost:3000/adminproduct/view
 
 //add product
 ###
