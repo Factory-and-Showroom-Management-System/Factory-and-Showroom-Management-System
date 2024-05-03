@@ -5,13 +5,19 @@ import { BsFillShieldLockFill } from "react-icons/bs";
 import { AiOutlineSwapRight } from "react-icons/ai";
 import logo from "../../assets/login/mainLogo.png";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { Button } from "flowbite-react";
+import { Alert, Button } from "flowbite-react";
+import { useDispatch , useSelector } from "react-redux";
+import { signInStart,signInFailure , signInSuccess } from "../../redux/user/userSlice";
+
+
 
 export default function UserLogin() {
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {loading , error : errorMessage} = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -19,17 +25,30 @@ export default function UserLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    if (!formData.username || !formData.password) {
+      return dispatch(signInFailure("Please fill in all fields."));
+     
+    }
+    // setLoading(true);
 
     try {
+      dispatch(signInStart());
       const res = await fetch("http://localhost:3000/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
+      // const data = await res.json();
+      // if(data.success === false){
+      //   setError("Incorrect username or password.");
+      //   dispatch(signInFailure(data.message));
+      // }
+
       if (res.ok) {
         const data = await res.json();
+        dispatch(signInSuccess(data));
+        // const data = await res.json();
         // Redirect based on user role
         if (data.role === "admin") {
           navigate("/admin?tab=admindash");
@@ -42,16 +61,24 @@ export default function UserLogin() {
         } else if (data.role === "hr_manager") {
           navigate("/hr?tab=hrdash");
         }
+        
+      } 
+      else {
+        const data = await res.json();
+      if (res.status === 401) {
+        // Invalid username or password
+        dispatch(signInFailure("Invalid username or password."));
       } else {
-        // Handle login failure
-        setError("Incorrect username or password.");
+        // Other server-side errors
+        dispatch(signInFailure(data.message))
+        
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setError("An error occurred. Please try again later.");
-    } finally {
-      setLoading(false);
     }
+    } catch (error) {
+      // console.error("Error:", error);
+      // setError("An error occurred. Please try again later.");
+      dispatch(signInFailure(error.message));
+    } 
   };
 
   return (
@@ -115,7 +142,14 @@ export default function UserLogin() {
                  
                 </Button>
               </div>
+              
               {error && <p className="error">{error}</p>}
+              
+              {errorMessage && (
+                <Alert className="mt-5" color='failure'>
+                  {errorMessage}
+                </Alert>
+              )}
             </form>
           </div>
         </div>
