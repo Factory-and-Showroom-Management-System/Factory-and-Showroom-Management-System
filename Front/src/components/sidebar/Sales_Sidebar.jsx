@@ -10,6 +10,10 @@ import {
   HiViewBoards,
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { FaUsersBetweenLines } from "react-icons/fa6";
+import { LiaJediOrder } from "react-icons/lia";
+import { GrOverview } from "react-icons/gr";
+import { GiNuclearWaste } from "react-icons/gi";
 
 export function Sales_Sidebar() {
   return (
@@ -17,24 +21,27 @@ export function Sales_Sidebar() {
         <Sidebar className="w-56 border-r-2">
           <Sidebar.Items className="bg-[#F5FFF5] ">
             <Sidebar.ItemGroup>
-              <Sidebar.Item icon={HiChartPie}>
-                <Link to="/sales?tab=salesdash">Sales & Product Dashboard</Link>
+              <Sidebar>
+              <Link to="/sales?tab=salesdash" style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                 Sales_Product Dashboard
+              </Link>
+              </Sidebar>
+
+              <Sidebar.Item icon={LiaJediOrder}>
+              <Link to="/sales?tab=order">Orders</Link>
               </Sidebar.Item>
-              <Sidebar.Item icon={HiViewBoards}>
-                <Link to=""></Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiInbox}>
-                <Link to=""></Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiUser}>
-                <Link to=""></Link>
+              <Sidebar.Item icon={FaUsersBetweenLines}>
+              <Link to="/sales?tab=customer">Customers</Link>
               </Sidebar.Item>
               <Sidebar.Item icon={HiShoppingBag}>
-                <Link to=""></Link>
+              <Link to="/sales?tab=product">Products</Link>
+              </Sidebar.Item>
+              <Sidebar.Item icon={GrOverview}>
+              <Link to="">Overview</Link>
               </Sidebar.Item>
 
-              <Sidebar.Item icon={HiTable}>
-                <Link to=""></Link>
+              <Sidebar.Item icon={GiNuclearWaste}>
+              <Link to="/sales?tab=machine">Wastage</Link>
               </Sidebar.Item>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
