@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import './popup.css';
 //import './Button.css';
 
 const MySwal = withReactContent(Swal);
@@ -58,16 +59,28 @@ export default function Customer() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Add',
             preConfirm: () => {
-                return [
-                    document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value,
-                    document.getElementById('swal-input3').value,
-                    document.getElementById('swal-input4').value,
-                    document.getElementById('swal-input5').value
-                ]
+                const customerId = document.getElementById('swal-input1').value;
+                const name = document.getElementById('swal-input2').value;
+                const address = document.getElementById('swal-input3').value;
+                const phone = document.getElementById('swal-input4').value;
+                const numberOf = document.getElementById('swal-input5').value;
+    
+                // Basic field validation
+                if (!customerId || !name || !address || !phone || !numberOf) {
+                    MySwal.showValidationMessage('All fields are required');
+                    return;
+                }
+    
+                // Phone number validation
+                if (!/^\d{10}$/.test(phone)) {
+                    MySwal.showValidationMessage('Invalid phone number format');
+                    return;
+                }
+    
+                return [customerId, name, address, phone, numberOf];
             }
         });
-
+    
         if (formValues) {
             try {
                 await fetch('http://localhost:3000/customer/save', {
@@ -99,32 +112,51 @@ export default function Customer() {
             }
         }
     };
-
+    
     const handleEdit = async (id, currentData) => {
         const { value: formValues } = await MySwal.fire({
             title: 'Edit Customer',
             html: `
+            <div class="swal-input-container">
+                <label for="swal-input1">Customer ID:</label>
                 <input id="swal-input1" class="swal2-input" value="${currentData.customerId}" required>
+                <label for="swal-input2">Name:</label>
                 <input id="swal-input2" class="swal2-input" value="${currentData.name}" required>
+                <label for="swal-input3">Address:</label>
                 <input id="swal-input3" class="swal2-input" value="${currentData.address}" required>
+                <label for="swal-input4">Phone:</label>
                 <input id="swal-input4" class="swal2-input" value="${currentData.phone}" required pattern="[0-9]{10}">
-                <input id="swal-input5" class="swal2-input" value="${currentData.numberOf}" type="number" required>`,
+                <label for="swal-input5">Orders:</label>
+                <input id="swal-input5" class="swal2-input" value="${currentData.numberOf}" type="number" required>
+            </div>`,
             focusConfirm: false,
             showCancelButton: true,
             confirmButtonColor: '#008000',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Save Changes',
             preConfirm: () => {
-                return [
-                    document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value,
-                    document.getElementById('swal-input3').value,
-                    document.getElementById('swal-input4').value,
-                    document.getElementById('swal-input5').value
-                ]
+                const customerId = document.getElementById('swal-input1').value;
+                const name = document.getElementById('swal-input2').value;
+                const address = document.getElementById('swal-input3').value;
+                const phone = document.getElementById('swal-input4').value;
+                const numberOf = document.getElementById('swal-input5').value;
+    
+                // Basic field validation
+                if (!customerId || !name || !address || !phone || !numberOf) {
+                    MySwal.showValidationMessage('All fields are required');
+                    return;
+                }
+    
+                // Phone number validation
+                if (!/^\d{10}$/.test(phone)) {
+                    MySwal.showValidationMessage('Invalid phone number format');
+                    return;
+                }
+    
+                return [customerId, name, address, phone, numberOf];
             }
         });
-
+    
         if (formValues) {
             try {
                 await fetch(`http://localhost:3000/customer/update/${id}`, {
@@ -156,6 +188,7 @@ export default function Customer() {
             }
         }
     };
+    
 
     const handleRemove = async (id) => {
         const result = await MySwal.fire({
@@ -237,7 +270,7 @@ export default function Customer() {
                             <th scope="col" className="px-6 py-3">Name</th>
                             <th scope="col" className="px-6 py-3">Address</th>
                             <th scope="col" className="px-6 py-3">Phone</th>
-                            <th scope="col" className="px-6 py-3">Number Of</th>
+                            <th scope="col" className="px-6 py-3">Number Of Orders</th>
                             <th scope="col" className="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
@@ -263,30 +296,31 @@ export default function Customer() {
                 </table>
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
-                    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-                        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredCustomers.length ? filteredCustomers.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredCustomers.length}</span>
-                    </span>
+    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredCustomers.length ? filteredCustomers.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredCustomers.length}</span> customers out of <span className="font-semibold text-gray-900 dark:text-black">{customers.length}</span>
+    </span>
 
-                    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
-                        <li>
-                            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
-                                Previous
-                            </button>
-                        </li>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <li key={index}>
-                                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
-                                    {index + 1}
-                                </button>
-                            </li>
-                        ))}
-                        <li>
-                            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
-                                Next
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
+        <li>
+            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
+                Previous
+            </button>
+        </li>
+        {Array.from({ length: totalPages }, (_, index) => (
+            <li key={index}>
+                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
+                    {index + 1}
+                </button>
+            </li>
+        ))}
+        <li>
+            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
+                Next
+            </button>
+        </li>
+    </ul>
+</nav>
+
 
             </div>
         </div>

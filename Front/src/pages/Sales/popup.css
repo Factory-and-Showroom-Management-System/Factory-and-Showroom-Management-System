@@ -1,0 +1,12 @@
+.swal-input-container {
+    display: grid;
+    grid-template-columns: max-content auto;
+    gap: 10px;
+    margin-bottom: 55px;
+}
+
+.swal-input-container label {
+    text-align: right;
+    padding-top: 30px;
+    padding-left: 1px; /* Adjust as needed */
+}

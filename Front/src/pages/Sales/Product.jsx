@@ -98,30 +98,31 @@ export default function Product() {
                 </table>
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
-                    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-                        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredProducts.length ? filteredProducts.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredProducts.length}</span>
-                    </span>
+    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredProducts.length ? filteredProducts.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredProducts.length}</span> products out of <span className="font-semibold text-gray-900 dark:text-black">{products.length}</span>
+    </span>
 
-                    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
-                        <li>
-                            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
-                                Previous
-                            </button>
-                        </li>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <li key={index}>
-                                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
-                                    {index + 1}
-                                </button>
-                            </li>
-                        ))}
-                        <li>
-                            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
-                                Next
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
+        <li>
+            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
+                Previous
+            </button>
+        </li>
+        {Array.from({ length: totalPages }, (_, index) => (
+            <li key={index}>
+                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
+                    {index + 1}
+                </button>
+            </li>
+        ))}
+        <li>
+            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
+                Next
+            </button>
+        </li>
+    </ul>
+</nav>
+
 
             </div>
         </div>
