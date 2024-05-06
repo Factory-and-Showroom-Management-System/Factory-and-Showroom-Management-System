@@ -49,7 +49,7 @@ const FinanceDashboard = () => {
         <AreaChart01 />
       </div>
       <div className='w-full p-5'>
-        <UserNetPays />
+        xxxxxxxxxx
       </div>
     </motion.div>
   )

@@ -5,6 +5,8 @@ import { TiArrowBackOutline } from "react-icons/ti";
 import { TbHandClick } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
 
+import { FaEye } from "react-icons/fa";
+import ViewMonthSalarySheet from './View/Table/ViewMonthSalarySheet';
 
 export default function MonthSalarySheet() {
     const [salarySheets, setSalarySheets] = useState([]);
@@ -12,6 +14,7 @@ export default function MonthSalarySheet() {
     const [rowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [viewCard, setViewCard] = useState(false);
 
     const navigate = useNavigate();
 
@@ -206,6 +209,16 @@ export default function MonthSalarySheet() {
         return 'N/A'; // Or return '0.00' if that makes more sense for your display
     }
 
+    const handleViewCard = () => {
+        console.log('View Card');
+        setViewCard(true)
+    }
+
+    const onCloseCard = () => {
+       
+        setViewCard(false)
+    }
+
     return (
         <>
             <h1 className="  text-3xl text-blue-500">Month Salary Sheet </h1>
@@ -239,6 +252,15 @@ export default function MonthSalarySheet() {
                                 All Month Salary Sheets
                             </Button>
                         </Button.Group>
+
+                        <div className='flex' >
+                            <div style={{ paddingLeft: '440px' }}>
+                                <Button color="gray" onClick={handleViewCard} >
+                                    <FaEye className="mr-2 h-5 w-5 " />
+                                    View
+                                </Button>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -354,6 +376,10 @@ export default function MonthSalarySheet() {
                     </li>
                 </ul>
             </nav>
+            {viewCard && (
+                <ViewMonthSalarySheet 
+                onClose={onCloseCard} />
+            )}
         </>
     );
 }
