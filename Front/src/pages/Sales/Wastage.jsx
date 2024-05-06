@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import './popup.css';
 
 const MySwal = withReactContent(Swal);
 
@@ -56,10 +57,10 @@ export default function Machine() {
             title: 'Add New Machine',
             html: `
                 <input id="swal-input1" class="swal2-input" placeholder="Machine ID" required>
-                <input id="swal-input2" class="swal2-input" placeholder="Input" required>
-                <input id="swal-input3" class="swal2-input" placeholder="Output" required>
-                <input id="swal-input4" class="swal2-input" placeholder="Date In" required>
-                <input id="swal-input5" class="swal2-input" placeholder="Time In" required>`,
+                <input id="swal-input2" class="swal2-input" placeholder="Input" type="number" required>
+                <input id="swal-input3" class="swal2-input" placeholder="Output" type="number" required>
+                <input id="swal-input4" class="swal2-input" placeholder="Date In" type="date" required>
+                <input id="swal-input5" class="swal2-input" placeholder="Time In" type="time" required>`,
             focusConfirm: false,
             showCancelButton: true,
             confirmButtonColor: '#008000',
@@ -117,11 +118,18 @@ export default function Machine() {
         const { value: formValues } = await MySwal.fire({
             title: 'Edit Machine',
             html: `
+            <div class="swal-input-container">
+                <label for="swal-input1">Machine ID:</label>
                 <input id="swal-input1" class="swal2-input" value="${currentData.machineId}" required>
-                <input id="swal-input2" class="swal2-input" value="${currentData.inputp}" required>
-                <input id="swal-input3" class="swal2-input" value="${currentData.outputp}" required>
+                <label for="swal-input1">Input:</label>
+                <input id="swal-input2" class="swal2-input" value="${currentData.inputp}" type="number" required>
+                <label for="swal-input1">Output:</label>
+                <input id="swal-input3" class="swal2-input" value="${currentData.outputp}" type="number" required>
+                <label for="swal-input1">Date In:</label>
                 <input id="swal-input4" class="swal2-input" value="${currentDate}" type="date"> <!-- Set current date -->
-                <input id="swal-input5" class="swal2-input" value="${currentData.timeIn}" required>`,
+                <label for="swal-input1">Time In:</label>
+                <input id="swal-input5" class="swal2-input" value="${currentData.timeIn}" type="time" required>
+            </div>`,
             focusConfirm: false,
             showCancelButton: true,
             confirmButtonColor: '#008000',
@@ -248,7 +256,7 @@ export default function Machine() {
                 </div>
 
                 <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-white uppercase bg-blue-600">
+                    <thead className="text-xs text-black uppercase bg-[#54db93]">
                         <tr>
                             <th scope="col" className="px-6 py-5">Machine ID</th>
                             <th scope="col" className="px-6 py-3">Input</th>
@@ -260,7 +268,7 @@ export default function Machine() {
                     </thead>
                     <tbody>
                         {currentRows.map((machine) => (
-                            <tr key={machine.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                            <tr key={machine.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                 <td className="px-6 py-3">{machine.machineId}</td>
                                 <td className="px-6 py-3">{machine.inputp}</td>
                                 <td className="px-6 py-3">{machine.outputp}</td>
@@ -280,29 +288,30 @@ export default function Machine() {
                 </table>
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
-                    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-                        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredMachines.length ? filteredMachines.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredMachines.length}</span> entries
-                    </span>
-                    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
-                        <li>
-                            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
-                                Previous
-                            </button>
-                        </li>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <li key={index}>
-                                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
-                                    {index + 1}
-                                </button>
-                            </li>
-                        ))}
-                        <li>
-                            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
-                                Next
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredMachines.length ? filteredMachines.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredMachines.length}</span> machines out of <span className="font-semibold text-gray-900 dark:text-black">{machines.length}</span>
+    </span>
+
+    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
+        <li>
+            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
+                Previous
+            </button>
+        </li>
+        {Array.from({ length: totalPages }, (_, index) => (
+            <li key={index}>
+                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
+                    {index + 1}
+                </button>
+            </li>
+        ))}
+        <li>
+            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
+                Next
+            </button>
+        </li>
+    </ul>
+</nav>
             </div>
         </div>
     );

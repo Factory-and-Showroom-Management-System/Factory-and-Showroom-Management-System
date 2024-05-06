@@ -12,10 +12,10 @@ module.exports = {
       machineId: {
         type: Sequelize.STRING
       },
-      input: {
+      inputp: {
         type: Sequelize.FLOAT
       },
-      output: {
+      outputp: {
         type: Sequelize.FLOAT
       },
       dateIn: {

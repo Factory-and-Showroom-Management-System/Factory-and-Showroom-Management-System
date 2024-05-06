@@ -77,7 +77,7 @@ export default function Product() {
                 </div>
 
                 <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-white uppercase bg-blue-600">
+                    <thead className="text-xs text-black uppercase bg-[#54db93]">
                         <tr>
                             <th scope="col" className="px-6 py-5">Product ID</th>
                             <th scope="col" className="px-6 py-3">Product Name</th>
@@ -87,7 +87,7 @@ export default function Product() {
                     </thead>
                     <tbody>
                         {currentRows.map((product) => (
-                            <tr key={product.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                            <tr key={product.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                 <td className="px-6 py-3">{product.productId}</td>
                                 <td className="px-6 py-3">{product.p_name}</td>
                                 <td className="px-6 py-3">{product.available}</td>

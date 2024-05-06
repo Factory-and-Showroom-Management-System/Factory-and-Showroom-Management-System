@@ -38,7 +38,6 @@ export default function Order() {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}/${month}/${day}`;
     };
-    
 
     const fetchOrders = async () => {
         try {
@@ -77,29 +76,29 @@ export default function Order() {
                 const quantity = document.getElementById('swal-input5').value;
                 const unitPrice = document.getElementById('swal-input6').value;
                 const status = document.getElementById('swal-input7').value;
-    
+
                 // Basic field validation
                 if (!orderId || !customerId || !productId || !orderDate || !quantity || !unitPrice || !status) {
                     MySwal.showValidationMessage('All fields are required');
                     return;
                 }
-    
+
                 // Date format validation
                 if (!/^\d{4}-\d{2}-\d{2}$/.test(orderDate)) {
                     MySwal.showValidationMessage('Invalid date format');
                     return;
                 }
-    
+
                 // Quantity and unit price validation
                 if (isNaN(quantity) || isNaN(unitPrice) || quantity <= 0 || unitPrice <= 0) {
                     MySwal.showValidationMessage('Quantity and unit price must be positive numbers');
                     return;
                 }
-    
+
                 return [orderId, customerId, productId, orderDate, quantity, unitPrice, status];
             }
         });
-    
+
         // Handle form submission
         if (formValues) {
             try {
@@ -135,10 +134,10 @@ export default function Order() {
             }
         }
     };
-    
+
     const handleEdit = async (id, currentData) => {
         const currentDate = new Date(currentData.orderDate).toISOString().split('T')[0]; // Get current date from the order data
-    
+
         const { value: formValues } = await MySwal.fire({
             title: 'Edit Order',
             html: `
@@ -154,7 +153,7 @@ export default function Order() {
                     <label for="swal-input5">Quantity:</label>
                     <input id="swal-input5" class="swal2-input" value="${currentData.quantity}" type="number">
                     <label for="swal-input6">Unit Price:</label>
-                    <input id="swal-input6" class="swal2-input" value="${currentData.unitPrice}" type="number">
+                    <input id="swal-input6" class="swal2-input" value="${currentData.unitPrice.toFixed(2)}" type="number">
                     <label for="swal-input7">Status:</label>
                     <input id="swal-input7" class="swal2-input" value="${currentData.status}">
                 </div>`,
@@ -171,29 +170,29 @@ export default function Order() {
                 const quantity = document.getElementById('swal-input5').value;
                 const unitPrice = document.getElementById('swal-input6').value;
                 const status = document.getElementById('swal-input7').value;
-    
+
                 // Basic field validation
                 if (!orderId || !customerId || !productId || !orderDate || !quantity || !unitPrice || !status) {
                     MySwal.showValidationMessage('All fields are required');
                     return;
                 }
-    
+
                 // Date format validation
                 if (!/^\d{4}-\d{2}-\d{2}$/.test(orderDate)) {
                     MySwal.showValidationMessage('Invalid date format');
                     return;
                 }
-    
+
                 // Quantity and unit price validation
                 if (isNaN(quantity) || isNaN(unitPrice) || quantity <= 0 || unitPrice <= 0) {
                     MySwal.showValidationMessage('Quantity and unit price must be positive numbers');
                     return;
                 }
-    
+
                 return [orderId, customerId, productId, orderDate, quantity, unitPrice, status];
             }
         });
-    
+
         // Handle form submission
         if (formValues) {
             try {
@@ -229,8 +228,6 @@ export default function Order() {
             }
         }
     };
-    
-    
 
     const handleRemove = async (id) => {
         const result = await MySwal.fire({
@@ -307,7 +304,7 @@ export default function Order() {
                 </div>
 
                 <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-white uppercase bg-blue-600">
+                    <thead className="text-xs text-black uppercase bg-[#54db93]">
                         <tr>
                             <th scope="col" className="px-6 py-3">Order ID</th>
                             <th scope="col" className="px-6 py-3">Customer ID</th>
@@ -333,14 +330,14 @@ export default function Order() {
                     </thead>
                     <tbody>
                         {currentRows.map((order) => (
-                            <tr key={order.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                            <tr key={order.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                 <td className="px-6 py-3">{order.orderId}</td>
                                 <td className="px-6 py-3">{order.customerId}</td>
                                 <td className="px-6 py-3">{order.productId}</td>
                                 <td className="px-6 py-3">{formatDate(order.orderDate)}</td>
                                 <td className="px-6 py-3">{order.quantity}</td>
-                                <td className="px-6 py-3">{order.unitPrice}</td>
-                                <td className="px-6 py-3">{order.quantity * order.unitPrice}</td>
+                                <td className="px-6 py-3">{order.unitPrice.toFixed(2)}</td>
+                                <td className="px-6 py-3">{(order.quantity * order.unitPrice).toFixed(2)}</td>
                                 <td className="px-6 py-3">{order.status}</td>
                                 <td className="px-6 py-3">
                                     <button className="font-medium text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-3 rounded mr-2" onClick={() => handleEdit(order.id, order)}>

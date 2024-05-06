@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Machine.init({
     machineId: DataTypes.STRING,
-    input: DataTypes.FLOAT,
-    output: DataTypes.FLOAT,
+    inputp: DataTypes.FLOAT,
+    outputp: DataTypes.FLOAT,
     dateIn: DataTypes.DATE,
     timeIn: DataTypes.TIME
   }, {
