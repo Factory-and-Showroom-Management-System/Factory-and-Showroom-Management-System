@@ -33,6 +33,32 @@ export default function ViewMonthSalarySheet({ onClose }) {
     const [openModal, setOpenModal] = useState(true);
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
+    const [invoiceNumber, setInvoiceNumber] = useState('');
+    //current date with time (AM or PM)
+    const date = new Date().toLocaleString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        hour12: true 
+    });
+
+    const CurrentMonth = new Date().toLocaleString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+       
+        hour12: true 
+    });
+
+    //auto genarate invoice Number fist must add PMS other auto add number
+
+    
+
+
+
+
+
 
     useEffect(() => {
         axios.get('http://localhost:3000/salary/showmonthsalarysheet')
@@ -43,6 +69,14 @@ export default function ViewMonthSalarySheet({ onClose }) {
                 console.error('Failed to fetch data:', err);
                 setError('Failed to load data');
             });
+
+             // Load the last invoice number from local storage or start with 233
+        const lastInvoiceNum = parseInt(localStorage.getItem('lastInvoiceNumber') || '233');
+        const newInvoiceNum = `PMS_${lastInvoiceNum + 1}`;
+        setInvoiceNumber(newInvoiceNum);
+
+        // Save the new invoice number back to local storage
+        localStorage.setItem('lastInvoiceNumber', lastInvoiceNum + 1);
     }, []);
 
     const basicSalary = data.reduce((acc, curr) => acc + curr.basicSalary, 0);
@@ -93,7 +127,7 @@ export default function ViewMonthSalarySheet({ onClose }) {
                 <Modal.Body>
                     <motion.div  className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
                     <div className='w-full h-full flex pr-20'>
-                        <div className="max-w-ms">
+                        <div className="max-w-xl ">
                             <img src={bannerLogoPrint} alt="Monthly Salary Sheet" />
                         </div>
                     </div>
@@ -103,11 +137,11 @@ export default function ViewMonthSalarySheet({ onClose }) {
                         <motion.div  variants={container} initial='hidden' animate='visible' exit='hidden' className=' basis-1/3 pl-10'>
                             <div>
                                 <Label className='font-bold text-slate-600'>Invoice No :</Label>
-                                <Label className='text-slate-500'> PMS_2024_00233</Label>
+                                <Label className='text-slate-500'> {invoiceNumber}</Label>
                             </div>
                             <div>
                                 <Label className='font-bold text-slate-600'>Invoice Date :</Label>
-                                <Label className='text-slate-500'> 2024-05-02 05:25 PM</Label>
+                                <Label className='text-slate-500'> {date}</Label>
                             </div>
                         </motion.div>
                     </div>
@@ -121,7 +155,7 @@ export default function ViewMonthSalarySheet({ onClose }) {
                     <div>
                         <div className='flex place-content-center pl-10'>
                             <Label className='text-slate-600 font-bold'>MONTHLY SALARY SHEETS :</Label>
-                            <Label className='text-slate-800 font-bold'> MAY 2024</Label>
+                            <Label className='text-slate-800 font-bold'> {CurrentMonth}</Label>
                         </div>
                     </div>
                     <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='justify-center pl-48'>
