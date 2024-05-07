@@ -73,8 +73,18 @@ function login(req, res) {
   });
 }
 
+//create signout function . include with .clearCookie('access_token').status(200).json("Signout successful"), use try catch block to handle error
+
+function signout(req, res) {
+  try {
+    res.clearCookie('access_token').status(200).json("Signout successful");
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+}
 
 module.exports = {
     createUser : createUser,
-    login: login
+    login: login,
+    signout: signout
 }

@@ -2,7 +2,7 @@ import React from "react";
 import "./index.css";
 import UserLogin from "./components/login/UserLogin";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Test from "./components/login/Test";
+
 import FinanceManagerDashboard, {
   FinanceManager,
 } from "./pages/dashboard/FinanceManager";
@@ -24,15 +24,15 @@ export default function App() {
           <Route path="/login" element={<UserLogin />} />
 
           <Route element={<PrivateRoute />}>
-            <Route path="/test" element={<Test />} />
-            </Route>
+          
+           
             <Route path="/admin" element={<Admin />} />
             <Route path="/sales" element={<SalesManager />} />
             <Route path="/inventory" element={<InventoryManager />} />
             <Route path="/finance" element={<FinanceManager />} />
             <Route path="/hr" element={<HRManager />} />
           
-
+            </Route>
         </Routes>
       </BrowserRouter>
     </div>

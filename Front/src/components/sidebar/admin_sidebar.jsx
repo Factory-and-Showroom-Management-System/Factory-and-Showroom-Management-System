@@ -7,12 +7,18 @@ import { Link } from "react-router-dom";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { useState } from "react";
 import { GoDatabase } from "react-icons/go";
+import { signOutSuccess } from "../../redux/user/userSlice";
+import { useDispatch } from "react-redux";
+
+
 
 export function Admin_Sidebar() {
 
   const [dashboardClicked, setDashboardClicked] = useState(false);
   const [productClicked, setProductClicked] = useState(false);
   const [materialClicked, setMaterialClicked] = useState(false);
+  const dispatch = useDispatch();
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
   const handleDashboardClick = () => {
     setDashboardClicked(true);
@@ -33,6 +39,50 @@ export function Admin_Sidebar() {
     setMaterialClicked(true);
   };
 
+  const handleSignout = async () => {
+    try {
+  
+      const res = await fetch("http://localhost:3000/users/signout", {
+        method: "POST",
+        
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+        
+      }else {
+        dispatch(signOutSuccess());
+      }
+      
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  // const handleSignout = async () => {
+  //   try {
+  //     const res = await fetch("http://localhost:3000/users/signout", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": `Bearer ${token}`
+  //       },
+  //     });
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       // Handle successful logout, for example, redirecting to login page
+  //       navigare = '/login';
+  //     } else {
+  //       // Handle logout error, for example, displaying an error message
+  //       console.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error logging out:", error.message);
+  //   }
+  // };
+  
+
+  
   return (
     <Sidebar className="w-56 border-r-2">
       <Sidebar.Items className="mb-2">
@@ -64,8 +114,9 @@ export function Admin_Sidebar() {
          
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
-          <Sidebar.Item icon={GoDatabase}>Logout</Sidebar.Item>
+          <Sidebar.Item icon={GoDatabase} onClick={handleSignout}>Logout</Sidebar.Item>
         </Sidebar.ItemGroup>
+        <SignoutModal isOpen={showModal} onCancel={() => setShowModal(false)} onConfirm={confirmSignout} />
       </Sidebar.Items>
     </Sidebar>
   );

@@ -15,6 +15,17 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/adminproduct/view
 
+
+//logout
+###
+POST http://localhost:3000/users/signout
+Content-Type: application/json
+
+{
+    "username" : "admin001",
+    "password" : "123456"
+}
+
 //add product
 ###
 POST http://localhost:3000/products/addProduct
