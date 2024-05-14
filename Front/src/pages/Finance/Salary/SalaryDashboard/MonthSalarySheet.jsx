@@ -215,7 +215,7 @@ export default function MonthSalarySheet() {
     }
 
     const onCloseCard = () => {
-       
+
         setViewCard(false)
     }
 
@@ -254,10 +254,10 @@ export default function MonthSalarySheet() {
                         </Button.Group>
 
                         <div className='flex' >
-                            <div style={{ paddingLeft: '440px' }}>
+                            <div style={{ paddingLeft: '410px' }}>
                                 <Button color="gray" onClick={handleViewCard} >
                                     <FaEye className="mr-2 h-5 w-5 " />
-                                    View
+                                    View ALL
                                 </Button>
                             </div>
                         </div>
@@ -319,8 +319,11 @@ export default function MonthSalarySheet() {
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.etf3)}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.totaNetPay)}</td>
                                             <td className="px-10 py-1">
-                                                <a href="#" className="font-medium text-white hover:underline">Edit</a>
-                                                <a href="#" className="font-medium text-white hover:underline" style={{ marginLeft: '10px' }}>Remove</a>
+                                                <Button color="gray" onClick={handleViewCard} >
+                                                    <FaEye className="mr-2 h-5 w-4 " />
+                                                    View
+                                                </Button>
+
                                             </td>
                                         </tr>
                                     ))}
@@ -377,8 +380,8 @@ export default function MonthSalarySheet() {
                 </ul>
             </nav>
             {viewCard && (
-                <ViewMonthSalarySheet 
-                onClose={onCloseCard} />
+                <ViewMonthSalarySheet
+                    onClose={onCloseCard} />
             )}
         </>
     );
