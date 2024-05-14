@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { FaEye } from "react-icons/fa";
 import ViewMonthSalarySheet from './View/Table/ViewMonthSalarySheet';
+import OnlyOneUserViewMonthSalarySheet from './View/Table/OnlyOneUserViewMonthSalarySheet';
 
 export default function MonthSalarySheet() {
     const [salarySheets, setSalarySheets] = useState([]);
@@ -213,11 +214,19 @@ export default function MonthSalarySheet() {
         console.log('View Card');
         setViewCard(true)
     }
+    //handleOnlyOneViewCard
+    const handleOnlyOneViewCard = () => {
+        console.log('View Card');
+        setViewCard(true)
+    }
+
+
 
     const onCloseCard = () => {
 
         setViewCard(false)
     }
+
 
     return (
         <>
@@ -319,7 +328,7 @@ export default function MonthSalarySheet() {
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.etf3)}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.totaNetPay)}</td>
                                             <td className="px-10 py-1">
-                                                <Button color="gray" onClick={handleViewCard} >
+                                                <Button color="gray" onClick={handleOnlyOneViewCard} >
                                                     <FaEye className="mr-2 h-5 w-4 " />
                                                     View
                                                 </Button>

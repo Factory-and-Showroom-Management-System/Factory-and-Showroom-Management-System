@@ -32,7 +32,7 @@ const item = {
 
 
 
-export default function ViewMonthSalarySheet({ onClose }) {
+export default function OnlyOneUserViewMonthSalarySheet({ onClose }) {
     const [openModal, setOpenModal] = useState(true);
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
@@ -64,7 +64,7 @@ export default function ViewMonthSalarySheet({ onClose }) {
 
 
     useEffect(() => {
-        axios.get('http://localhost:3000/salary/showmonthsalarysheet')
+        axios.get('http://localhost:3000/salary/showmonthsalarysheet/:tableId')
             .then(response => {
                 setData(response.data);
             })
