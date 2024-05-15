@@ -10,7 +10,8 @@ import AllMonthAddictionCard001 from './Cards/AllMonthAddictionCard001';
 import AllMonthNettPayCard002 from './Cards/AllMonthNettPayCard002';
 import { motion } from 'framer-motion';
 
-
+import { FaEye } from "react-icons/fa";
+import OneUserViewAllMSSheet from './View/Table/OneUserViewAllMSSheet';
 
 
 const container = {
@@ -39,6 +40,8 @@ export default function AllMonthSalarySheet() {
     const [rowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [viewOnlyOneCard, setViewOnlyOneCard] = useState(false);
+    const [selectedRowId, setSelectedRowId] = useState(null);
 
 
     const navigate = useNavigate();
@@ -229,6 +232,20 @@ export default function AllMonthSalarySheet() {
         setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
     };
 
+     // Modify handleOnlyOneViewCard to accept an ID
+     const handleOnlyOneViewCardAllMonth = (id) => {
+        setSelectedRowId(id);
+        setViewOnlyOneCard(true);
+    }
+
+    const onCloseOnlyOneCard = () => {
+        setViewOnlyOneCard(false);
+        setSelectedRowId(null);
+    };
+
+
+
+
     return (
         <motion.div
             className='w-full'
@@ -347,8 +364,13 @@ export default function AllMonthSalarySheet() {
                                                 <td className="px-10 py-1">Rs.{formatNumber(sheet.allEtf3)}</td>
                                                 <td className="px-10 py-1">Rs.{formatNumber(sheet.allTotaNetPay)}</td>
                                                 <td className="px-10 py-1">
-                                                    <a href="#" className="font-medium text-white hover:underline">Edit</a>
-                                                    <a href="#" className="font-medium text-white hover:underline" style={{ marginLeft: '10px' }}>Remove</a>
+                                                <Button
+                                                    color="gray"
+                                                    onClick={() => handleOnlyOneViewCardAllMonth(sheet.id)}
+                                                >
+                                                    <FaEye className="mr-2 h-5 w-4 " />
+                                                    View
+                                                </Button>
                                                 </td>
                                             </tr>
                                         ))}
@@ -404,6 +426,9 @@ export default function AllMonthSalarySheet() {
                     </ul>
                 </nav>
             </div>
+
+            {viewOnlyOneCard && <OneUserViewAllMSSheet id={selectedRowId} onClose={onCloseOnlyOneCard} />}
+
         </motion.div>
     );
 }
