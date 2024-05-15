@@ -62,7 +62,7 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
         if (onClose) onClose();
     }
 
-    
+
     // Calculations based on data
     const basicSalary = data.basicSalary || 0;
     const allowances = data.baValue || 0;
@@ -93,7 +93,24 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                         </div>
 
                         <div className='mt-5 border-t-2 flex-row flex pt-5'>
-                            <div className='basis-2/3'></div>
+
+                            <div className='basis-3/1'></div>
+                            <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='basis-1/3 pl-10'>
+                                <div>
+                                    <Label className='font-bold text-slate-600'>Employee No :</Label>
+                                    <Label className='text-slate-500'> ?</Label>
+                                </div>
+                                <div>
+                                    <Label className='font-bold text-slate-600'>Employee Name :</Label>
+                                    <Label className='text-slate-500'> ?</Label>
+                                </div>
+                            </motion.div>
+
+
+
+
+
+                            <div className='basis-1/3'></div>
                             <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='basis-1/3 pl-10'>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Invoice No :</Label>
@@ -104,7 +121,11 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                     <Label className='text-slate-500'> {date}</Label>
                                 </div>
                             </motion.div>
+
                         </div>
+
+
+
 
                         <div className='mt-5 border-t-2 flex-row flex pt-5 place-content-center'>
                             <div>
@@ -124,7 +145,7 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                             <table className="w-full mt-10">
                                 <thead>
                                     <tr>
-                                        <th className="text-lg font-bold text-slate-600 text-left">Description</th>
+                                        <th className="text-lg font-bold text-slate-600 text-left pb-2">Description</th>
                                         <th className="text-lg font-bold text-slate-600 text-left w-min">Amount</th>
                                     </tr>
                                 </thead>
@@ -234,8 +255,8 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                         <td className='text-stone-600'><strong>Bank Account Details</strong></td>
                                     </tr>
                                     <tr>
-                                        <td>Union Bank - Matara</td>
-                                        <td>003 020 100 007 8822</td>
+                                        <td>Bank Name</td>
+                                        <td>?</td>
                                     </tr>
                                     <div className='mb-4'></div>
 
@@ -250,11 +271,17 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
 
                         <div className='border-t-2 flex-row flex pt-12'></div>
                         <div>
-                            <div className='pl-28'>
+                            <div className='pl-40'>
                                 <Label className='text-slate-500'>Owner Signature</Label>
+                                <Label className='text-slate-500 pl-96'>Employee Signature</Label>
                             </div>
-                            <div className='pl-28 pt-7'>
+
+
+
+                            <div className='pl-32 pt-7'>
                                 <Label className='text-slate-500'>......................................................</Label>
+                                <Label className='text-slate-500 pl-80'>........................................................</Label>
+
                             </div>
                         </div>
 
@@ -263,6 +290,9 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                 <Label className='text-lg text-slate-600'>DOLPHIN ECO PACK (PVT) LTD</Label>
                             </div>
                         </div>
+
+
+
                     </motion.div>
                 </Modal.Body>
             </Modal>
