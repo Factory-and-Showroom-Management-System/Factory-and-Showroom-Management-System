@@ -90,6 +90,8 @@ router.get('/showsubtotalmonthsalarysheet', salaryController.SubTotalMonthSalary
 router.post('/addallmonthsalarysheet', salaryController.AllMonthSalarySheet);
 //show to AllMonthSalarySheet table
 router.get('/showallmonthsalarysheet', salaryController.AllMonthSalarySheetShow);
+//Show table id to AllMonthSalarySheet table
+router.get('/showallmonthsalarysheet/:tableId', salaryController.AllMonthSalarySheetIdShow);
 
 
 // //Add to BioData table

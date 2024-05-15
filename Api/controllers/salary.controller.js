@@ -2274,6 +2274,31 @@ function AllMonthSalarySheetShow(req, res) {
     });
 }
 
+
+//creat function to show  table id AllMonthSalarySheet
+function AllMonthSalarySheetIdShow(req, res) {
+    const tableId = req.params.tableId;
+
+    models.AllMonthSalarySheet.findByPk(tableId).then(result => {
+        if (!result) {
+            return res.status(404).json({
+                message: "AllMonthSalarySheet not found"
+            });
+        }
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error
+        });
+    });
+}
+
+
+
+
+
+
 // //Creat function (userId:iniger,nameWini:string,nameWFull:string,birthdate:date,age:integer,roleId:intiger,gender:string,address:string,email:string,bankNumber:integer,phoneNumber:string,imgSrc:sring) save BioDataSave and validation data
 // function BioDataSave(req, res) {
 //     const { userId, nameWini, nameWFull, birthdate, age, roleId, gender, address, email, bankNumber, phoneNumber, imgSrc } = req.body;
@@ -2455,6 +2480,7 @@ module.exports = {
     SubTotalMonthSalarySheetShow: SubTotalMonthSalarySheetShow,
     AllMonthSalarySheet: AllMonthSalarySheet,
     AllMonthSalarySheetShow: AllMonthSalarySheetShow,
+    AllMonthSalarySheetIdShow: AllMonthSalarySheetIdShow
 
     // BioDataSave: BioDataSave,
     // BioDataShow: BioDataShow,
