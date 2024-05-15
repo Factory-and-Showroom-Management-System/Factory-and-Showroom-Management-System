@@ -80,6 +80,13 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
     const ETF3 = data.allEtf3 || 0;
     const totalEPFETF = EPF12 + ETF3;
 
+    const invoiceDate = data.monthCurrentDate;
+    const formattedDate = new Date(invoiceDate).toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric'
+    });
+    
+
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
             <Modal show={openModal} onClose={handleClose} size="5xl">
@@ -125,8 +132,8 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
 
                         <div>
                             <div className='flex place-content-center pl-10'>
-                                <Label className='text-slate-600 font-bold'>MONTHLY SALARY SHEETS :</Label>
-                                <Label className='text-slate-800 font-bold'> {CurrentMonth}</Label>
+                                <Label className='text-slate-600 font-bold'>MONTHLY SALARY SHEETS </Label>
+                                <Label className='text-slate-800 font-bold'>: {formattedDate}</Label>
                             </div>
                         </div>
 
