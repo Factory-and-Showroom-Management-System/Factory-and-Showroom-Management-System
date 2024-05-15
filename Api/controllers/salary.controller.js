@@ -1997,7 +1997,7 @@ async function MonthSalarySheet(req, res) {
                 totalAllowance: addition ? addition.totalAllowance : 0,
                 totalOT: addition ? addition.totalOT : 0,
                 totalAddition: addition ? addition.totalAddition : 0,
-                netTotal: basicSalary.basicSalary + (earning ? earning.totalEarning : 0) + (addition ? addition.totalAddition : 0) - (deduction ? deduction.totalDeduction : 0),
+                netTotal:  ((earning ? earning.totalEarning : 0) + (addition ? addition.totalAddition : 0)) - (deduction ? deduction.totalDeduction : 0),
                 epf12: epfEtf ? epfEtf.epf12 : 0,
                 etf3: epfEtf ? epfEtf.etf3 : 0,
                 totaNetPay: 0 // This will be calculated next

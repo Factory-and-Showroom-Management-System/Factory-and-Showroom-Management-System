@@ -16,6 +16,8 @@ export default function MonthSalarySheet() {
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [viewCard, setViewCard] = useState(false);
+    const [viewOnlyOneCard, setViewOnlyOneCard] = useState(false);
+    const [selectedRowId, setSelectedRowId] = useState(null);
 
     const navigate = useNavigate();
 
@@ -211,13 +213,13 @@ export default function MonthSalarySheet() {
     }
 
     const handleViewCard = () => {
-        console.log('View Card');
+
         setViewCard(true)
     }
-    //handleOnlyOneViewCard
-    const handleOnlyOneViewCard = () => {
-        console.log('View Card');
-        setViewCard(true)
+    // Modify handleOnlyOneViewCard to accept an ID
+    const handleOnlyOneViewCard = (id) => {
+        setSelectedRowId(id);
+        setViewOnlyOneCard(true);
     }
 
 
@@ -226,6 +228,11 @@ export default function MonthSalarySheet() {
 
         setViewCard(false)
     }
+
+    const onCloseOnlyOneCard = () => {
+        setViewOnlyOneCard(false);
+        setSelectedRowId(null);
+    };
 
 
     return (
@@ -328,7 +335,12 @@ export default function MonthSalarySheet() {
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.etf3)}</td>
                                             <td className="px-10 py-1">Rs.{formatNumber(sheet.totaNetPay)}</td>
                                             <td className="px-10 py-1">
-                                                <Button color="gray" onClick={handleOnlyOneViewCard} >
+                                               
+
+                                                <Button
+                                                    color="gray"
+                                                    onClick={() => handleOnlyOneViewCard(sheet.id)}
+                                                >
                                                     <FaEye className="mr-2 h-5 w-4 " />
                                                     View
                                                 </Button>
@@ -392,6 +404,8 @@ export default function MonthSalarySheet() {
                 <ViewMonthSalarySheet
                     onClose={onCloseCard} />
             )}
+            {viewOnlyOneCard && <OnlyOneUserViewMonthSalarySheet id={selectedRowId} onClose={onCloseOnlyOneCard} />}
+
         </>
     );
 }

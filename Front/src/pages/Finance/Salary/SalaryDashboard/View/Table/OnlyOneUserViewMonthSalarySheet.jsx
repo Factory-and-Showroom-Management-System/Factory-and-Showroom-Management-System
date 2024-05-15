@@ -1,43 +1,28 @@
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Modal, Label } from "flowbite-react";
 import bannerLogoPrint from '../Table/bannerLogoPrint.png';
 import { motion } from 'framer-motion';
-import { Button } from "flowbite-react";
 import { TiArrowBackOutline } from "react-icons/ti";
 import { FaDownload } from "react-icons/fa";
-
-
-
 
 const container = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            delay: 0.2, // Delay the animation to make it more noticeable
-            when: "beforeChildren", // Animate children after the parent
-            staggerChildren: 0.2, // Add a small stagger effect to each child
+            delay: 0.2,
+            when: "beforeChildren",
+            staggerChildren: 0.2,
         },
     },
 };
 
-const item = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-};
-
-
-
-
-export default function OnlyOneUserViewMonthSalarySheet({ onClose }) {
+export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
     const [openModal, setOpenModal] = useState(true);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
     const [error, setError] = useState('');
     const [invoiceNumber, setInvoiceNumber] = useState('');
-    //current date with time (AM or PM)
     const date = new Date().toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -50,92 +35,66 @@ export default function OnlyOneUserViewMonthSalarySheet({ onClose }) {
     const CurrentMonth = new Date().toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
-
         hour12: true
     });
 
-    //auto genarate invoice Number fist must add PMS other auto add number
-
-
-
-
-
-
-
-
     useEffect(() => {
-        axios.get('http://localhost:3000/salary/showmonthsalarysheet/:tableId')
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(err => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/salary/showmonthsalarysheet/${id}`);
+                setData(response.data); // Set the received data to the state
+            } catch (err) {
                 console.error('Failed to fetch data:', err);
-                setError('Failed to load data');
-            });
+                setError(`Failed to load data: ${err.message}`);
+            }
+        };
 
-        // Load the last invoice number from local storage or start with 233
+        fetchData();
+
         const lastInvoiceNum = parseInt(localStorage.getItem('lastInvoiceNumber') || '233');
         const newInvoiceNum = `PMS_${lastInvoiceNum + 1}`;
         setInvoiceNumber(newInvoiceNum);
-
-        // Save the new invoice number back to local storage
         localStorage.setItem('lastInvoiceNumber', lastInvoiceNum + 1);
-    }, []);
-
-    const basicSalary = data.reduce((acc, curr) => acc + curr.basicSalary, 0);
-    const allowances = data.reduce((acc, curr) => acc + curr.baValue, 0);
-    //BTotal = basicSalary+allowances
-    const BTotal = basicSalary + allowances;
-    //month loan deduction
-    const monthLoanDeduction = data.reduce((acc, curr) => acc + curr.monthLoan, 0);
-    //EPF 8%
-    const EPF8 = data.reduce((acc, curr) => acc + curr.epf8, 0);
-    //total deductions
-    const totalDeductions = monthLoanDeduction + EPF8;
-    //food allowance totalAllowance
-    const totalAllowance = data.reduce((acc, curr) => acc + curr.totalAllowance, 0);
-    //OT Commission totalOT 
-    const totalOT = data.reduce((acc, curr) => acc + curr.totalOT, 0);
-    //total additions
-    const totalAdditions = totalAllowance + totalOT;
-
-    //total Earning BTotal+totalAdditions
-    const totalEarning = BTotal + totalAdditions;
-    //netpay totalEarning-totalDeductions
-    const netPay = totalEarning - totalDeductions;
-    //total EPF12 epf12
-    const EPF12 = data.reduce((acc, curr) => acc + curr.epf12, 0);
-    //total ETF3 etf3
-    const ETF3 = data.reduce((acc, curr) => acc + curr.etf3, 0);
-    //total EPF12+ETF3
-    const totalEPFETF = EPF12 + ETF3;
-
-
+    }, [id]);
 
     const handleClose = () => {
         setOpenModal(false);
-        if (onClose) onClose(); // Safeguard to ensure onClose is provided
+        if (onClose) onClose();
     }
+
+    
+    // Calculations based on data
+    const basicSalary = data.basicSalary || 0;
+    const allowances = data.baValue || 0;
+    const BTotal = basicSalary + allowances;
+    const monthLoanDeduction = data.monthLoan || 0;
+    const EPF8 = data.epf8 || 0;
+    const totalDeductions = monthLoanDeduction + EPF8;
+    const totalAllowance = data.totalAllowance || 0;
+    const totalOT = data.totalOT || 0;
+    const totalAdditions = totalAllowance + totalOT;
+    const totalEarning = BTotal + totalAdditions;
+    const netPay = totalEarning - totalDeductions;
+    const EPF12 = data.epf12 || 0;
+    const ETF3 = data.etf3 || 0;
+    const totalEPFETF = EPF12 + ETF3;
+
 
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
-
             <Modal show={openModal} onClose={handleClose} size="5xl">
-            
-                <Modal.Header></Modal.Header>
-
+                <Modal.Header />
                 <Modal.Body>
-
                     <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
                         <div className='w-full h-full flex pr-20'>
-                            <div className="max-w-xl ">
+                            <div className="max-w-xl">
                                 <img src={bannerLogoPrint} alt="Monthly Salary Sheet" />
                             </div>
                         </div>
 
                         <div className='mt-5 border-t-2 flex-row flex pt-5'>
                             <div className='basis-2/3'></div>
-                            <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className=' basis-1/3 pl-10'>
+                            <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='basis-1/3 pl-10'>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Invoice No :</Label>
                                     <Label className='text-slate-500'> {invoiceNumber}</Label>
@@ -159,15 +118,15 @@ export default function OnlyOneUserViewMonthSalarySheet({ onClose }) {
                                 <Label className='text-slate-800 font-bold'> {CurrentMonth}</Label>
                             </div>
                         </div>
+
                         <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='justify-center pl-48'>
                             {error && <p className="text-red-500">{error}</p>}
                             <table className="w-full mt-10">
                                 <thead>
                                     <tr>
-                                        <td className="text-lg font-bold text-slate-600 text-left">Description</td>
-                                        <td className="text-lg font-bold text-slate-600 text-left w-min">Amount</td>
+                                        <th className="text-lg font-bold text-slate-600 text-left">Description</th>
+                                        <th className="text-lg font-bold text-slate-600 text-left w-min">Amount</th>
                                     </tr>
-                                    <div className='mb-4'></div>
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -310,5 +269,3 @@ export default function OnlyOneUserViewMonthSalarySheet({ onClose }) {
         </motion.div>
     );
 }
-
-
