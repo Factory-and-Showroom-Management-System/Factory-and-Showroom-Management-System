@@ -178,14 +178,107 @@ function rdestroy(req, res) {
 
 
 
+
+
+
+
+
 //current month calutae basicSalary------------------------------------------------------------------------------------------
+// async function bssalaryAll(req, res) {
+//     try {
+//         // Get the start and end dates of the current month
+//         const startDate = moment().startOf('month');
+//         const endDate = moment().endOf('month');
+
+//         // Fetch attendance records for the current month
+//         const attendanceRecords = await models.Attendance.findAll({
+//             where: {
+//                 dateIn: {
+//                     [models.Sequelize.Op.between]: [startDate, endDate]
+//                 }
+//             }
+//         });
+
+//         if (!attendanceRecords || attendanceRecords.length === 0) {
+//             return res.status(404).json({ message: "No attendance records found for the current month" });
+//         }
+
+//         // Iterate through attendance records to calculate attenCount for each userId
+//         const attenCountMap = {};
+//         for (const attendanceRecord of attendanceRecords) {
+//             if (!attenCountMap[attendanceRecord.userId]) {
+//                 attenCountMap[attendanceRecord.userId] = 1;
+//             } else {
+//                 attenCountMap[attendanceRecord.userId]++;
+//             }
+//         }
+
+//         // Iterate through attenCountMap to update or create basic salary records
+//         const basicSalaries = [];
+//         for (const userId in attenCountMap) {
+//             if (attenCountMap.hasOwnProperty(userId)) {
+//                 const attenCount = attenCountMap[userId];
+
+                
+
+//                 // Fetch existing basic salary record for the userId
+//                 let basicSalary = await models.BasicSalary.findOne({ where: { userId: userId } });
+                
+//                 // Fetch role income record which includes dateIncome
+//                 const bioData = await models.BioData.findOne({ where: { userId: userId } });
+                
+
+//                 if (!bioData) {
+//                     continue; // Skip if bioData not found
+//                 }
+//                 const nameWini = bioData.nameWini;
+//                 const roleId = bioData.roleId;
+//                 const roleIncome = await models.RoleIncome.findOne({ where: { id: roleId } });
+//                 if (!roleIncome) {
+//                     continue; // Skip if role not found
+//                 }
+
+//                 if (!basicSalary) {
+//                     // If no existing record found, create a new one
+//                     basicSalary = await models.BasicSalary.create({
+//                         userId: userId,
+//                         name: nameWini, // Use nameWini from BioData table
+//                         roleId: roleId,
+//                         attenCount: attenCount,
+//                         dateIncome: roleIncome.dateIncome,
+//                         basicSalary: attenCount * roleIncome.dateIncome
+//                     });
+//                 } else {
+//                     // If existing record found, update it
+//                     basicSalary.attenCount = attenCount;
+//                     basicSalary.dateIncome = roleIncome.dateIncome;  // Update dateIncome to the latest value
+//                     basicSalary.basicSalary = attenCount * roleIncome.dateIncome;  // Recalculate basicSalary using latest dateIncome
+//                     basicSalary.name = nameWini; // Update name field with nameWini from BioData table
+//                     await basicSalary.save();
+//                 }
+
+//                 basicSalaries.push(basicSalary);
+//             }
+//         }
+
+//         res.status(200).json({
+//             message: "BasicSalaries updated/created successfully",
+//             salaries: basicSalaries
+//         });
+//     } catch (error) {
+//         console.error("Error in bssalaryAll:", error);
+//         res.status(500).json({
+//             message: "Something went wrong",
+//             error: error.message
+//         });
+//     }
+// }
+
 async function bssalaryAll(req, res) {
     try {
-        // Get the start and end dates of the current month
         const startDate = moment().startOf('month');
         const endDate = moment().endOf('month');
 
-        // Fetch attendance records for the current month
         const attendanceRecords = await models.Attendance.findAll({
             where: {
                 dateIn: {
@@ -194,61 +287,54 @@ async function bssalaryAll(req, res) {
             }
         });
 
-        if (!attendanceRecords || attendanceRecords.length === 0) {
-            return res.status(404).json({ message: "No attendance records found for the current month" });
+        // Fetch all unique userIds from BioData
+        const allBioData = await models.BioData.findAll();
+        const allUserIds = allBioData.map(bioData => bioData.userId);
+
+        const attenCountMap = {};
+        for (const userId of allUserIds) {
+            attenCountMap[userId] = 0; // Initialize with 0
         }
 
-        // Iterate through attendance records to calculate attenCount for each userId
-        const attenCountMap = {};
         for (const attendanceRecord of attendanceRecords) {
-            if (!attenCountMap[attendanceRecord.userId]) {
-                attenCountMap[attendanceRecord.userId] = 1;
-            } else {
+            if (attenCountMap.hasOwnProperty(attendanceRecord.userId)) {
                 attenCountMap[attendanceRecord.userId]++;
             }
         }
 
-        // Iterate through attenCountMap to update or create basic salary records
         const basicSalaries = [];
         for (const userId in attenCountMap) {
             if (attenCountMap.hasOwnProperty(userId)) {
                 const attenCount = attenCountMap[userId];
 
-                
-
-                // Fetch existing basic salary record for the userId
                 let basicSalary = await models.BasicSalary.findOne({ where: { userId: userId } });
-                
-                // Fetch role income record which includes dateIncome
+
                 const bioData = await models.BioData.findOne({ where: { userId: userId } });
-                
 
                 if (!bioData) {
-                    continue; // Skip if bioData not found
+                    continue;
                 }
                 const nameWini = bioData.nameWini;
                 const roleId = bioData.roleId;
                 const roleIncome = await models.RoleIncome.findOne({ where: { id: roleId } });
                 if (!roleIncome) {
-                    continue; // Skip if role not found
+                    continue;
                 }
 
                 if (!basicSalary) {
-                    // If no existing record found, create a new one
                     basicSalary = await models.BasicSalary.create({
                         userId: userId,
-                        name: nameWini, // Use nameWini from BioData table
+                        name: nameWini,
                         roleId: roleId,
                         attenCount: attenCount,
                         dateIncome: roleIncome.dateIncome,
                         basicSalary: attenCount * roleIncome.dateIncome
                     });
                 } else {
-                    // If existing record found, update it
                     basicSalary.attenCount = attenCount;
-                    basicSalary.dateIncome = roleIncome.dateIncome;  // Update dateIncome to the latest value
-                    basicSalary.basicSalary = attenCount * roleIncome.dateIncome;  // Recalculate basicSalary using latest dateIncome
-                    basicSalary.name = nameWini; // Update name field with nameWini from BioData table
+                    basicSalary.dateIncome = roleIncome.dateIncome;
+                    basicSalary.basicSalary = attenCount * roleIncome.dateIncome;
+                    basicSalary.name = nameWini;
                     await basicSalary.save();
                 }
 
@@ -268,6 +354,14 @@ async function bssalaryAll(req, res) {
         });
     }
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -1469,6 +1563,118 @@ function RoleOTIncomeDelete(req, res) {
 }
 
 // creat function to MonthOT table (userId,name,roleId,extraTimeCount,tIncome,totalOT) userId,name,roleId use for BasicSalary table  and  RoleOTIncome table(MonthOT table get roleId for Fetch to RoleOTIncome:id timeIncome(save to MonthOT table : tIncome)) data// creat function to MonthOT table (userId,name,roleId,extraTimeCount,tIncome,totalOT) userId,name,roleId use for BasicSalary table  and  RoleOTIncome table(MonthOT table get roleId for Fetch to RoleOTIncome:id timeIncome(save to MonthOT table : tIncome))  and If the time interval between the timeIn and timeOut of those whose status is "Present" has increased to 8 hours in relation to the userId in the Attendance table in relation to this month in the Attendance table, get that value (convert timeIn, timeOut to integers). Save it to the extraTimeCount in the MonthOT table.
+// async function MonthOT(req, res) {
+//     try {
+//         // Fetch data from BasicSalary table
+//         const basicSalaries = await models.BasicSalary.findAll();
+//         if (!basicSalaries || basicSalaries.length === 0) {
+//             return res.status(404).json({ message: "No basic salary records found" });
+//         }
+
+//         // Fetch data from RoleOTIncome table
+//         const roleOTIncomes = await models.RoleOTIncome.findAll();
+//         if (!roleOTIncomes || roleOTIncomes.length === 0) {
+//             return res.status(404).json({ message: "No role OT income records found" });
+//         }
+
+//         // Get the start and end dates of the current month
+//         const startDate = moment().startOf('month');
+//         const endDate = moment().endOf('month');
+
+//         // Fetch attendance records for the current month
+//         const attendances = await models.Attendance.findAll({
+//             where: {
+//                 dateIn: {
+//                     [models.Sequelize.Op.between]: [startDate, endDate]
+//                 }
+//             }
+//         });
+
+//         if (!attendances || attendances.length === 0) {
+//             return res.status(404).json({ message: "No attendance records found for the current month" });
+//         }
+
+//         // Calculate extraTimeCount for each user
+//         const extraTimeCountMap = {};
+//         for (const attendance of attendances) {
+//             if (!extraTimeCountMap[attendance.userId]) {
+//                 extraTimeCountMap[attendance.userId] = 0;
+//             }
+
+//             const timeIn = moment(attendance.timeIn, 'HH:mm:ss');
+//             const timeOut = moment(attendance.timeOut, 'HH:mm:ss');
+
+//             // Get the hour component as integers
+//             const timeInHour = timeIn.hour();
+//             const timeOutHour = timeOut.hour();
+
+//             // If the time interval between the timeIn and timeOut of those whose status is "Present" has increased to 8 hours in relation to the userId in the Attendance table for this month in the Attendance table, get that value (exTime = timeOut-timeOut) (convert timeIn, timeOut to integers ). Save it to the extraTimeCount in the MonthOT table.Save it to the extraTimeCount in the MonthOT table.
+
+//             if ((attendance.status === "Present") && ((timeOutHour - timeInHour) > 8)) {
+//                 //    extraTimeCountMap[attendance.userId]++;
+//                 console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+//                 const x = (timeOutHour - timeInHour) - 8;
+//                 extraTimeCountMap[attendance.userId] += x;
+//                 console.log(extraTimeCountMap[attendance.userId])
+
+
+//             }
+
+//         }
+
+//         // Iterate through basicSalaries to update or create month OT records
+//         const monthOTs = [];
+//         for (const basicSalary of basicSalaries) {
+//             let monthOT = await models.MonthOT.findOne({ where: { userId: basicSalary.userId } });
+
+//             if (!monthOT) {
+//                 // If no existing record found, create a new one
+//                 monthOT = await models.MonthOT.create({
+//                     userId: basicSalary.userId,
+//                     name: basicSalary.name,
+//                     roleId: 0,
+//                     extraTimeCount: 0,
+//                     tIncome: 0,
+//                     totalOT: 0
+//                 });
+//             } else {
+//                 // If an existing record is found, update extraTimeCount
+//                 monthOT.extraTimeCount = extraTimeCountMap[basicSalary.userId] || 0;
+//                 await monthOT.save(); // Save the changes
+//             }
+
+//             // Find the roleId for the userId
+//             const roleId = basicSalary.roleId;
+//             if (roleId) {
+//                 const roleOTIncome = roleOTIncomes.find(roi => roi.id === roleId);
+//                 if (roleOTIncome) {
+//                     monthOT.roleId = roleId;
+//                     monthOT.tIncome = roleOTIncome.timeIncome;
+//                     await monthOT.save(); // Save the changes
+//                 }
+//             }
+
+//             // Calculate totalOT
+//             monthOT.totalOT = monthOT.extraTimeCount * monthOT.tIncome;
+//             await monthOT.save(); // Save the changes
+
+//             monthOTs.push(monthOT);
+//         }
+
+//         res.status(200).json({
+//             message: "MonthOTs updated/created successfully",
+//             monthOTs: monthOTs
+//         });
+//     }
+//     catch (error) {
+//         res.status(500).json({
+//             message: "Something went wrong",
+//             error: error.message
+//         });
+//     }
+// }
+
+
 async function MonthOT(req, res) {
     try {
         // Fetch data from BasicSalary table
@@ -1496,36 +1702,28 @@ async function MonthOT(req, res) {
             }
         });
 
-        if (!attendances || attendances.length === 0) {
-            return res.status(404).json({ message: "No attendance records found for the current month" });
-        }
-
-        // Calculate extraTimeCount for each user
         const extraTimeCountMap = {};
-        for (const attendance of attendances) {
-            if (!extraTimeCountMap[attendance.userId]) {
-                extraTimeCountMap[attendance.userId] = 0;
+        if (attendances && attendances.length > 0) {
+            // Calculate extraTimeCount for each user
+            for (const attendance of attendances) {
+                if (!extraTimeCountMap[attendance.userId]) {
+                    extraTimeCountMap[attendance.userId] = 0;
+                }
+
+                const timeIn = moment(attendance.timeIn, 'HH:mm:ss');
+                const timeOut = moment(attendance.timeOut, 'HH:mm:ss');
+
+                // Get the hour component as integers
+                const timeInHour = timeIn.hour();
+                const timeOutHour = timeOut.hour();
+
+                // If the time interval between the timeIn and timeOut of those whose status is "Present" has increased to 8 hours in relation to the userId in the Attendance table for this month in the Attendance table, get that value (exTime = timeOut-timeIn) (convert timeIn, timeOut to integers). Save it to the extraTimeCount in the MonthOT table.
+
+                if (attendance.status === "Present" && (timeOutHour - timeInHour) > 8) {
+                    const extraHours = (timeOutHour - timeInHour) - 8;
+                    extraTimeCountMap[attendance.userId] += extraHours;
+                }
             }
-
-            const timeIn = moment(attendance.timeIn, 'HH:mm:ss');
-            const timeOut = moment(attendance.timeOut, 'HH:mm:ss');
-
-            // Get the hour component as integers
-            const timeInHour = timeIn.hour();
-            const timeOutHour = timeOut.hour();
-
-            // If the time interval between the timeIn and timeOut of those whose status is "Present" has increased to 8 hours in relation to the userId in the Attendance table for this month in the Attendance table, get that value (exTime = timeOut-timeOut) (convert timeIn, timeOut to integers ). Save it to the extraTimeCount in the MonthOT table.Save it to the extraTimeCount in the MonthOT table.
-
-            if ((attendance.status === "Present") && ((timeOutHour - timeInHour) > 8)) {
-                //    extraTimeCountMap[attendance.userId]++;
-                console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                const x = (timeOutHour - timeInHour) - 8;
-                extraTimeCountMap[attendance.userId] += x;
-                console.log(extraTimeCountMap[attendance.userId])
-
-
-            }
-
         }
 
         // Iterate through basicSalaries to update or create month OT records
@@ -1579,6 +1777,14 @@ async function MonthOT(req, res) {
         });
     }
 }
+
+
+
+
+
+
+
+
 
 //creat function to show MonthOT
 function MonthOTShow(req, res) {
