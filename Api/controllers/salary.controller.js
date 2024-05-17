@@ -2631,7 +2631,17 @@ function AllMonthSalarySheetIdShow(req, res) {
 // }
 
 
-// //
+//creat function to fetch Roles table
+function showAllrole(req, res) {
+    models.Role.findAll().then(result => {
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error
+        });
+    });
+}
 
 
 
@@ -2686,12 +2696,15 @@ module.exports = {
     SubTotalMonthSalarySheetShow: SubTotalMonthSalarySheetShow,
     AllMonthSalarySheet: AllMonthSalarySheet,
     AllMonthSalarySheetShow: AllMonthSalarySheetShow,
-    AllMonthSalarySheetIdShow: AllMonthSalarySheetIdShow
+    AllMonthSalarySheetIdShow: AllMonthSalarySheetIdShow,
+    showAllrole: showAllrole
 
     // BioDataSave: BioDataSave,
     // BioDataShow: BioDataShow,
     // BioDataDelete: BioDataDelete,
     // BioDataUpdate: BioDataUpdate
+
+    
 
 
 

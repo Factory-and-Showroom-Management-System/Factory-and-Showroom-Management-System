@@ -9,6 +9,7 @@ import { TiArrowBackOutline } from "react-icons/ti";
 import { TbHandClick } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
 import RoleIncomeCard001 from './Carts/RoleIncomeCard001';
+import AddRolecomp from './componets/AddRolecomp';
 
 
 
@@ -17,20 +18,20 @@ import { motion } from 'framer-motion';
 const container = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.2, // Delay the animation to make it more noticeable
-        when: "beforeChildren", // Animate children after the parent
-        staggerChildren: 0.2, // Add a small stagger effect to each child
-      },
+        opacity: 1,
+        transition: {
+            delay: 0.2, // Delay the animation to make it more noticeable
+            when: "beforeChildren", // Animate children after the parent
+            staggerChildren: 0.2, // Add a small stagger effect to each child
+        },
     },
-  };
-  
-  const item = {
+};
+
+const item = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-  };
-  
+};
+
 
 const MySwal = withReactContent(Swal);
 
@@ -40,6 +41,9 @@ export default function RoleIncome() {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
+
+    const [addrolecomponet, setAddrolecomponet] = useState(false);
+
     //BasicSalary
     const navigate = useNavigate();
 
@@ -259,6 +263,9 @@ export default function RoleIncome() {
         }
     };
 
+
+
+
     const handleEdit = async (id, currentRole, currentDateIncome) => {
         const { value: formValues } = await MySwal.fire({
             title: 'Edit Role Income',
@@ -393,15 +400,25 @@ export default function RoleIncome() {
 
 
 
+
+    const handleAddcom = () => {
+        setAddrolecomponet(true);
+    }
+    
+    const onClose = () => {
+        setAddrolecomponet(false);
+    }
+
+
     return (
 
         <motion.div
-        className='w-full'
-        variants={container}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-      >
+            className='w-full'
+            variants={container}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+        >
             <div className="relative overflow-x-auto sm:rounded-lg ">
 
                 <div className='w-full'>
@@ -423,6 +440,11 @@ export default function RoleIncome() {
                         <Button onClick={handleAdd} className='bg-green-600'>
                             <IoIosAddCircle className="mr-2 h-5 w-5 " />
                             Add Role Income
+                        </Button>
+
+                        <Button onClick={handleAddcom} className='bg-red-600'>
+                            <IoIosAddCircle className="mr-2 h-5 w-5 " />
+                            xAdd Role Income
                         </Button>
                         {/*                     
                     <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
@@ -530,6 +552,9 @@ export default function RoleIncome() {
                 </nav>
 
             </div>
+
+            {addrolecomponet && <AddRolecomp onClose={onClose} />}
+
         </motion.div>
 
         //i need to BasicSalary.jsx file to add the basic salary of the employee
