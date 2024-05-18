@@ -97,7 +97,7 @@ export default function EditRoleComp({ onClose, id }) {
   };
 
   const handleReset = () => {
-    fetchRoleIncome();
+    setDateIncome('');
     setErrors({});
   };
 

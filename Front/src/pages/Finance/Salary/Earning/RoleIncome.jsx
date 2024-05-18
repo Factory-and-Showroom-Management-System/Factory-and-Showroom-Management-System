@@ -270,118 +270,114 @@ export default function RoleIncome() {
 
 
 
-// const handleEdit = async (id, currentRole, currentDateIncome) => {
-//         const { value: formValues } = await MySwal.fire({
-//             title: 'Edit Role Income',
-//             html: `
-//             <input id="swal-input1" class="swal2-input" value="${currentRole}">
-//             <input id="swal-input2" class="swal2-input" type="number" value="${currentDateIncome}">`,
-//             focusConfirm: false,
-//             showCancelButton: true,
-//             confirmButtonColor: '#3085d6',
-//             cancelButtonColor: '#d33',
-//             confirmButtonText: 'Save Changes',
-//             preConfirm: () => {
-//                 return [
-//                     document.getElementById('swal-input1').value,
-//                     document.getElementById('swal-input2').value
-//                 ]
-//             }
-//         });
+const handleEdit = async (id, currentRole, currentDateIncome) => {
+        const { value: formValues } = await MySwal.fire({
+            title: 'Edit Role Income',
+            html: `
+            <input id="swal-input1" class="swal2-input" value="${currentRole}">
+            <input id="swal-input2" class="swal2-input" type="number" value="${currentDateIncome}">`,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Save Changes',
+            preConfirm: () => {
+                return [
+                    document.getElementById('swal-input1').value,
+                    document.getElementById('swal-input2').value
+                ]
+            }
+        });
 
-//         if (formValues) {
-//             try {
-//                 await axios.put(`http://localhost:3000/salary/updateroleincome/${id}`, {
-//                     role: formValues[0],
-//                     dateIncome: parseFloat(formValues[1])
-//                 });
-//                 MySwal.fire({
-//                     icon: 'success',
-//                     title: 'Updated!',
-//                     text: 'Role income has been updated.',
-//                 });
+        if (formValues) {
+            try {
+                await axios.put(`http://localhost:3000/salary/updateroleincome/${id}`, {
+                    role: formValues[0],
+                    dateIncome: parseFloat(formValues[1])
+                });
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: 'Role income has been updated.',
+                });
 
-//                 // Fetch role incomes after successful update
-//                 fetchRoleIncomes();
+                // Fetch role incomes after successful update
+                fetchRoleIncomes();
                 
                 
 
 
-//                 handleSubmit();
-//                 handleSubmitEarning();
-//                 handleSubmitUserLoan();
-//                 handleSubmitDeduct();
-//                 handleSubmitEpsEtf();
-//                 handleSubmitMonthFoodAllwance();
-//                 handleSubmitMonthOT();
-//                 handleSubmitAdditon();
-//                 handleSubmitNetPay();
-//                 handleSubmitMonthSalarySheet();
-//                 handleSubmitSubMonthSalarySheet();
-//                 handleSubmitAllMonthSalarySheet();
+                handleSubmit();
+                handleSubmitEarning();
+                handleSubmitUserLoan();
+                handleSubmitDeduct();
+                handleSubmitEpsEtf();
+                handleSubmitMonthFoodAllwance();
+                handleSubmitMonthOT();
+                handleSubmitAdditon();
+                handleSubmitNetPay();
+                handleSubmitMonthSalarySheet();
+                handleSubmitSubMonthSalarySheet();
+                handleSubmitAllMonthSalarySheet();
 
 
 
 
-//             } catch (error) {
-//                 console.error('Failed to update role income:', error);
-//                 MySwal.fire({
-//                     icon: 'error',
-//                     title: 'Failed to update!',
-//                     text: 'Role income update failed.',
-//                 });
-//             }
-//         }
-//     };
+            } catch (error) {
+                console.error('Failed to update role income:', error);
+                MySwal.fire({
+                    icon: 'error',
+                    title: 'Failed to update!',
+                    text: 'Role income update failed.',
+                });
+            }
+        }
+    };
 
-//     const handleRemove = async (id) => {
-//         const result = await MySwal.fire({
-//             title: 'Are you sure?',
-//             text: "You won't be able to revert this!",
-//             icon: 'warning',
-//             showCancelButton: true,
-//             confirmButtonColor: '#3085d6',
-//             cancelButtonColor: '#d33',
-//             confirmButtonText: 'Yes, delete it!'
-//         });
+    const handleRemove = async (id) => {
+        const result = await MySwal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        });
 
-//         if (result.isConfirmed) {
-//             try {
-//                 await axios.delete(`http://localhost:3000/salary/deleteroleincome/${id}`);
-//                 MySwal.fire({
-//                     title: 'Deleted!',
-//                     text: 'Role income has been deleted.',
-//                     icon: 'success',
-//                 });
-//                 fetchRoleIncomes();
-//                 handleSubmit();
-//                 handleSubmitEarning();
-//                 handleSubmitUserLoan();
-//                 handleSubmitDeduct();
-//                 handleSubmitEpsEtf();
-//                 handleSubmitMonthFoodAllwance();
-//                 handleSubmitMonthOT();
-//                 handleSubmitAdditon();
-//                 handleSubmitNetPay();
-//                 handleSubmitMonthSalarySheet();
-//                 handleSubmitSubMonthSalarySheet();
-//                 handleSubmitAllMonthSalarySheet();
-
-
-//             } catch (error) {
-//                 console.error('Failed to delete role income:', error);
-//                 MySwal.fire({
-//                     title: 'Failed!',
-//                     text: 'Failed to delete role income.',
-//                     icon: 'error',
-//                 });
-//             }
-//         }
-//     };
+        if (result.isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:3000/salary/deleteroleincome/${id}`);
+                MySwal.fire({
+                    title: 'Deleted!',
+                    text: 'Role income has been deleted.',
+                    icon: 'success',
+                });
+                fetchRoleIncomes();
+                handleSubmit();
+                handleSubmitEarning();
+                handleSubmitUserLoan();
+                handleSubmitDeduct();
+                handleSubmitEpsEtf();
+                handleSubmitMonthFoodAllwance();
+                handleSubmitMonthOT();
+                handleSubmitAdditon();
+                handleSubmitNetPay();
+                handleSubmitMonthSalarySheet();
+                handleSubmitSubMonthSalarySheet();
+                handleSubmitAllMonthSalarySheet();
 
 
-
-
+            } catch (error) {
+                console.error('Failed to delete role income:', error);
+                MySwal.fire({
+                    title: 'Failed!',
+                    text: 'Failed to delete role income.',
+                    icon: 'error',
+                });
+            }
+        }
+    };
 
 
     const filteredRoleIncomes = searchTerm
