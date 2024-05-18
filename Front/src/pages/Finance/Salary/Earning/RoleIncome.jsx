@@ -404,8 +404,8 @@ export default function RoleIncome() {
     const handleAddcom = () => {
         setAddrolecomponet(true);
     }
-    
-    const onClose = () => {
+
+    const hadelonClose = () => {
         setAddrolecomponet(false);
     }
 
@@ -553,7 +553,7 @@ export default function RoleIncome() {
 
             </div>
 
-            {addrolecomponet && <AddRolecomp onClose={onClose} />}
+            {addrolecomponet && <AddRolecomp onClose={hadelonClose} />}
 
         </motion.div>
 
