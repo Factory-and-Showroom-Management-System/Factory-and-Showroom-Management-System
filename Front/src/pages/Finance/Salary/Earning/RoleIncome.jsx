@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import RoleIncomeCard001 from './Carts/RoleIncomeCard001';
 import AddRolecomp from './componets/AddRolecomp';
 import EdditRolecomp from './componets/EdditRolecomp';
+import RemoveRolecomp from './componets/RemoveRolecomp';
 
 
 
@@ -47,6 +48,11 @@ export default function RoleIncome() {
     const [addrolecomponet, setAddrolecomponet] = useState(false);
     const [editrolecomponet, setEditrolecomponet] = useState(false);
     const [idToEdit, setIdToEdit] = useState(null);
+    //handlexRemove
+    const [handleRemovecomponet, setHandlexRemove] = useState(false);
+    const [idToRemove, setIdToRemove] = useState(null);
+    
+
 
     //BasicSalary
     const navigate = useNavigate();
@@ -270,7 +276,7 @@ export default function RoleIncome() {
 
 
 
-const handleEdit = async (id, currentRole, currentDateIncome) => {
+    const handleEdit = async (id, currentRole, currentDateIncome) => {
         const { value: formValues } = await MySwal.fire({
             title: 'Edit Role Income',
             html: `
@@ -303,8 +309,8 @@ const handleEdit = async (id, currentRole, currentDateIncome) => {
 
                 // Fetch role incomes after successful update
                 fetchRoleIncomes();
-                
-                
+
+
 
 
                 handleSubmit();
@@ -409,12 +415,20 @@ const handleEdit = async (id, currentRole, currentDateIncome) => {
         setAddrolecomponet(true);
     }
 
-    const hadelEdit  = (id) => {
+    const hadelEdit = (id) => {
         setIdToEdit(id);
         setEditrolecomponet(true);
-        
+
     }
+
+    //handlexRemove
+    const handlexRemove = (id) => {
+        setIdToRemove(id);
+        setHandlexRemove(true);
+    };
     
+
+
 
     const hadelonClose = () => {
         setAddrolecomponet(false);
@@ -424,6 +438,12 @@ const handleEdit = async (id, currentRole, currentDateIncome) => {
         setEditrolecomponet(false);
     }
 
+    //handlexRemove
+    const hadelRemoveClose = () => {
+        setHandlexRemove(false);
+        setIdToRemove(null);
+    };
+    
 
 
     return (
@@ -526,6 +546,8 @@ const handleEdit = async (id, currentRole, currentDateIncome) => {
                                         <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(income.id, income.role, income.dateIncome)}>Edit</a>
                                         <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => hadelEdit(income.id, income.role, income.dateIncome)}>xEdit</a>
                                         <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
+                                        <a href="#" className="font-medium text-white hover:underline" onClick={() => handlexRemove(income.id)}> xRemove</a>
+
                                     </td>
                                 </tr>
                             ))}
@@ -572,6 +594,8 @@ const handleEdit = async (id, currentRole, currentDateIncome) => {
 
             {addrolecomponet && <AddRolecomp onClose={hadelonClose} />}
             {editrolecomponet && idToEdit && <EdditRolecomp onClose={hadelEditonClose} id={idToEdit} />}
+
+            {handleRemovecomponet && <RemoveRolecomp id={idToRemove} onClose={hadelRemoveClose} />}
 
 
         </motion.div>
