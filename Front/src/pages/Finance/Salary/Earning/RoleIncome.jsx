@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -10,6 +11,7 @@ import { TbHandClick } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
 import RoleIncomeCard001 from './Carts/RoleIncomeCard001';
 import AddRolecomp from './componets/AddRolecomp';
+import EdditRolecomp from './componets/EdditRolecomp';
 
 
 
@@ -43,6 +45,8 @@ export default function RoleIncome() {
     const [currentDateTime, setCurrentDateTime] = useState('');
 
     const [addrolecomponet, setAddrolecomponet] = useState(false);
+    const [editrolecomponet, setEditrolecomponet] = useState(false);
+    const [idToEdit, setIdToEdit] = useState(null);
 
     //BasicSalary
     const navigate = useNavigate();
@@ -266,110 +270,114 @@ export default function RoleIncome() {
 
 
 
-    const handleEdit = async (id, currentRole, currentDateIncome) => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Edit Role Income',
-            html: `
-            <input id="swal-input1" class="swal2-input" value="${currentRole}">
-            <input id="swal-input2" class="swal2-input" type="number" value="${currentDateIncome}">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Save Changes',
-            preConfirm: () => {
-                return [
-                    document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value
-                ]
-            }
-        });
+// const handleEdit = async (id, currentRole, currentDateIncome) => {
+//         const { value: formValues } = await MySwal.fire({
+//             title: 'Edit Role Income',
+//             html: `
+//             <input id="swal-input1" class="swal2-input" value="${currentRole}">
+//             <input id="swal-input2" class="swal2-input" type="number" value="${currentDateIncome}">`,
+//             focusConfirm: false,
+//             showCancelButton: true,
+//             confirmButtonColor: '#3085d6',
+//             cancelButtonColor: '#d33',
+//             confirmButtonText: 'Save Changes',
+//             preConfirm: () => {
+//                 return [
+//                     document.getElementById('swal-input1').value,
+//                     document.getElementById('swal-input2').value
+//                 ]
+//             }
+//         });
 
-        if (formValues) {
-            try {
-                await axios.put(`http://localhost:3000/salary/updateroleincome/${id}`, {
-                    role: formValues[0],
-                    dateIncome: parseFloat(formValues[1])
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    text: 'Role income has been updated.',
-                });
+//         if (formValues) {
+//             try {
+//                 await axios.put(`http://localhost:3000/salary/updateroleincome/${id}`, {
+//                     role: formValues[0],
+//                     dateIncome: parseFloat(formValues[1])
+//                 });
+//                 MySwal.fire({
+//                     icon: 'success',
+//                     title: 'Updated!',
+//                     text: 'Role income has been updated.',
+//                 });
 
-                // Fetch role incomes after successful update
-                fetchRoleIncomes();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
+//                 // Fetch role incomes after successful update
+//                 fetchRoleIncomes();
+                
+                
 
 
+//                 handleSubmit();
+//                 handleSubmitEarning();
+//                 handleSubmitUserLoan();
+//                 handleSubmitDeduct();
+//                 handleSubmitEpsEtf();
+//                 handleSubmitMonthFoodAllwance();
+//                 handleSubmitMonthOT();
+//                 handleSubmitAdditon();
+//                 handleSubmitNetPay();
+//                 handleSubmitMonthSalarySheet();
+//                 handleSubmitSubMonthSalarySheet();
+//                 handleSubmitAllMonthSalarySheet();
 
 
-            } catch (error) {
-                console.error('Failed to update role income:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to update!',
-                    text: 'Role income update failed.',
-                });
-            }
-        }
-    };
-
-    const handleRemove = async (id) => {
-        const result = await MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                await axios.delete(`http://localhost:3000/salary/deleteroleincome/${id}`);
-                MySwal.fire({
-                    title: 'Deleted!',
-                    text: 'Role income has been deleted.',
-                    icon: 'success',
-                });
-                fetchRoleIncomes();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
 
 
-            } catch (error) {
-                console.error('Failed to delete role income:', error);
-                MySwal.fire({
-                    title: 'Failed!',
-                    text: 'Failed to delete role income.',
-                    icon: 'error',
-                });
-            }
-        }
-    };
+//             } catch (error) {
+//                 console.error('Failed to update role income:', error);
+//                 MySwal.fire({
+//                     icon: 'error',
+//                     title: 'Failed to update!',
+//                     text: 'Role income update failed.',
+//                 });
+//             }
+//         }
+//     };
+
+//     const handleRemove = async (id) => {
+//         const result = await MySwal.fire({
+//             title: 'Are you sure?',
+//             text: "You won't be able to revert this!",
+//             icon: 'warning',
+//             showCancelButton: true,
+//             confirmButtonColor: '#3085d6',
+//             cancelButtonColor: '#d33',
+//             confirmButtonText: 'Yes, delete it!'
+//         });
+
+//         if (result.isConfirmed) {
+//             try {
+//                 await axios.delete(`http://localhost:3000/salary/deleteroleincome/${id}`);
+//                 MySwal.fire({
+//                     title: 'Deleted!',
+//                     text: 'Role income has been deleted.',
+//                     icon: 'success',
+//                 });
+//                 fetchRoleIncomes();
+//                 handleSubmit();
+//                 handleSubmitEarning();
+//                 handleSubmitUserLoan();
+//                 handleSubmitDeduct();
+//                 handleSubmitEpsEtf();
+//                 handleSubmitMonthFoodAllwance();
+//                 handleSubmitMonthOT();
+//                 handleSubmitAdditon();
+//                 handleSubmitNetPay();
+//                 handleSubmitMonthSalarySheet();
+//                 handleSubmitSubMonthSalarySheet();
+//                 handleSubmitAllMonthSalarySheet();
+
+
+//             } catch (error) {
+//                 console.error('Failed to delete role income:', error);
+//                 MySwal.fire({
+//                     title: 'Failed!',
+//                     text: 'Failed to delete role income.',
+//                     icon: 'error',
+//                 });
+//             }
+//         }
+//     };
 
 
 
@@ -405,9 +413,21 @@ export default function RoleIncome() {
         setAddrolecomponet(true);
     }
 
+    const hadelEdit  = (id) => {
+        setIdToEdit(id);
+        setEditrolecomponet(true);
+        
+    }
+    
+
     const hadelonClose = () => {
         setAddrolecomponet(false);
     }
+
+    const hadelEditonClose = () => {
+        setEditrolecomponet(false);
+    }
+
 
 
     return (
@@ -508,6 +528,7 @@ export default function RoleIncome() {
                                     <td className="px-6 py-4">Rs. {income.dateIncome}</td>
                                     <td className="px-6 py-4">
                                         <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(income.id, income.role, income.dateIncome)}>Edit</a>
+                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => hadelEdit(income.id, income.role, income.dateIncome)}>xEdit</a>
                                         <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
                                     </td>
                                 </tr>
@@ -554,6 +575,8 @@ export default function RoleIncome() {
             </div>
 
             {addrolecomponet && <AddRolecomp onClose={hadelonClose} />}
+            {editrolecomponet && idToEdit && <EdditRolecomp onClose={hadelEditonClose} id={idToEdit} />}
+
 
         </motion.div>
 
