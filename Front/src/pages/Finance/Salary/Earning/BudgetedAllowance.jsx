@@ -16,20 +16,20 @@ import { motion } from 'framer-motion';
 const container = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.2, // Delay the animation to make it more noticeable
-        when: "beforeChildren", // Animate children after the parent
-        staggerChildren: 0.2, // Add a small stagger effect to each child
-      },
+        opacity: 1,
+        transition: {
+            delay: 0.2, // Delay the animation to make it more noticeable
+            when: "beforeChildren", // Animate children after the parent
+            staggerChildren: 0.2, // Add a small stagger effect to each child
+        },
     },
-  };
-  
-  const item = {
+};
+
+const item = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-  };
-  
+};
+
 
 
 const MySwal = withReactContent(Swal);
@@ -405,12 +405,12 @@ export default function BudgetedAllowance() {
 
     return (
         <motion.div
-        className='w-full'
-        variants={container}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-      >
+            className='w-full'
+            variants={container}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+        >
             <div className="relative overflow-x-auto sm:rounded-lg ">
                 <div className='w-full'>
                     <div className='flex gap-4 '>
@@ -471,45 +471,46 @@ export default function BudgetedAllowance() {
 
                         </div>
                     </div>
+                    <div className="relative overflow-x-auto sm:rounded-lg">
 
-
-                    <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-white uppercase bg-blue-600">
-                            <tr>
-                                <th scope="col" className="px-6 py-7">ID</th>
-                                <th scope="col" className="px-6 py-3">Date</th>
-                                <th scope="col" className="px-6 py-3">Budgeted Allowances</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.map((allowance) => (
-                                <tr key={allowance.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                    <td className="px-6 py-4">{allowance.id}</td>
-                                    <td className="px-6 py-4">{allowance.baDate}</td>
-                                    <td className="px-6 py-4">{allowance.baValue.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(allowance.id, allowance.baDate, allowance.baValue)}>Edit</a>
-                                        <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(allowance.id)}>Remove</a>
-                                    </td>
+                        <table className="w-full text-sm text-left text-gray-500">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">Date</th>
+                                    <th scope="col" className="px-6 py-3">Budgeted Allowances</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
                                 </tr>
-                            ))}
-                            {filteredAllowances.length > 0 && (
-                                <>
-                                    <tr className="bg-blue-800 text-white">
-                                        <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.):</td>
-                                        <td className="px-6 font-bold">Rs. {totalValue.toFixed(2)}</td>
-                                        <td className="px-6 font-bold"></td>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((allowance) => (
+                                    <tr key={allowance.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{allowance.id}</td>
+                                        <td className="px-6 py-4">{allowance.baDate}</td>
+                                        <td className="px-6 py-4">{allowance.baValue.toFixed(2)}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(allowance.id, allowance.baDate, allowance.baValue)}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(allowance.id)}>Remove</a>
+                                        </td>
                                     </tr>
-                                    <tr className="bg-blue-800 text-white">
-                                        <td className="px-20 py-2 text-right font-bold" colSpan="2">Total (Rs.):</td>
-                                        <td className="px-6 font-bold">Rs. {totalValue.toFixed(4)}</td>
-                                        <td className="px-6 font-bold"></td>
-                                    </tr>
-                                </>
-                            )}
-                        </tbody>
-                    </table>
+                                ))}
+                                {filteredAllowances.length > 0 && (
+                                    <>
+                                        <tr className="bg-blue-800 text-white">
+                                            <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.):</td>
+                                            <td className="px-6 font-bold">Rs. {totalValue.toFixed(2)}</td>
+                                            <td className="px-6 font-bold"></td>
+                                        </tr>
+                                        <tr className="bg-blue-800 text-white">
+                                            <td className="px-20 py-2 text-right font-bold" colSpan="2">Total (Rs.):</td>
+                                            <td className="px-6 font-bold">Rs. {totalValue.toFixed(4)}</td>
+                                            <td className="px-6 font-bold"></td>
+                                        </tr>
+                                    </>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
                     <span className="pl-10 text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">

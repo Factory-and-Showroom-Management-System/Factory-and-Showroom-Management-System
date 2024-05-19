@@ -1471,6 +1471,29 @@ function RoleOTIncomeShow(req, res) {
     });
 }
 
+//creat function to show table id RoleOTIncome data
+function RoleOTIncomeShowById(req, res) {
+    const tableId = req.params.tableId;
+
+    models.RoleOTIncome.findByPk(tableId)
+        .then(result => {
+            if (!result) {
+                return res.status(404).json({
+                    message: "RoleOTIncome not found"
+                });
+            }
+            res.status(200).json(result);
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: "Something went wrong",
+                error: error
+            });
+        });
+}
+
+
+
 //creat function to update RoleOTIncome 
 function RoleOTIncomeUpdate(req, res) {
     const tableId = req.params.tableId;
@@ -2681,6 +2704,7 @@ module.exports = {
     MonthFoodAllowanceShow: MonthFoodAllowanceShow,
     RoleOTIncomeSave: RoleOTIncomeSave,
     RoleOTIncomeShow: RoleOTIncomeShow,
+    RoleOTIncomeShowById: RoleOTIncomeShowById,
     RoleOTIncomeUpdate: RoleOTIncomeUpdate,
     RoleOTIncomeDelete: RoleOTIncomeDelete,
     MonthOT: MonthOT,

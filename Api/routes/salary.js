@@ -60,6 +60,8 @@ router.get('/showmonthfoodallowance', salaryController.MonthFoodAllowanceShow);
 router.post('/addroleotincome', salaryController.RoleOTIncomeSave);
 //show to RoleOTIncome table
 router.get('/showroleotincome', salaryController.RoleOTIncomeShow);
+//RoleOTIncomeShowById
+router.get('/showroleotincome/:tableId', salaryController.RoleOTIncomeShowById);
 //update to RoleOTIncome table
 router.put('/updateroleotincome/:tableId', salaryController.RoleOTIncomeUpdate);
 //delete to RoleOTIncome table

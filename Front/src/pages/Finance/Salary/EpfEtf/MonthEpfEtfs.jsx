@@ -254,6 +254,8 @@ export default function MonthEpfEtfs() {
                             </div>
                         </div>
                     </div>
+
+                    <div className="relative overflow-x-auto sm:rounded-lg">
                     <table className="w-full text-sm text-left text-gray-900 dark:text-white">
                         <thead className="text-xs text-white uppercase bg-blue-600">
                             <tr>
@@ -304,6 +306,7 @@ export default function MonthEpfEtfs() {
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
                 <nav className="flex items-center justify-between pt-2">
                     <span className="pl-10 text-sm font-normal text-gray-500">

@@ -236,7 +236,7 @@ export default function Addition() {
                             </div>
                         </div>
                     </div>
-
+                    <div className="relative overflow-x-auto sm:rounded-lg">
                     <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
                         <thead className="text-xs text-white uppercase bg-blue-600 border-b border-blue-400">
                             <tr>
@@ -280,6 +280,7 @@ export default function Addition() {
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
             </div>

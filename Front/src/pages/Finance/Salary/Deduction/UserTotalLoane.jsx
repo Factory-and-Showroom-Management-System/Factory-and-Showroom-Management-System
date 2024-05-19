@@ -14,20 +14,20 @@ import { motion } from 'framer-motion';
 const container = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.2, // Delay the animation to make it more noticeable
-        when: "beforeChildren", // Animate children after the parent
-        staggerChildren: 0.2, // Add a small stagger effect to each child
-      },
+        opacity: 1,
+        transition: {
+            delay: 0.2, // Delay the animation to make it more noticeable
+            when: "beforeChildren", // Animate children after the parent
+            staggerChildren: 0.2, // Add a small stagger effect to each child
+        },
     },
-  };
-  
-  const item = {
+};
+
+const item = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-  };
-  
+};
+
 
 const MySwal = withReactContent(Swal);
 
@@ -40,7 +40,7 @@ export default function UserTotalLoans() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    
+
     const navigate = useNavigate();
 
     const handleDashboard = () => {
@@ -435,25 +435,25 @@ export default function UserTotalLoans() {
 
     return (
         <motion.div
-        className='w-full'
-        variants={container}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-      >
-        <div className="relative overflow-x-auto sm:rounded-lg ">
+            className='w-full'
+            variants={container}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+        >
+            <div className="relative overflow-x-auto sm:rounded-lg ">
 
-            <div className='w-full'>
-                <div className='flex gap-4 '>
+                <div className='w-full'>
+                    <div className='flex gap-4 '>
 
-                    <div className='p-4 mt-3'>
-                        <ToBePaidCarts001 />
+                        <div className='p-4 mt-3'>
+                            <ToBePaidCarts001 />
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
 
-            <div className='p-5'>
+                <div className='p-5'>
 
                     <h1 className="  text-3xl text-blue-500">User Total Loans Table: {currentDateTime}</h1>
 
@@ -499,62 +499,65 @@ export default function UserTotalLoans() {
 
                     </div>
 
-                    <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-white uppercase bg-blue-600">
-                            <tr>
-                                <th scope="col" className="px-6 py-7">ID</th>
-                                <th scope="col" className="px-6 py-3">User ID</th>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Loan Date</th>
-                                <th scope="col" className="px-6 py-3">Loan Amount</th>
-                                <th scope="col" className="px-6 py-3">To Be Paid</th>
-                                <th scope="col" className="px-6 py-3">Loan Rate (%)</th>
-                                <th scope="col" className="px-6 py-3">Loan Duration</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.map((loan) => (
-                                <tr key={loan.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                    <td className="px-6 py-4">{loan.id}</td>
-                                    <td className="px-6 py-4">{loan.userId}</td>
-                                    <td className="px-6 py-4">{loan.name}</td>
-                                    <td className="px-6 py-4">{formatDate(loan.loanDate)}</td>
-                                    <td className="px-6 py-4">Rs. {loan.loanAmount.toFixed(2)}</td>
-                                    <td className="px-6 py-4">Rs. {loan.toBePaid.toFixed(2)}</td>
-                                    <td className="px-6 py-4">{loan.loanRatePresentage.toFixed(2)}%</td>
-                                    <td className="px-6 py-4">{loan.loanDuration}</td>
-                                    <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(loan.id, loan)}>Edit</a>
-                                        <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(loan.id)}>Remove</a>
-                                    </td>
+                    <div className="relative overflow-x-auto sm:rounded-lg">
+
+                        <table className="w-full text-sm text-left text-gray-500">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">User ID</th>
+                                    <th scope="col" className="px-6 py-3">Name</th>
+                                    <th scope="col" className="px-6 py-3">Loan Date</th>
+                                    <th scope="col" className="px-6 py-3">Loan Amount</th>
+                                    <th scope="col" className="px-6 py-3">To Be Paid</th>
+                                    <th scope="col" className="px-6 py-3">Loan Rate (%)</th>
+                                    <th scope="col" className="px-6 py-3">Loan Duration</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((loan) => (
+                                    <tr key={loan.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{loan.id}</td>
+                                        <td className="px-6 py-4">{loan.userId}</td>
+                                        <td className="px-6 py-4">{loan.name}</td>
+                                        <td className="px-6 py-4">{formatDate(loan.loanDate)}</td>
+                                        <td className="px-6 py-4">Rs. {loan.loanAmount.toFixed(2)}</td>
+                                        <td className="px-6 py-4">Rs. {loan.toBePaid.toFixed(2)}</td>
+                                        <td className="px-6 py-4">{loan.loanRatePresentage.toFixed(2)}%</td>
+                                        <td className="px-6 py-4">{loan.loanDuration}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(loan.id, loan)}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(loan.id)}>Remove</a>
+                                        </td>
+                                    </tr>
 
 
-                            ))}
+                                ))}
 
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 py-2 text-right font-bold" colSpan="4">Sub Total (Rs.) :</td>
-                                <td className="px-6  font-bold">Rs. {totalLoanAmount.toFixed(2)}</td>
-                                <td className="px-6  font-bold">Rs. {totalToBePaid.toFixed(2)}</td>
-                                <td className="px-6  font-bold"></td>
-                                <td className="px-6  font-bold"></td>
-                                <td className="px-6  font-bold"></td>
-
-
-                            </tr>
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 pb-3 text-right font-bold" colSpan="4">Total (Rs.) :</td>
-                                <td className="px-6 font-bold">Rs. {totalLoanAmount.toFixed(4)}</td>
-                                <td className="px-6 font-bold">Rs. {totalToBePaid.toFixed(4)}</td>
-                                <td className="px-6 font-bold"></td>
-                                <td className="px-6  font-bold"></td>
-                                <td className="px-6  font-bold"></td>
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 py-2 text-right font-bold" colSpan="4">Sub Total (Rs.) :</td>
+                                    <td className="px-6  font-bold">Rs. {totalLoanAmount.toFixed(2)}</td>
+                                    <td className="px-6  font-bold">Rs. {totalToBePaid.toFixed(2)}</td>
+                                    <td className="px-6  font-bold"></td>
+                                    <td className="px-6  font-bold"></td>
+                                    <td className="px-6  font-bold"></td>
 
 
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 pb-3 text-right font-bold" colSpan="4">Total (Rs.) :</td>
+                                    <td className="px-6 font-bold">Rs. {totalLoanAmount.toFixed(4)}</td>
+                                    <td className="px-6 font-bold">Rs. {totalToBePaid.toFixed(4)}</td>
+                                    <td className="px-6 font-bold"></td>
+                                    <td className="px-6  font-bold"></td>
+                                    <td className="px-6  font-bold"></td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <nav className="flex items-center justify-between pt-2">

@@ -219,43 +219,46 @@ export default function UserNetPays() {
                             </div>
                         </div>
                     </div>
-                    <table className="w-full text-sm text-left text-gray-900 dark:text-white">
-                        <thead className="text-xs text-white uppercase bg-blue-600">
-                            <tr>
-                                <th scope="col" className="px-6 py-7">ID</th>
-                                <th scope="col" className="px-6 py-3">User ID</th>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Net Total (Rs.)</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.map((item) => (
-                                <tr key={item.id} className="text-white bg-blue-500 border-b border-blue-400 hover:bg-blue-400">
-                                    <td className="px-6 py-4">{item.id}</td>
-                                    <td className="px-6 py-4">{item.userId}</td>
-                                    <td className="px-6 py-4">{item.name}</td>
-                                    <td className="px-6 py-4">Rs. {item.netTotal.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-white hover:underline">Edit</a>
-                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginLeft: '10px' }}>Remove</a>
-                                    </td>
+
+                    <div className="relative overflow-x-auto sm:rounded-lg">
+                        <table className="w-full text-sm text-left text-gray-900 dark:text-white">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">User ID</th>
+                                    <th scope="col" className="px-6 py-3">Name</th>
+                                    <th scope="col" className="px-6 py-3">Net Total (Rs.)</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
                                 </tr>
-                            ))}
-                            <tr className="text-white bg-blue-800">
-                                <td className="px-20 py-2 font-bold text-right" colSpan="3">Sub Total (Rs.):</td>
-                                <td className="px-6 font-bold" colSpan="2">Rs. {totalNet.toFixed(2)}</td>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((item) => (
+                                    <tr key={item.id} className="text-white bg-blue-500 border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{item.id}</td>
+                                        <td className="px-6 py-4">{item.userId}</td>
+                                        <td className="px-6 py-4">{item.name}</td>
+                                        <td className="px-6 py-4">Rs. {item.netTotal.toFixed(2)}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline">Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginLeft: '10px' }}>Remove</a>
+                                        </td>
+                                    </tr>
+                                ))}
+                                <tr className="text-white bg-blue-800">
+                                    <td className="px-20 py-2 font-bold text-right" colSpan="3">Sub Total (Rs.):</td>
+                                    <td className="px-6 font-bold" colSpan="2">Rs. {totalNet.toFixed(2)}</td>
 
 
-                            </tr>
-                            <tr className="text-white bg-blue-800">
-                                <td className="px-20 py-2 font-bold text-right" colSpan="3">Total (Rs.):</td>
-                                <td className="px-6 font-bold" colSpan="4">Rs. {totalNet.toFixed(4)}</td>
+                                </tr>
+                                <tr className="text-white bg-blue-800">
+                                    <td className="px-20 py-2 font-bold text-right" colSpan="3">Total (Rs.):</td>
+                                    <td className="px-6 font-bold" colSpan="4">Rs. {totalNet.toFixed(4)}</td>
 
-                            </tr>
+                                </tr>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <nav className="flex items-center justify-between pt-2">
                     <span className="pl-10 text-sm font-normal text-gray-500">

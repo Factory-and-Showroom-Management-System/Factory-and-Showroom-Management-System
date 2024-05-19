@@ -13,20 +13,20 @@ import { motion } from 'framer-motion';
 const container = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.2, // Delay the animation to make it more noticeable
-        when: "beforeChildren", // Animate children after the parent
-        staggerChildren: 0.2, // Add a small stagger effect to each child
-      },
+        opacity: 1,
+        transition: {
+            delay: 0.2, // Delay the animation to make it more noticeable
+            when: "beforeChildren", // Animate children after the parent
+            staggerChildren: 0.2, // Add a small stagger effect to each child
+        },
     },
-  };
-  
-  const item = {
+};
+
+const item = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-  };
-  
+};
+
 
 export default function UserMonthLoan() {
     const [loans, setLoans] = useState([]);
@@ -220,12 +220,12 @@ export default function UserMonthLoan() {
 
     return (
         <motion.div
-      className='w-full'
-      variants={container}
-      initial='hidden'
-      animate='visible'
-      exit='hidden'
-    >
+            className='w-full'
+            variants={container}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+        >
             <div className="relative overflow-x-auto sm:rounded-lg">
 
                 <div className='w-full'>
@@ -275,43 +275,46 @@ export default function UserMonthLoan() {
                             </div>
                         </div>
                     </div>
-                    <table className="w-full text-sm text-left text-gray-900 dark:text-white">
-                        <thead className="text-xs text-white uppercase bg-blue-600">
-                            <tr>
-                                <th scope="col" className="px-6 py-7">ID</th>
-                                <th scope="col" className="px-6 py-3">User ID</th>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Date</th>
-                                <th scope="col" className="px-6 py-3">Month Loan (Rs.)</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.map((item) => (
-                                <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                    <td className="px-6 py-4">{item.id}</td>
-                                    <td className="px-6 py-4">{item.userId}</td>
-                                    <td className="px-6 py-4">{item.name}</td>
-                                    <td className="px-6 py-4">{formatDate(item.currentDate)}</td>
-                                    <td className="px-6 py-4">Rs. {item.monthLoan.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(loan.id, loan)}>Edit</a>
-                                        <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(loan.id)}>Remove</a>
-                                    </td>
+
+                    <div className="relative overflow-x-auto sm:rounded-lg">
+                        <table className="w-full text-sm text-left text-gray-900 dark:text-white">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">User ID</th>
+                                    <th scope="col" className="px-6 py-3">Name</th>
+                                    <th scope="col" className="px-6 py-3">Date</th>
+                                    <th scope="col" className="px-6 py-3">Month Loan (Rs.)</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
                                 </tr>
-                            ))}
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 py-2 text-right font-bold" colSpan="4">Sub Total (Rs.):</td>
-                                <td className="px-6 font-bold" colSpan="4">Rs. {totalMonthLoan.toFixed(2)}</td>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((item) => (
+                                    <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{item.id}</td>
+                                        <td className="px-6 py-4">{item.userId}</td>
+                                        <td className="px-6 py-4">{item.name}</td>
+                                        <td className="px-6 py-4">{formatDate(item.currentDate)}</td>
+                                        <td className="px-6 py-4">Rs. {item.monthLoan.toFixed(2)}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(loan.id, loan)}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(loan.id)}>Remove</a>
+                                        </td>
+                                    </tr>
+                                ))}
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 py-2 text-right font-bold" colSpan="4">Sub Total (Rs.):</td>
+                                    <td className="px-6 font-bold" colSpan="4">Rs. {totalMonthLoan.toFixed(2)}</td>
 
-                            </tr>
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 py-2 text-right font-bold" colSpan="4">Total (Rs.):</td>
-                                <td className="px-6 font-bold" colSpan="2">Rs. {totalMonthLoan.toFixed(2)}</td>
+                                </tr>
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 py-2 text-right font-bold" colSpan="4">Total (Rs.):</td>
+                                    <td className="px-6 font-bold" colSpan="2">Rs. {totalMonthLoan.toFixed(2)}</td>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <nav className="flex items-center justify-between pt-2">
                     <span className="pl-10 text-sm font-normal text-gray-500">

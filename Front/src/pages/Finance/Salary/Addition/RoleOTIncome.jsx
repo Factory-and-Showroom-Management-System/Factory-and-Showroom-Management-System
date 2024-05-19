@@ -8,6 +8,9 @@ import { TiArrowBackOutline } from "react-icons/ti";
 import { TbHandClick } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
 import RoleOTIncomeCard001 from '../Addition/Cards/RoleOTIncomeCard001';
+import AddRolecomp from '../Addition/componets/AddRolecomp';
+import EdditRolecomp from '../Addition/componets/EdditRolecomp';
+
 
 
 import { motion } from 'framer-motion';
@@ -15,20 +18,20 @@ import { motion } from 'framer-motion';
 const container = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.2, // Delay the animation to make it more noticeable
-        when: "beforeChildren", // Animate children after the parent
-        staggerChildren: 0.2, // Add a small stagger effect to each child
-      },
+        opacity: 1,
+        transition: {
+            delay: 0.2, // Delay the animation to make it more noticeable
+            when: "beforeChildren", // Animate children after the parent
+            staggerChildren: 0.2, // Add a small stagger effect to each child
+        },
     },
-  };
-  
-  const item = {
+};
+
+const item = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-  };
-  
+};
+
 
 const MySwal = withReactContent(Swal);
 
@@ -38,6 +41,11 @@ export default function RoleOTIncome() {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
+
+    const [addrolecomponet, setAddrolecomponet] = useState(false);
+    const [editrolecomponet, setEditrolecomponet] = useState(false);
+
+
 
     const navigate = useNavigate();
 
@@ -372,14 +380,35 @@ export default function RoleOTIncome() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
+
+    const handleAddRole = () => {
+        setAddrolecomponet(true);
+    }
+
+    const hadelonClose = () => {
+        setAddrolecomponet(false);
+    }
+
+    const hadelEdit = (id) => {
+        setIdToEdit(id);
+        setEditrolecomponet(true);
+    }
+
+    const hadelEditonClose = () => {
+        setEditrolecomponet(false);
+    }
+
+
+
+
     return (
         <motion.div
-        className='w-full'
-        variants={container}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-      >
+            className='w-full'
+            variants={container}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+        >
             <div className="relative overflow-x-auto sm:rounded-lg ">
 
                 <div className='w-full'>
@@ -394,11 +423,11 @@ export default function RoleOTIncome() {
 
                 <div className='p-5'>
 
-                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Role Income Table</h1>
+                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Role OT Income </h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
 
-                        <Button onClick={handleAdd} className='bg-green-600'>
+                        <Button onClick={handleAddRole} className='bg-green-600'>
                             <IoIosAddCircle className="mr-2 h-5 w-5 " />
                             Add Role Income
                         </Button>
@@ -438,39 +467,41 @@ export default function RoleOTIncome() {
                         </div>
                     </div>
 
-                    <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-white uppercase bg-blue-600">
-                            <tr>
-                                <th scope="col" className="px-6 py-7">ID</th>
-                                <th scope="col" className="px-6 py-3">Role</th>
-                                <th scope="col" className="px-6 py-3">Overtime Income</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.map((income) => (
-                                <tr key={income.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                    <td className="px-6 py-4">{income.id}</td>
-                                    <td className="px-6 py-4">{income.role}</td>
-                                    <td className="px-6 py-4">Rs. {income.timeIncome}</td>
-                                    <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(income.id, income.role, income.timeIncome)}>Edit</a>
-                                        <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
-                                    </td>
+                    <div className="relative overflow-x-auto sm:rounded-lg">
+                        <table className="w-full text-sm text-left text-gray-500">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">Role</th>
+                                    <th scope="col" className="px-6 py-3">Overtime Income</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
                                 </tr>
-                            ))}
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.) :</td>
-                                <td className="px-6 font-bold" colSpan="2">Rs. {totalIncome.toFixed(2)}</td>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((income) => (
+                                    <tr key={income.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{income.id}</td>
+                                        <td className="px-6 py-4">{income.role}</td>
+                                        <td className="px-6 py-4">Rs. {income.timeIncome}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => hadelEdit(income.id, income.role, income.timeIncome)}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
+                                        </td>
+                                    </tr>
+                                ))}
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.) :</td>
+                                    <td className="px-6 font-bold" colSpan="2">Rs. {totalIncome.toFixed(2)}</td>
 
-                            </tr>
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 text-right font-bold" colSpan="2">Total (Rs.) :</td>
-                                <td className="px-6 py-2 font-bold" colSpan="2">Rs. {totalIncome.toFixed(4)}</td>
+                                </tr>
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 text-right font-bold" colSpan="2">Total (Rs.) :</td>
+                                    <td className="px-6 py-2 font-bold" colSpan="2">Rs. {totalIncome.toFixed(4)}</td>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
@@ -500,6 +531,9 @@ export default function RoleOTIncome() {
                 </nav>
 
             </div>
+            {addrolecomponet && <AddRolecomp onClose={hadelonClose} />}
+            {editrolecomponet && idToEdit && <EdditRolecomp onClose={hadelEditonClose} id={idToEdit} />}
+
         </motion.div>
     );
 }
