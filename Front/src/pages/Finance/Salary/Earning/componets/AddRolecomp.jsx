@@ -6,9 +6,6 @@ import { FcAddDatabase } from "react-icons/fc";
 import { GrPowerReset } from "react-icons/gr";
 import { motion } from 'framer-motion';
 
-
-
-
 export default function AddRolecomp({ onClose }) {
   const [openModal, setOpenModal] = useState(true);
   const [confirmModal, setConfirmModal] = useState(false);
@@ -86,9 +83,6 @@ export default function AddRolecomp({ onClose }) {
     setErrors({});
   };
 
-
-
-
   const handleConfirmSave = async () => {
     try {
       const response = await fetch('http://localhost:3000/salary/addroleincome', {
@@ -112,12 +106,10 @@ export default function AddRolecomp({ onClose }) {
       handleReset();
       setAlertVisible(true); // Show success alert
 
-
       // Automatically dismiss the alert after 5 seconds
       setTimeout(() => {
         setAlertVisible(false);
         if (onClose) onClose(); // Call onClose if it's provided
-
       }, 2000);
 
     } catch (error) {
@@ -138,74 +130,83 @@ export default function AddRolecomp({ onClose }) {
 
   return (
     <>
-      <Modal show={openModal} size="md" onClose={handleClose} popup>
-        <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Add New Role Income</h3>
-
-            <div className="max-w-md">
-              <div className="mb-2 block">
-                <Label htmlFor="roles" value="Select Role List" />
+     
+        <Modal show={openModal} size="md" onClose={handleClose} popup>
+       
+        <motion.div
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+          <Modal.Header />
+          <Modal.Body>
+            <div className="space-y-6">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">Add New Role Income</h3>
+              <div className="max-w-md">
+                <div className="mb-2 block">
+                  <Label htmlFor="roles" value="Select Role List" />
+                </div>
+                <Select id="roles" required onChange={(e) => setSelectedRole(e.target.value)} value={selectedRole}>
+                  <option value="">Select Role</option>
+                  {roles.map(role => (
+                    <option key={role.id} value={role.roleName}>{role.roleName}</option>
+                  ))}
+                </Select>
+                {errors.selectedRole && <span className="text-red-500">{errors.selectedRole}</span>}
               </div>
-              <Select id="roles" required onChange={(e) => setSelectedRole(e.target.value)} value={selectedRole}>
-                <option value="">Select Role</option>
-                {roles.map(role => (
-                  <option key={role.id} value={role.roleName}>{role.roleName}</option>
-                ))}
-              </Select>
-              {errors.selectedRole && <span className="text-red-500">{errors.selectedRole}</span>}
-            </div>
 
-            <div className="max-w-md">
-              <div className="pb-2">
-                <Label htmlFor="dateIncome" value="Date Income" />
+              <div className="max-w-md">
+                <div className="pb-2">
+                  <Label htmlFor="dateIncome" value="Date Income" />
+                </div>
+                <TextInput id="dateIncome" type="text" placeholder="Enter Date Income" value={dateIncome} onChange={handleDateIncomeChange} />
+                {errors.dateIncome && <span className="text-red-500">{errors.dateIncome}</span>}
               </div>
-              <TextInput id="dateIncome" type="text" placeholder="Enter Date Income" value={dateIncome} onChange={handleDateIncomeChange} />
-              {errors.dateIncome && <span className="text-red-500">{errors.dateIncome}</span>}
+
+              <div className="flex gap-2">
+                <Button color="gray" onClick={handleReset}>
+                  <motion.div
+                    className="flex items-center"
+                    animate={{ opacity: [1, 0.5, 1], scale: [1, 1.1, 1] }}
+                    transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                  >
+                    <GrPowerReset className="mr-3 h-5 w-5" />
+                  </motion.div>
+                  Reset
+                </Button>
+
+                <Button color="success" onClick={handleSave} disabled={isButtonDisabled}>
+                  <motion.div
+                    className="flex items-center"
+                    animate={{ opacity: [1, 0.5, 1], scale: [1, 1.1, 1] }}
+                    transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                  >
+                    <MdDataSaverOn className="mr-3 h-5 w-5" />
+                  </motion.div>
+                  Save
+                </Button>
+              </div>
             </div>
+          </Modal.Body>
+          </motion.div>
 
-            <div className="flex gap-2">
-              <Button color="gray" onClick={handleReset}>
+        </Modal>
+     
 
-
-                <motion.div
-                  className="flex items-center"
-                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.1, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-                >
-                  <GrPowerReset className="mr-3 h-5 w-5" />
-                </motion.div>
-                Reset
-              </Button>
-
-              <Button color="success" onClick={handleSave} disabled={isButtonDisabled}>
-
-
-                <motion.div
-                  className="flex items-center"
-                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.1, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-                >
-                  <MdDataSaverOn className="mr-3 h-5 w-5" />
-                </motion.div>
-
-                Save
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
 
       {/* Confirmation modal */}
       <Modal show={confirmModal} size="md" onClose={() => setConfirmModal(false)} popup>
+      
+       <motion.div
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
-
-
             <motion.div
-
               animate={{ opacity: [1, 0.9, 1], scale: [1, 1.04, 1] }}
               transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
             >
@@ -213,12 +214,10 @@ export default function AddRolecomp({ onClose }) {
             </motion.div>
 
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure!, You want to <b>Save</b> <br></br>this information?
+              Are you sure!, You want to <b>Save</b> <br /> this information?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleConfirmSave}>
-
-
                 <motion.div
                   className="flex items-center"
                   animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
@@ -226,11 +225,9 @@ export default function AddRolecomp({ onClose }) {
                 >
                   <MdDataSaverOn className="mr-3 h-5 w-5" />
                 </motion.div>
-
                 Yes, I'm sure
               </Button>
               <Button color="gray" onClick={() => setConfirmModal(false)}>
-
                 <motion.div
                   className="flex items-center"
                   animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
@@ -238,19 +235,17 @@ export default function AddRolecomp({ onClose }) {
                 >
                   <MdCancel className="mr-3 h-5 w-5" />
                 </motion.div>
-
                 No, cancel
               </Button>
             </div>
           </div>
         </Modal.Body>
+        </motion.div>
       </Modal>
 
       {/* Success Alert */}
       {alertVisible && (
-
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
-
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -262,9 +257,9 @@ export default function AddRolecomp({ onClose }) {
               icon={HiInformationCircle}
               onDismiss={() => setAlertVisible(false)}
             >
-              Role income <b>-Saved-Successfully!- ✅</b>   </Alert>
+              Role income <b>-Saved-Successfully!- ✅</b>
+            </Alert>
           </motion.div>
-
         </div>
       )}
     </>

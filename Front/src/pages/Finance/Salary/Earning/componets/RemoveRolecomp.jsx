@@ -68,6 +68,11 @@ export default function RemoveRolecomp({ onClose, id }) {
   return (
     <>
       <Modal show={confirmModal} size="md" onClose={() => {setConfirmModal(false); if (onClose) onClose();      }} popup>
+      <motion.div
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
@@ -117,6 +122,7 @@ export default function RemoveRolecomp({ onClose, id }) {
             </div>
           </div>
         </Modal.Body>
+        </motion.div>
       </Modal>
 
       {alertVisible && (

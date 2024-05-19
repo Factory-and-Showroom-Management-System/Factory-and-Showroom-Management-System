@@ -119,6 +119,11 @@ export default function EditRoleComp({ onClose, id }) {
   return (
     <>
       <Modal show={openModal} size="md" onClose={handleClose} popup>
+      <motion.div
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -181,9 +186,15 @@ export default function EditRoleComp({ onClose, id }) {
             </div>
           </div>
         </Modal.Body>
+        </motion.div>
       </Modal>
 
       <Modal show={confirmModal} size="md" onClose={() => setConfirmModal(false)} popup>
+      <motion.div
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
@@ -231,6 +242,7 @@ export default function EditRoleComp({ onClose, id }) {
             </div>
           </div>
         </Modal.Body>
+        </motion.div>
       </Modal>
 
 
