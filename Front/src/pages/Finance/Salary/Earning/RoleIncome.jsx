@@ -214,18 +214,6 @@ export default function RoleIncome() {
 
 
 
-    const handleAdd = async () => {
-
-    };
-
-    const handleEdit = async (id, currentRole, currentDateIncome) => {
-
-    };
-
-    const handleRemove = async (id) => {
-
-    };
-
 
     const filteredRoleIncomes = searchTerm
         ? roleIncomes.filter(income =>

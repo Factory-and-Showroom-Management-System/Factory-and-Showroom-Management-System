@@ -22,7 +22,7 @@ export default function RemoveRolecomp({ onClose, id }) {
 
   const fetchRoleIncome = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/salary/showroleincome/${id}`);
+      const response = await fetch(`http://localhost:3000/salary/deleteroleotincome/${id}`);
       const data = await response.json();
       if (response.ok) {
         setDateIncome(data.roleincome.dateIncome.toString());
@@ -37,7 +37,7 @@ export default function RemoveRolecomp({ onClose, id }) {
 
   const handleConfirmRemove = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/salary/deleteroleincome/${id}`, {
+      const response = await fetch(`http://localhost:3000/salary/deleteroleotincome/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ export default function RemoveRolecomp({ onClose, id }) {
             
             
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure!, You want to <b>Delete</b> <br></br>this Role income?
+              Are you sure!, You want to <b>Delete</b> <br></br>this Role OT income?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleConfirmRemove} >
@@ -140,7 +140,7 @@ export default function RemoveRolecomp({ onClose, id }) {
                 icon={HiInformationCircle}
                 onDismiss={() => setAlertVisible(false)}
               >
-                Role income <b>- Deleted Successfully! ✅</b>
+                Role OT income <b>- Deleted Successfully! ✅</b>
               </Alert>
             </motion.div>
 

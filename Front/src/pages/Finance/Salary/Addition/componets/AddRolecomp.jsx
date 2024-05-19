@@ -250,7 +250,7 @@ export default function AddRolecomp({ onClose }) {
               icon={HiInformationCircle}
               onDismiss={() => setAlertVisible(false)}
             >
-              Role income <b>-Saved-Successfully!- ✅</b>
+              Role OT income <b>-Saved-Successfully!- ✅</b>
             </Alert>
           </motion.div>
         </div>

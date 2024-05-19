@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import RoleOTIncomeCard001 from '../Addition/Cards/RoleOTIncomeCard001';
 import AddRolecomp from '../Addition/componets/AddRolecomp';
 import EdditRolecomp from '../Addition/componets/EdditRolecomp';
+import RemoveRolecomp from '../Addition/componets/RemoveRolecomp';
 
 
 
@@ -44,8 +45,10 @@ export default function RoleOTIncome() {
 
     const [addrolecomponet, setAddrolecomponet] = useState(false);
     const [editrolecomponet, setEditrolecomponet] = useState(false);
+    const [idToEdit, setIdToEdit] = useState(null);
 
-
+    const [handleRemovecomponet, setHandlexRemove] = useState(false);
+    const [idToRemove, setIdToRemove] = useState(null);
 
     const navigate = useNavigate();
 
@@ -205,158 +208,6 @@ export default function RoleOTIncome() {
         }
     };
 
-    const handleAdd = async () => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Add New Role OT Income',
-            html: `
-                <input id="swal-input1" class="swal2-input" placeholder="Role">
-                <input id="swal-input2" class="swal2-input" placeholder="Overtime Income" type="number">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Add',
-            preConfirm: () => {
-                return [
-                    document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value
-                ]
-            }
-        });
-
-        if (formValues) {
-            try {
-                await axios.post(`http://localhost:3000/salary/addroleotincome`, {
-                    role: formValues[0],
-                    timeIncome: parseFloat(formValues[1])
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Added!',
-                    text: 'New role overtime income has been added.',
-                });
-                fetchRoleOTIncomes();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-            } catch (error) {
-                console.error('Failed to add role overtime income:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to add!',
-                    text: 'Adding new role overtime income failed.',
-                });
-            }
-        }
-    };
-
-    const handleEdit = async (id, currentRole, currentTimeIncome) => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Edit Role OT Income',
-            html: `
-                <input id="swal-input1" class="swal2-input" value="${currentRole}">
-                <input id="swal-input2" class="swal2-input" type="number" value="${currentTimeIncome}">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Save Changes',
-            preConfirm: () => {
-                return [
-                    document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value
-                ]
-            }
-        });
-
-        if (formValues) {
-            try {
-                await axios.put(`http://localhost:3000/salary/updateroleotincome/${id}`, {
-                    role: formValues[0],
-                    timeIncome: parseFloat(formValues[1])
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    text: 'Role overtime income has been updated.',
-                });
-                fetchRoleOTIncomes();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to update role overtime income:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to update!',
-                    text: 'Role overtime income update failed.',
-                });
-            }
-        }
-    };
-
-    const handleRemove = async (id) => {
-        const result = await MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                await axios.delete(`http://localhost:3000/salary/deleteroleotincome/${id}`);
-                MySwal.fire({
-                    title: 'Deleted!',
-                    text: 'Role overtime income has been deleted.',
-                    icon: 'success',
-                });
-                fetchRoleOTIncomes();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to delete role overtime income:', error);
-                MySwal.fire({
-                    title: 'Failed!',
-                    text: 'Failed to delete role overtime income.',
-                    icon: 'error',
-                });
-            }
-        }
-    };
 
     const filteredRoleOTIncomes = searchTerm
         ? roleOTIncomes.filter(income =>
@@ -382,21 +233,120 @@ export default function RoleOTIncome() {
 
 
     const handleAddRole = () => {
+        fetchRoleOTIncomes();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setAddrolecomponet(true);
     }
 
     const hadelonClose = () => {
+        fetchRoleOTIncomes();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setAddrolecomponet(false);
     }
 
     const hadelEdit = (id) => {
+        fetchRoleOTIncomes();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
         setIdToEdit(id);
         setEditrolecomponet(true);
     }
 
     const hadelEditonClose = () => {
+        fetchRoleOTIncomes();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
         setEditrolecomponet(false);
     }
+
+    const handlexRemove = (id) => {
+        fetchRoleOTIncomes();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setIdToRemove(id);
+        setHandlexRemove(true);
+    }
+
+    const hadelRemoveClose = () => {
+        fetchRoleOTIncomes();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setHandlexRemove(false);
+    }
+
+
 
 
 
@@ -485,7 +435,7 @@ export default function RoleOTIncome() {
                                         <td className="px-6 py-4">Rs. {income.timeIncome}</td>
                                         <td className="px-6 py-4">
                                             <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => hadelEdit(income.id, income.role, income.timeIncome)}>Edit</a>
-                                            <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
+                                            <a href="#" className="font-medium text-white hover:underline" onClick={() => handlexRemove(income.id)}>Remove</a>
                                         </td>
                                     </tr>
                                 ))}
@@ -533,6 +483,7 @@ export default function RoleOTIncome() {
             </div>
             {addrolecomponet && <AddRolecomp onClose={hadelonClose} />}
             {editrolecomponet && idToEdit && <EdditRolecomp onClose={hadelEditonClose} id={idToEdit} />}
+            {handleRemovecomponet && <RemoveRolecomp id={idToRemove} onClose={hadelRemoveClose} />}
 
         </motion.div>
     );
