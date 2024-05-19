@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Alert } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiInformationCircle } from "react-icons/hi";
+import { FcDeleteDatabase } from "react-icons/fc";
+import { MdDeleteSweep } from "react-icons/md";
+
+import { MdCancel } from "react-icons/md";
+import { motion } from 'framer-motion';
+
+
+
 
 export default function RemoveRolecomp({ onClose, id }) {
   const [confirmModal, setConfirmModal] = useState(true); // Set to true to open the modal on mount
@@ -50,6 +58,8 @@ export default function RemoveRolecomp({ onClose, id }) {
         setAlertVisible(false);
         if (onClose) onClose();
       }, 2000);
+
+
     } catch (error) {
       console.error("Error deleting role income:", error);
     }
@@ -57,22 +67,51 @@ export default function RemoveRolecomp({ onClose, id }) {
 
   return (
     <>
-      <Modal show={confirmModal} size="md" onClose={() => setConfirmModal(false)} popup>
+      <Modal show={confirmModal} size="md" onClose={() => {setConfirmModal(false); if (onClose) onClose();      }} popup>
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            
+            
+          <motion.div
+              
+              animate={{ opacity: [1, 0.9, 1],scale: [1, 1.04, 1]  }}
+              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+            >
+              <FcDeleteDatabase className="flex items-center mx-auto mb-4 h-24 w-24 text-gray-400 dark:text-gray-200" />
+            </motion.div>
+            
+            
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this role income?
+              Are you sure!, You want to <b>Delete</b> <br></br>this Role income?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleConfirmRemove}>
-                Yes, I'm sure
+              <Button color="failure" onClick={handleConfirmRemove} >
+              
+              <motion.div
+                  className="flex items-center"
+                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.1, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                >
+                  <MdDeleteSweep className="mr-2 h-5 w-5" />
+                </motion.div>
+               
+               Yes, I'm sure
+             
               </Button>
-              <Button color="gray" onClick={() => {
-                setConfirmModal(false);
+              
+              <Button color="gray" onClick={() => {setConfirmModal(false);
                 if (onClose) onClose();
               }}>
+                
+                <motion.div
+                  className="flex items-center"
+                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                >
+                  <MdCancel className="mr-3 h-5 w-5" />
+                </motion.div>               
+               
                 No, cancel
               </Button>
             </div>
@@ -81,15 +120,28 @@ export default function RemoveRolecomp({ onClose, id }) {
       </Modal>
 
       {alertVisible && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
-          <Alert
-            color="success"
-            icon={HiInformationCircle}
-            onDismiss={() => setAlertVisible(false)}
-          >
-            Role income <b>- Deleted Successfully! ✅</b>
-          </Alert>
+       
+       <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
+         
+         <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20, transition: { duration: 0.8, ease: "easeInOut" } }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            >
+              <Alert
+                color="success"
+                icon={HiInformationCircle}
+                onDismiss={() => setAlertVisible(false)}
+              >
+                Role income <b>- Deleted Successfully! ✅</b>
+              </Alert>
+            </motion.div>
+
+          
         </div>
+
+
       )}
     </>
   );

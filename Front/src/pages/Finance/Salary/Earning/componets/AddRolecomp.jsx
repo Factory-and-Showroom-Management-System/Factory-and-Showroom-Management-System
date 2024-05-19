@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button, Label, Modal, TextInput, Select, Alert } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiInformationCircle } from "react-icons/hi";
+import { MdDataSaverOn, MdCancel } from "react-icons/md";
+import { FcAddDatabase } from "react-icons/fc";
+import { GrPowerReset } from "react-icons/gr";
+import { motion } from 'framer-motion';
+
+
+
 
 export default function AddRolecomp({ onClose }) {
   const [openModal, setOpenModal] = useState(true);
@@ -81,7 +88,7 @@ export default function AddRolecomp({ onClose }) {
 
 
 
-  
+
   const handleConfirmSave = async () => {
     try {
       const response = await fetch('http://localhost:3000/salary/addroleincome', {
@@ -105,7 +112,7 @@ export default function AddRolecomp({ onClose }) {
       handleReset();
       setAlertVisible(true); // Show success alert
 
-      
+
       // Automatically dismiss the alert after 5 seconds
       setTimeout(() => {
         setAlertVisible(false);
@@ -159,8 +166,30 @@ export default function AddRolecomp({ onClose }) {
             </div>
 
             <div className="flex gap-2">
-              <Button color="gray" onClick={handleReset}>Reset</Button>
+              <Button color="gray" onClick={handleReset}>
+
+
+                <motion.div
+                  className="flex items-center"
+                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.1, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                >
+                  <GrPowerReset className="mr-3 h-5 w-5" />
+                </motion.div>
+                Reset
+              </Button>
+
               <Button color="success" onClick={handleSave} disabled={isButtonDisabled}>
+
+
+                <motion.div
+                  className="flex items-center"
+                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.1, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                >
+                  <MdDataSaverOn className="mr-3 h-5 w-5" />
+                </motion.div>
+
                 Save
               </Button>
             </div>
@@ -173,15 +202,43 @@ export default function AddRolecomp({ onClose }) {
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+
+
+            <motion.div
+
+              animate={{ opacity: [1, 0.9, 1], scale: [1, 1.04, 1] }}
+              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+            >
+              <FcAddDatabase className="flex items-center mx-auto mb-4 h-24 w-24 text-gray-400 dark:text-gray-200" />
+            </motion.div>
+
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to save this information?
+              Are you sure!, You want to <b>Save</b> <br></br>this information?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleConfirmSave}>
+
+
+                <motion.div
+                  className="flex items-center"
+                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                >
+                  <MdDataSaverOn className="mr-3 h-5 w-5" />
+                </motion.div>
+
                 Yes, I'm sure
               </Button>
               <Button color="gray" onClick={() => setConfirmModal(false)}>
+
+                <motion.div
+                  className="flex items-center"
+                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                >
+                  <MdCancel className="mr-3 h-5 w-5" />
+                </motion.div>
+
                 No, cancel
               </Button>
             </div>
@@ -191,14 +248,23 @@ export default function AddRolecomp({ onClose }) {
 
       {/* Success Alert */}
       {alertVisible && (
+
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
-          <Alert
-            color="success"
-            icon={HiInformationCircle}
-            onDismiss={() => setAlertVisible(false)}
+
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20, transition: { duration: 0.8, ease: "easeInOut" } }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
           >
-            Role income <b>-Saved-Successfully!- ✅</b>
-          </Alert>
+            <Alert
+              color="success"
+              icon={HiInformationCircle}
+              onDismiss={() => setAlertVisible(false)}
+            >
+              Role income <b>-Saved-Successfully!- ✅</b>   </Alert>
+          </motion.div>
+
         </div>
       )}
     </>
