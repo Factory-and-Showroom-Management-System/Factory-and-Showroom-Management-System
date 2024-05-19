@@ -16,6 +16,7 @@ export default function AddRolecomp({ onClose }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
 
+
   useEffect(() => {
     const savedOpenModal = localStorage.getItem('openModal');
     const savedButtonState = localStorage.getItem('isButtonDisabled');
@@ -100,6 +101,7 @@ export default function AddRolecomp({ onClose }) {
         throw new Error('Failed to save role income');
       }
 
+     
       setConfirmModal(false);
       setOpenModal(false);
       setIsButtonDisabled(true);
@@ -115,6 +117,9 @@ export default function AddRolecomp({ onClose }) {
     } catch (error) {
       console.error('Error saving role income:', error);
     }
+    
+
+
   };
 
   const handleSave = () => {
@@ -130,14 +135,14 @@ export default function AddRolecomp({ onClose }) {
 
   return (
     <>
-     
-        <Modal show={openModal} size="md" onClose={handleClose} popup>
-       
+
+      <Modal show={openModal} size="md" onClose={handleClose} popup>
+
         <motion.div
-        initial={{ opacity: 0, scale: 1 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+          initial={{ opacity: 0, scale: 1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <Modal.Header />
           <Modal.Body>
             <div className="space-y-6">
@@ -188,58 +193,58 @@ export default function AddRolecomp({ onClose }) {
               </div>
             </div>
           </Modal.Body>
-          </motion.div>
+        </motion.div>
 
-        </Modal>
-     
+      </Modal>
+
 
 
       {/* Confirmation modal */}
       <Modal show={confirmModal} size="md" onClose={() => setConfirmModal(false)} popup>
-      
-       <motion.div
-        initial={{ opacity: 0, scale: 1 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
 
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <motion.div
-              animate={{ opacity: [1, 0.9, 1], scale: [1, 1.04, 1] }}
-              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-            >
-              <FcAddDatabase className="flex items-center mx-auto mb-4 h-24 w-24 text-gray-400 dark:text-gray-200" />
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
 
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure!, You want to <b>Save</b> <br /> this information?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleConfirmSave}>
-                <motion.div
-                  className="flex items-center"
-                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-                >
-                  <MdDataSaverOn className="mr-3 h-5 w-5" />
-                </motion.div>
-                Yes, I'm sure
-              </Button>
-              <Button color="gray" onClick={() => setConfirmModal(false)}>
-                <motion.div
-                  className="flex items-center"
-                  animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-                >
-                  <MdCancel className="mr-3 h-5 w-5" />
-                </motion.div>
-                No, cancel
-              </Button>
+          <Modal.Header />
+          <Modal.Body>
+            <div className="text-center">
+              <motion.div
+                animate={{ opacity: [1, 0.9, 1], scale: [1, 1.04, 1] }}
+                transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+              >
+                <FcAddDatabase className="flex items-center mx-auto mb-4 h-24 w-24 text-gray-400 dark:text-gray-200" />
+              </motion.div>
+
+              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                Are you sure!, You want to <b>Save</b> <br /> this information?
+              </h3>
+              <div className="flex justify-center gap-4">
+                <Button color="failure" onClick={handleConfirmSave}>
+                  <motion.div
+                    className="flex items-center"
+                    animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                    transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                  >
+                    <MdDataSaverOn className="mr-3 h-5 w-5" />
+                  </motion.div>
+                  Yes, I'm sure
+                </Button>
+                <Button color="gray" onClick={() => setConfirmModal(false)}>
+                  <motion.div
+                    className="flex items-center"
+                    animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                    transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                  >
+                    <MdCancel className="mr-3 h-5 w-5" />
+                  </motion.div>
+                  No, cancel
+                </Button>
+              </div>
             </div>
-          </div>
-        </Modal.Body>
+          </Modal.Body>
         </motion.div>
       </Modal>
 
