@@ -8,8 +8,7 @@ function BioDataSave(req, res) {
         nameWini,
         nameWFull,
         birthdate,
-        age,
-        roleId,
+        roleName, // This is roleName instead of roleId
         gender,
         address,
         email,
@@ -18,7 +17,7 @@ function BioDataSave(req, res) {
         imgSrc
     } = req.body;
 
-    if (!userId || !nameWini || !nameWFull || !birthdate || !age || !roleId || !gender || !address || !email || !bankNumber || !phoneNumber || !imgSrc) {
+    if (!userId || !nameWini || !nameWFull || !birthdate || !roleName || !gender || !address || !email || !bankNumber || !phoneNumber || !imgSrc) {
         return res.status(400).json({
             message: "All fields are required"
         });
@@ -30,11 +29,11 @@ function BioDataSave(req, res) {
         nameWini: {type: "string", optional: false, max: "100" },
         nameWFull: {type: "string", optional: false, max: "200" },
         birthdate: {type: "string", optional: false }, // Change type to string
-        age: {type: "number", optional: true },
-        roleId: {type: "number", optional: false, max: "100" },
+        roleName: {type: "string", optional: false, max: "100" },
         gender: {type: "string", ptional: false, max: "100" },
         address: {type: "string", optional: false, max: "300" },
         phoneNumber: {type: "string", optional: false, max: "10" },
+        bankNumber: {type: "string", optional: false, max: "15"},
         imgSrc: {type: "string", optional: true, max: "300" }
     };
 
@@ -50,23 +49,42 @@ function BioDataSave(req, res) {
         });
     }
 
-    models.BioData.create({
-        userId: userId,
-        nameWini: nameWini,
-        nameWFull: nameWFull,
-        birthdate: birthdate,
-        age: age,
-        roleId: roleId,
-        gender: gender,
-        address: address,
-        email: email,
-        phoneNumber: phoneNumber,
-        bankNumber: bankNumber,
-        imgSrc: imgSrc
-    }).then(result => {
-        res.status(201).json({
-            message: "BioData saved successfully",
-            bioData: result
+    // Find the role based on the roleName
+    models.Role.findOne({
+        where: { roleName: roleName }
+    }).then(role => {
+        if (!role) {
+            return res.status(404).json({
+                message: "Role not found"
+            });
+        }
+
+        const age = calculateAge(req.body.birthdate);
+
+        // Now we have the roleId, proceed to save BioData
+        models.BioData.create({
+            userId: userId,
+            nameWini: nameWini,
+            nameWFull: nameWFull,
+            birthdate: birthdate,
+            age: calculateAge(req.body.birthdate), // Automatically generate age
+            roleId: role.id, // Use the found roleId
+            gender: gender,
+            address: address,
+            email: email,
+            phoneNumber: phoneNumber,
+            bankNumber: bankNumber,
+            imgSrc: imgSrc
+        }).then(result => {
+            res.status(201).json({
+                message: "BioData saved successfully",
+                bioData: result
+            });
+        }).catch(error => {
+            res.status(500).json({
+                message: "Something went wrong",
+                error: error
+            });
         });
     }).catch(error => {
         res.status(500).json({
@@ -75,6 +93,14 @@ function BioDataSave(req, res) {
         });
     });
 }
+
+// Function to calculate age from birthdate
+function calculateAge(birthdate) {
+    const birthYear = new Date(birthdate).getFullYear();
+    const currentYear = new Date().getFullYear();
+    return currentYear - birthYear;
+}
+
 
 // Create Function Show BioDataSave
 function BioDataShow(req, res) {
@@ -127,7 +153,7 @@ function biodataShowId(req, res) {
 
 // Create function to destroy BioData table id
 function BioDataDelete(req, res) {
-    const tableId = req.params.userId;
+    const tableId = req.params.id;
 
     models.BioData.findByPk(tableId).then(result => {
         if (!result) {
@@ -153,16 +179,28 @@ function BioDataDelete(req, res) {
     });
 }
 
+function findRoleId(req, res){
+    const roleName = req.params.roleName;
+    models.Role.findOne({
+        where: { roleName: roleName }
+    }).then(role => {
+        if (!role) {
+            return res.status(404).json({
+                message: "Role not found"
+            });
+        }
+    });
+}
+
 
 // Create function to Update BioData table
 function BioDataUpdate(req, res) {
-    const tableId = req.params.userId;
+    const tableId = req.params.id;
     const {
         userId,
         nameWini,
         nameWFull,
         birthdate,
-        age,
         roleName,
         gender,
         address,
@@ -178,10 +216,10 @@ function BioDataUpdate(req, res) {
         nameWini: { type: "string", optional: false, max: "100" },
         nameWFull: { type: "string", optional: false, max: "200" },
         birthdate: { type: "string", optional: false }, // Change type to string
-        age: { type: "number", optional: true },
         roleName: { type: "string", optional: false, max: "100" },
         gender: { type: "string", optional: false, max: "100" },
         address: { type: "string", optional: false, max: "300" },
+        bankNumber: {type: "string", optional: false, max: "15"},
         phoneNumber: { type: "string", optional: false, max: "10" },
         imgSrc: { type: "string", optional: true, max: "300" }
     };
@@ -221,7 +259,7 @@ function BioDataUpdate(req, res) {
             result.nameWini = nameWini;
             result.nameWFull = nameWFull;
             result.birthdate = birthdate;
-            result.age = age;
+            result.age = calculateAge(req.body.birthdate);
             result.roleId = role.id; // Update roleId with the found roleId
             result.gender = gender;
             result.address = address;
@@ -255,6 +293,29 @@ function BioDataUpdate(req, res) {
     });
 }
 
+function findRoleIDbyRoleName(req, res) {
+    const roleName = req.params.roleName;
+    models.Role.findOne({
+        where: { roleName: roleName }
+    }).then(role => {
+        if (!role) {
+            return res.status(404).json({
+                message: "Role not found"
+            });
+        }
+        res.status(200).json({
+            message: "Role found",
+            role: role
+        });
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error
+        });
+    });
+
+}
+
 
 
 // Export functions
@@ -263,5 +324,6 @@ module.exports = {
     BioDataShow: BioDataShow,
     biodataShowId: biodataShowId,
     BioDataUpdate: BioDataUpdate,
-    BioDataDelete: BioDataDelete
+    BioDataDelete: BioDataDelete,
+    findRoleIDbyRoleName: findRoleIDbyRoleName
 };

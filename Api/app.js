@@ -22,5 +22,4 @@ app.use('/attendance', attendanceRouter);
 // app.use('/salary', salaryRouter);
 
 
-
 module.exports = app;
