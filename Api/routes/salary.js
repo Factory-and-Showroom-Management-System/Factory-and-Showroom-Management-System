@@ -10,10 +10,14 @@ router.put('/updateroleincome/:tableId', salaryController.rupdate);
 router.delete('/deleteroleincome/:tableId', salaryController.rdestroy);
 router.post('/addsalary', salaryController.bssalaryAll);
 router.get('/showallsalary', salaryController.bsshow);
+
+
 //add BudgetedAllowance
 router.post('/addbudgetedallowance', salaryController.basave);
 //show BudgetedAllowance
 router.get('/showbudgetedallowance', salaryController.bashow);
+//show BudgetedAllowance by id
+router.get('/showbudgetedallowance/:tableId', salaryController.baIdshow);
 //update BudgetedAllowance
 router.put('/updatebudgetedallowance/:tableId', salaryController.baupdate);
 //delete BudgetedAllowance

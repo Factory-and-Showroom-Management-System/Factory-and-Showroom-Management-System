@@ -10,6 +10,10 @@ import { TiArrowBackOutline } from "react-icons/ti";
 import { useNavigate } from 'react-router-dom';
 import BACart002 from './Carts/BACart002';
 
+//AddBudgetedAllowancomp
+import AddBudgetedAllowancomp from './componets/AddBudgetedAllowancomp';
+
+
 
 import { motion } from 'framer-motion';
 
@@ -41,6 +45,8 @@ export default function BudgetedAllowance() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const navigate = useNavigate();
+
+    const [addbudgetedallowancecomponet, setAddBudgetedAllowanceComponet] = useState(false);
 
 
     const handleEarning = () => {
@@ -403,6 +409,15 @@ export default function BudgetedAllowance() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
+    const handleAddBudgetedAlawnace = () => {
+        setAddBudgetedAllowanceComponet(true);
+    }
+
+    const handleOnClose = () => {
+        setAddBudgetedAllowanceComponet(false);
+    }
+
+
     return (
         <motion.div
             className='w-full'
@@ -424,17 +439,13 @@ export default function BudgetedAllowance() {
 
                 <div className='p-5'>
 
-                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Budgeted Allowances Table: {currentDateTime}</h1>
+                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Budgeted Allowances </h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
-                        <Button onClick={handleAdd} className='bg-green-600'>
+                        <Button onClick={handleAddBudgetedAlawnace} className='bg-green-600'>
                             <IoIosAddCircle className="mr-2 h-5 w-5 " />
                             Add Budgeted Allowance
                         </Button>
-
-                        {/* <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Add Budgeted Allowance
-                    </button> */}
 
 
 
@@ -538,6 +549,8 @@ export default function BudgetedAllowance() {
                     </ul>
                 </nav>
             </div>
+
+            {addbudgetedallowancecomponet && <AddBudgetedAllowancomp onClose={handleOnClose} />}
         </motion.div>
     );
 }

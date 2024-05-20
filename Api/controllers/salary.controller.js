@@ -433,6 +433,32 @@ function bashow(req, res) {
     });
 }
 
+//creat function to show BudgetedAllowance data for id -------------------------------------------------
+function baIdshow(req, res) {
+    const tableId = req.params.tableId;
+
+    models.BudgetedAllowance.findByPk(tableId)
+        .then(budgetedallowance => {
+            if (!budgetedallowance) {
+                return res.status(404).json({
+                    message: "BudgetedAllowance not found"
+                });
+            }
+            res.status(200).json({
+                message: "BudgetedAllowance found",
+                budgetedAllowance: budgetedallowance
+            });
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: "Something went wrong",
+                error: error
+            });
+        });
+}
+
+
+
 //creat function to  BudgetedAllowance data update data
 function baupdate(req, res) {
     const tableId = req.params.tableId;
@@ -2703,6 +2729,7 @@ module.exports = {
     rdestroy: rdestroy,
     bssalaryAll: bssalaryAll,
     bsshow: bsshow,
+    baIdshow: baIdshow,
     basave: basave,
     bashow: bashow,
     baupdate: baupdate,

@@ -39,6 +39,7 @@ export default function FoodAllowance() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [currentDateTime, setCurrentDateTime] = useState('');
+    
     const [addfoodallowancecomponet, setAddFoodAllowancecomponet] = useState(false);
     const [editfoodallowancecomponet, setEditFoodAllowancecomponet] = useState(false);
     const [idToEdit, setIdToEdit] = useState(null);
