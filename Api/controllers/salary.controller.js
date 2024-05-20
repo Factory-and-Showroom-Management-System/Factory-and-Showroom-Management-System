@@ -2625,6 +2625,43 @@ function AllMonthSalarySheetIdShow(req, res) {
 //     });
 // }
 
+// //Creat Function Show BioDataSave id
+function BioDataShowId(req, res) {
+    const tableId = req.params.tableId;
+
+    models.BioData.findByPk(tableId).then(result => {
+        if (!result) {
+            return res.status(404).json({
+                message: "BioData not found"
+            });
+        }
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error
+        });
+    });
+}
+
+// //Creat Function Show BioDataSave userid
+function BioDataShowUserId(req, res) {
+    const userId = req.params.userId;
+
+    models.BioData.findAll({ where: { userId: userId } }).then(result => {
+        if (!result) {
+            return res.status(404).json({
+                message: "BioData not found"
+            });
+        }
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error
+        });
+    });
+}
 
 
 
@@ -2773,9 +2810,11 @@ module.exports = {
     AllMonthSalarySheet: AllMonthSalarySheet,
     AllMonthSalarySheetShow: AllMonthSalarySheetShow,
     AllMonthSalarySheetIdShow: AllMonthSalarySheetIdShow,
-    showAllrole: showAllrole
+    showAllrole: showAllrole,
 
     // BioDataSave: BioDataSave,
+    BioDataShowId: BioDataShowId,
+    BioDataShowUserId: BioDataShowUserId,
     // BioDataShow: BioDataShow,
     // BioDataDelete: BioDataDelete,
     // BioDataUpdate: BioDataUpdate

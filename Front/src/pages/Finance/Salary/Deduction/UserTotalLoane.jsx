@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { TiArrowBackOutline } from "react-icons/ti";
 import ToBePaidCarts001 from './Cards/ToBePaidCarts001';
 
-
 import { motion } from 'framer-motion';
+import AddLoan from './componets/AddLoan';
 
 const container = {
     hidden: { opacity: 0 },
@@ -39,6 +39,8 @@ export default function UserTotalLoans() {
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const [addloancomponet, setAddLoancomponet] = useState(false);
 
 
     const navigate = useNavigate();
@@ -213,79 +215,7 @@ export default function UserTotalLoans() {
         });
     };
 
-    const handleAdd = async () => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Add New Loan',
-            html: `
-                <input id="swal-input1" class="swal2-input" placeholder="User ID" type="number">
-                <input id="swal-input2" class="swal2-input" placeholder="Name">
-                <input id="swal-input3" class="swal2-input" type="date" placeholder="Loan Date">
-                <input id="swal-input4" class="swal2-input" type="number" placeholder="Loan Amount">
-                <input id="swal-input5" class="swal2-input" type="number" placeholder="To Be Paid">
-                <input id="swal-input6" class="swal2-input" type="number" placeholder="Loan Rate Percentage">
-                <input id="swal-input7" class="swal2-input" placeholder="Loan Duration">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Add',
-            preConfirm: () => {
-                return [
-                    document.getElementById('swal-input1').value, // User ID
-                    document.getElementById('swal-input2').value, // Name
-                    document.getElementById('swal-input3').value, // Loan Date
-                    parseFloat(document.getElementById('swal-input4').value), // Loan Amount
-                    parseFloat(document.getElementById('swal-input5').value), // To Be Paid
-                    parseFloat(document.getElementById('swal-input6').value), // Loan Rate Percentage
-                    document.getElementById('swal-input7').value // Loan Duration
-                ]
-            }
-        });
-
-        if (formValues) {
-            try {
-                await axios.post(`http://localhost:3000/salary/addusertotalloan`, {
-                    userId: parseInt(formValues[0], 10), // Convert User ID to an integer
-                    name: formValues[1],
-                    loanDate: formValues[2],
-                    loanAmount: formValues[3],
-                    toBePaid: formValues[4],
-                    loanRatePresentage: formValues[5],
-                    loanDuration: formValues[6]
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Added!',
-                    text: 'New loan has been added.',
-                });
-                fetchLoans();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-
-
-
-            } catch (error) {
-                console.error('Failed to add loan:', error.response ? error.response.data : error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to add!',
-                    text: 'Adding new loan failed: ' + (error.response ? error.response.data.message : error.message),
-                });
-            }
-        }
-    };
-
+   
     const handleEdit = async (id, currentData) => {
         const { value: formValues } = await MySwal.fire({
             title: 'Edit Loan',
@@ -433,6 +363,17 @@ export default function UserTotalLoans() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
+
+    const handleAddLoan = () => {
+        setAddLoancomponet(true);
+    }
+
+    const handleOnClose = () => {
+        setAddLoancomponet(false);
+    }
+
+
+
     return (
         <motion.div
             className='w-full'
@@ -455,18 +396,14 @@ export default function UserTotalLoans() {
 
                 <div className='p-5'>
 
-                    <h1 className="  text-3xl text-blue-500">User Total Loans Table: {currentDateTime}</h1>
+                    <h1 className="  text-3xl text-blue-500">User Total Loans</h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
 
-                        <Button onClick={handleAdd} className='bg-green-600'>
+                        <Button onClick={handleAddLoan} className='bg-green-600'>
                             <IoIosAddCircle className="mr-2 h-5 w-5 " />
                             Add Loan
                         </Button>
-
-                        {/* <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Add Loan
-                        </button> */}
 
 
                         <div className="relative ml-4">
@@ -588,6 +525,7 @@ export default function UserTotalLoans() {
                 </nav>
 
             </div>
+            {addloancomponet && <AddLoan onClose={handleOnClose} />}
         </motion.div>
     );
 }

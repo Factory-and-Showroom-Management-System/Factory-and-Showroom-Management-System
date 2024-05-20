@@ -108,6 +108,11 @@ router.get('/showallrole', salaryController.showAllrole);
 // router.post('/addbiodata', salaryController.BioDataSave);
 // //Show to BioData table
 // router.get('/showbiodata', salaryController.BioDataShow);
+
+// //Show to BioData table by id
+router.get('/showbiodata/:tableId', salaryController.BioDataShowId);
+//BioDataShowUserId
+router.get('/showuseridbiodata/:userId', salaryController.BioDataShowUserId);
 // //Update to BioData table
 // router.put('/updatebiodata/:tableId', salaryController.BioDataUpdate);
 // //Delete to BioData table
