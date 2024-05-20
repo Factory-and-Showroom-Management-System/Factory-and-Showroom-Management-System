@@ -48,6 +48,8 @@ router.get('/showmonthepfetf', salaryController.MonthEpfEtfShow);
 router.post('/addfoodallowance', salaryController.FoodAllowanSave);
 //show to FoodAllowance table
 router.get('/showfoodallowance', salaryController.FoodAllowanceShow);
+//FoodAllowanceShowId
+router.get('/showfoodallowance/:tableId', salaryController.FoodAllowanceShowId);
 //update to FoodAllowance table
 router.put('/updatefoodallowance/:tableId', salaryController.FoodAllowanceUpdate);
 //delete to FoodAllowance table

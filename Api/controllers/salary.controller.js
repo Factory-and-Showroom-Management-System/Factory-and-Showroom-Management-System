@@ -1261,6 +1261,30 @@ function FoodAllowanceShow(req, res) {
     });
 }
 
+//creat function to show  FoodAllowance data use id
+function FoodAllowanceShowId(req, res) {
+    const tableId = req.params.tableId;
+
+    models.FoodAllowance.findByPk(tableId)
+        .then(result => {
+            if (!result) {
+                return res.status(404).json({
+                    message: "FoodAllowance not found"
+                });
+            }
+            res.status(200).json(result);
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: "Something went wrong",
+                error: error
+            });
+        });
+}
+
+
+
+
 //creat function to update FoodAllowance data
 function FoodAllowanceUpdate(req, res) {
     const tableId = req.params.tableId;
@@ -2698,6 +2722,7 @@ module.exports = {
     DeductionShow: DeductionShow,
     FoodAllowanSave: FoodAllowanSave,
     FoodAllowanceShow: FoodAllowanceShow,
+    FoodAllowanceShowId: FoodAllowanceShowId,
     FoodAllowanceUpdate: FoodAllowanceUpdate,
     FoodAllowanceDelete: FoodAllowanceDelete,
     MonthFoodAllowance: MonthFoodAllowance,

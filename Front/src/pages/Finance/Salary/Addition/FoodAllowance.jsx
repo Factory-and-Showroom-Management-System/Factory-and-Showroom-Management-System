@@ -7,6 +7,10 @@ import { IoIosAddCircle } from "react-icons/io";
 import AllowanceCard001 from './Cards/AllowanceCard001';
 import { useNavigate } from 'react-router-dom';
 import { TiArrowBackOutline } from "react-icons/ti";
+//AddFoodAllowancomp
+import AddFoodAllowancomp from '../Addition/componets/AddFoodAllowancomp';
+//EdditFoodAllowancomp
+import EdditFoodAllowancomp from '../Addition/componets/EdditFoodAllowancomp';
 
 
 import { motion } from 'framer-motion';
@@ -40,7 +44,9 @@ export default function FoodAllowance() {
     const [error, setError] = useState('');
     const [currentDateTime, setCurrentDateTime] = useState('');
 
-
+    const [addfoodallowancecomponet, setAddFoodAllowancecomponet] = useState(false);
+    const [editfoodallowancecomponet, setEditFoodAllowancecomponet] = useState(false);
+    const [idToEdit, setIdToEdit] = useState(null);
 
 
     const navigate = useNavigate();
@@ -387,6 +393,32 @@ export default function FoodAllowance() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
+
+
+
+
+    const handleAddFoodAlawnace = () => {
+        setAddFoodAllowancecomponet(true);
+    }
+
+    const hadelEdit = (id) => {
+        setEditFoodAllowancecomponet(true);
+        setIdToEdit(id);
+    }
+
+    const hadelEditonClose = () => {
+        setEditFoodAllowancecomponet(false);
+    }
+    
+    const hadelonClose = () => {
+        setAddFoodAllowancecomponet(false);
+    }
+
+
+
+
+
+
     return (
         <motion.div
             className='w-full'
@@ -409,11 +441,11 @@ export default function FoodAllowance() {
 
                 <div className='p-5'>
 
-                    <h1 className="  text-3xl text-blue-500">Food Allowance Table</h1>
+                    <h1 className="  text-3xl text-blue-500">Food Allowance </h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
 
-                        <Button onClick={handleAdd} className='bg-green-600'>
+                        <Button onClick={handleAddFoodAlawnace} className='bg-green-600'>
                             <IoIosAddCircle className="mr-2 h-5 w-5 " />
                             Add Food Allowance
                         </Button>
@@ -466,7 +498,7 @@ export default function FoodAllowance() {
                                         <td className="px-6 py-4">{formatDate(allowance.allowanceDate)}</td>
                                         <td className="px-6 py-4">Rs. {allowance.allowance.toFixed(2)}</td>
                                         <td className="px-6 py-4">
-                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(allowance.id, allowance)}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => hadelEdit(allowance.id, allowance)}>Edit</a>
                                             <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(allowance.id)}>Remove</a>
                                         </td>
                                     </tr>
@@ -514,6 +546,10 @@ export default function FoodAllowance() {
                     </ul>
                 </nav>
             </div>
+
+            {addfoodallowancecomponet && <AddFoodAllowancomp onClose={hadelonClose} />}
+            {editfoodallowancecomponet && idToEdit && <EdditFoodAllowancomp onClose={hadelEditonClose} id={idToEdit} />}
+
         </motion.div>
     );
 }
