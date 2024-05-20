@@ -7,12 +7,9 @@ import { IoIosAddCircle } from "react-icons/io";
 import AllowanceCard001 from './Cards/AllowanceCard001';
 import { useNavigate } from 'react-router-dom';
 import { TiArrowBackOutline } from "react-icons/ti";
-//AddFoodAllowancomp
 import AddFoodAllowancomp from '../Addition/componets/AddFoodAllowancomp';
-//EdditFoodAllowancomp
 import EdditFoodAllowancomp from '../Addition/componets/EdditFoodAllowancomp';
-
-
+import RemoveFoodAllowancecomp from '../Addition/componets/RemoveFoodAllowancecomp';
 import { motion } from 'framer-motion';
 
 const container = {
@@ -20,9 +17,9 @@ const container = {
     visible: {
         opacity: 1,
         transition: {
-            delay: 0.2, // Delay the animation to make it more noticeable
-            when: "beforeChildren", // Animate children after the parent
-            staggerChildren: 0.2, // Add a small stagger effect to each child
+            delay: 0.2,
+            when: "beforeChildren",
+            staggerChildren: 0.2,
         },
     },
 };
@@ -31,7 +28,6 @@ const item = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
 };
-
 
 const MySwal = withReactContent(Swal);
 
@@ -43,11 +39,11 @@ export default function FoodAllowance() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [currentDateTime, setCurrentDateTime] = useState('');
-
     const [addfoodallowancecomponet, setAddFoodAllowancecomponet] = useState(false);
     const [editfoodallowancecomponet, setEditFoodAllowancecomponet] = useState(false);
     const [idToEdit, setIdToEdit] = useState(null);
-
+    const [handleRemovecomponet, setHandleRemovecomponet] = useState(false);
+    const [idToRemove, setIdToRemove] = useState(null);
 
     const navigate = useNavigate();
 
@@ -59,8 +55,44 @@ export default function FoodAllowance() {
         navigate('/finance?tab=additiondash');
     };
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+            const timeString = now.toLocaleTimeString('en-US', {
+                hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
+            });
+            setCurrentDateTime(`${dateString}, ${timeString}`);
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
 
+    useEffect(() => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+    }, []);
 
+    const fetchRoleIncomes = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/salary/showallroleincome');
+            setRoleIncomes(response.data);
+        } catch (error) {
+            console.error('Failed to fetch role incomes:', error);
+        }
+    };
 
     const handleSubmit = async (event) => {
         //Fetch the data from the API  run to post: http://localhost:3000/salary/addsalary
@@ -76,6 +108,7 @@ export default function FoodAllowance() {
         });
         console.log(response);
     };
+
 
 
 
@@ -159,39 +192,6 @@ export default function FoodAllowance() {
     };
 
 
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            const now = new Date();
-            const dateString = now.toLocaleDateString('en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
-            });
-            setCurrentDateTime(`${dateString}, ${timeString}`);
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
-
-
-    useEffect(() => {
-        fetchAllowances();
-        handleSubmit();
-        handleSubmitEarning();
-        handleSubmitUserLoan();
-        handleSubmitDeduct();
-        handleSubmitEpsEtf();
-        handleSubmitMonthFoodAllwance();
-        handleSubmitMonthOT();
-        handleSubmitAdditon();
-        handleSubmitNetPay();
-        handleSubmitMonthSalarySheet();
-        handleSubmitSubMonthSalarySheet();
-        handleSubmitAllMonthSalarySheet();
-
-    }, []);
-
     const fetchAllowances = async () => {
         setLoading(true);
         setError('');
@@ -203,165 +203,6 @@ export default function FoodAllowance() {
             console.error('Failed to fetch allowances:', error);
             setError('Failed to fetch allowances');
             setLoading(false);
-        }
-    };
-
-    const handleAdd = async () => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Add New Food Allowance',
-            html: `
-                <input id="swal-input1" class="swal2-input" type="date" placeholder="Allowance Date">
-                <input id="swal-input2" class="swal2-input" type="number" placeholder="Allowance Amount">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Add',
-
-            preConfirm: () => {
-                return [
-
-                    document.getElementById('swal-input1').value, // Loan Date
-                    parseFloat(document.getElementById('swal-input2').value), // Loan Amount
-                ]
-            }
-        });
-        if (formValues) {
-            try {
-                await axios.post(`http://localhost:3000/salary/addfoodallowance`, {
-                    allowanceDate: formValues[0],
-                    allowance: parseFloat(formValues[1])
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Added!',
-                    text: 'New food allowance has been added.',
-                });
-
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to add allowance:', error.response ? error.response.data : error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to add!',
-                    text: 'Adding new allowance failed: ' + (error.response ? error.response.data.message : error.message),
-                });
-            }
-        }
-    };
-
-    const handleEdit = async (id, currentData) => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Edit Food Allowance',
-            html: `
-                <input id="swal-input1" class="swal2-input" type="date" value="${currentData.allowanceDate.slice(0, 10)}">
-                <input id="swal-input2" class="swal2-input" type="number" value="${currentData.allowance}">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Add',
-
-            preConfirm: () => {
-                return [
-
-                    document.getElementById('swal-input1').value, // Loan Date
-                    parseFloat(document.getElementById('swal-input2').value), // Loan Amount
-                ]
-            }
-        });
-        if (formValues) {
-            try {
-                await axios.put(`http://localhost:3000/salary/updatefoodallowance/${id}`, {
-                    allowanceDate: formValues[0],
-                    allowance: parseFloat(formValues[1])
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    text: 'Food allowance has been successfully updated.',
-                });
-
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to update allowance:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to update!',
-                    text: 'Updating allowance failed: ' + (error.response ? error.response.data.message || error.response.data : error.message),
-                });
-            }
-        }
-    };
-
-    const handleRemove = async (id) => {
-        const result = await MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                await axios.delete(`http://localhost:3000/salary/deletefoodallowance/${id}`);
-                MySwal.fire({
-                    title: 'Deleted!',
-                    text: 'Food allowance has been deleted.',
-                    icon: 'success',
-                });
-
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to delete allowance:', error);
-                MySwal.fire({
-                    title: 'Failed!',
-                    text: 'Failed to delete allowance.',
-                    icon: 'error',
-                });
-            }
         }
     };
 
@@ -393,31 +234,115 @@ export default function FoodAllowance() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
-
-
-
-
     const handleAddFoodAlawnace = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setAddFoodAllowancecomponet(true);
     }
 
-    const hadelEdit = (id) => {
+    const handleEdit = (id) => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setEditFoodAllowancecomponet(true);
         setIdToEdit(id);
     }
 
-    const hadelEditonClose = () => {
+    const handleRemove = (id) => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+        setHandleRemovecomponet(true);
+        setIdToRemove(id);
+    }
+
+    const handleEditOnClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setEditFoodAllowancecomponet(false);
     }
-    
-    const hadelonClose = () => {
+
+    const handleOnClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setAddFoodAllowancecomponet(false);
     }
 
+    const handleRemoveClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
 
-
-
-
+        setHandleRemovecomponet(false);
+    }
 
     return (
         <motion.div
@@ -428,34 +353,27 @@ export default function FoodAllowance() {
             exit='hidden'
         >
             <div className="relative overflow-x-auto sm:rounded-lg">
-
                 <div className='w-full'>
                     <div className='flex gap-4 '>
-
                         <div className='p-4 mt-3'>
                             <AllowanceCard001 />
                         </div>
-
                     </div>
                 </div>
 
                 <div className='p-5'>
-
-                    <h1 className="  text-3xl text-blue-500">Food Allowance </h1>
-
+                    <h1 className="text-3xl text-blue-500">Food Allowance</h1>
                     <div className='mb-2 mt-5 flex items-center'>
-
                         <Button onClick={handleAddFoodAlawnace} className='bg-green-600'>
-                            <IoIosAddCircle className="mr-2 h-5 w-5 " />
+                            <IoIosAddCircle className="mr-2 h-5 w-5" />
                             Add Food Allowance
                         </Button>
 
                         <div className="relative ml-4">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
-
                             </div>
                             <input
                                 type="text"
@@ -464,23 +382,19 @@ export default function FoodAllowance() {
                                 value={searchTerm}
                                 onChange={e => setSearchTerm(e.target.value)}
                             />
-
                             <Button.Group outline className='ml-2'>
-                                <Button color="gray" onClick={handleMonthFoodAllowance} >
+                                <Button color="gray" onClick={handleMonthFoodAllowance}>
                                     <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
                                     Back
                                 </Button>
-
                                 <Button color="gray" onClick={handleAddtion}>
                                     <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
                                     Dashboard
                                 </Button>
-
-
                             </Button.Group>
-
                         </div>
                     </div>
+
                     <div className="relative overflow-x-auto sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500">
                             <thead className="text-xs text-white uppercase bg-blue-600">
@@ -498,7 +412,7 @@ export default function FoodAllowance() {
                                         <td className="px-6 py-4">{formatDate(allowance.allowanceDate)}</td>
                                         <td className="px-6 py-4">Rs. {allowance.allowance.toFixed(2)}</td>
                                         <td className="px-6 py-4">
-                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => hadelEdit(allowance.id, allowance)}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(allowance.id)}>Edit</a>
                                             <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(allowance.id)}>Remove</a>
                                         </td>
                                     </tr>
@@ -506,16 +420,11 @@ export default function FoodAllowance() {
 
                                 <tr className="bg-blue-800 text-white">
                                     <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.) :</td>
-                                    <td className="px-6  font-bold" colSpan="2">Rs. {totalAllowance.toFixed(2)}</td>
-
+                                    <td className="px-6 font-bold" colSpan="2">Rs. {totalAllowance.toFixed(2)}</td>
                                 </tr>
                                 <tr className="bg-blue-800 text-white">
                                     <td className="px-20 pb-3 text-right font-bold" colSpan="2">Total (Rs.) :</td>
                                     <td className="px-6 font-bold" colSpan="2">Rs. {totalAllowance.toFixed(4)}</td>
-
-
-
-
                                 </tr>
                             </tbody>
                         </table>
@@ -547,9 +456,9 @@ export default function FoodAllowance() {
                 </nav>
             </div>
 
-            {addfoodallowancecomponet && <AddFoodAllowancomp onClose={hadelonClose} />}
-            {editfoodallowancecomponet && idToEdit && <EdditFoodAllowancomp onClose={hadelEditonClose} id={idToEdit} />}
-
+            {addfoodallowancecomponet && <AddFoodAllowancomp onClose={handleOnClose} />}
+            {editfoodallowancecomponet && idToEdit && <EdditFoodAllowancomp onClose={handleEditOnClose} id={idToEdit} />}
+            {handleRemovecomponet && idToRemove && <RemoveFoodAllowancecomp id={idToRemove} onClose={handleRemoveClose} />}
         </motion.div>
     );
 }
