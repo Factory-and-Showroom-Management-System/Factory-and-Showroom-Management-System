@@ -16,6 +16,8 @@ import AddBudgetedAllowancomp from './componets/AddBudgetedAllowancomp';
 
 
 import { motion } from 'framer-motion';
+import EdditBudgetedAllowancomp from './componets/EdditBudgetedAllowancomp';
+import RemoveBudgetedAllowancecomp from './componets/RemoveBudgetedAllowancecomp';
 
 const container = {
     hidden: { opacity: 0 },
@@ -47,6 +49,11 @@ export default function BudgetedAllowance() {
     const navigate = useNavigate();
 
     const [addbudgetedallowancecomponet, setAddBudgetedAllowanceComponet] = useState(false);
+    const [editbudgetedallowancecomponet, setEditFoodAllowancecomponet] = useState(false);
+    const [idToEdit, setIdToEdit] = useState(null);
+
+    const [handleRemovecomponet, setHandleRemovecomponet] = useState(false);
+    const [idToRemove, setIdToRemove] = useState(null);
 
 
     const handleEarning = () => {
@@ -215,177 +222,6 @@ export default function BudgetedAllowance() {
         }
     };
 
-    const handleAdd = async () => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Add New Budgeted Allowance',
-            html: `
-            <input id="swal-input1" class="swal2-input" placeholder="Select Date">
-            <input id="swal-input2" class="swal2-input" placeholder="Enter Value" type="number">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Add',
-            didOpen: () => {
-                flatpickr("#swal-input1", {
-                    altInput: true,
-                    altFormat: "F j, Y",
-                    dateFormat: "Y-m-d",
-                });
-            },
-            preConfirm: () => {
-                const date = document.getElementById('swal-input1').value;
-                const value = parseFloat(document.getElementById('swal-input2').value);
-                if (!date || isNaN(value)) {
-                    Swal.showValidationMessage("Please select a date and enter a valid value.");
-                }
-                return { date, value };
-            }
-        });
-
-        if (formValues) {
-            try {
-                await axios.post('http://localhost:3000/salary/addbudgetedallowance', {
-                    baDate: formValues.date,
-                    baValue: formValues.value
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Added!',
-                    text: 'Budgeted allowance has been added.'
-                });
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to add budgeted allowance:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to add!',
-                    text: 'Adding new budgeted allowance failed.'
-                });
-            }
-        }
-    };
-
-    const handleEdit = async (id, currentBaDate, currentBaValue) => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Edit Budgeted Allowance',
-            html: `
-            <input id="swal-input1" class="swal2-input" value="${currentBaDate}">
-            <input id="swal-input2" class="swal2-input" type="number" value="${currentBaValue}">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Save Changes',
-            didOpen: () => {
-                flatpickr("#swal-input1", {
-                    altInput: true,
-                    altFormat: "F j, Y",
-                    dateFormat: "Y-m-d",
-                });
-            },
-            preConfirm: () => {
-                const date = document.getElementById('swal-input1')._flatpickr.input.value;
-                const value = parseFloat(document.getElementById('swal-input2').value);
-                if (!date || isNaN(value)) {
-                    Swal.showValidationMessage("Please select a date and enter a valid value.");
-                }
-                return { date, value };
-            }
-        });
-
-        if (formValues) {
-            try {
-                await axios.put(`http://localhost:3000/salary/updatebudgetedallowance/${id}`, {
-                    baDate: formValues.date,
-                    baValue: formValues.value
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    text: 'Budgeted allowance has been updated.'
-                });
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to update budgeted allowance:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to update!',
-                    text: 'Updating budgeted allowance failed.'
-                });
-            }
-        }
-    };
-
-    const handleRemove = async (id) => {
-        const result = await MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                await axios.delete(`http://localhost:3000/salary/deletebudgetedallowance/${id}`);
-                MySwal.fire({
-                    title: 'Deleted!',
-                    text: 'Budgeted allowance has been deleted.',
-                    icon: 'success'
-                });
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to delete budgeted allowance:', error);
-                MySwal.fire({
-                    title: 'Failed!',
-                    text: 'Failed to delete budgeted allowance.',
-                    icon: 'error'
-                });
-            }
-        }
-    };
 
     const filteredAllowances = searchTerm
         ? allowances.filter(allowance =>
@@ -410,12 +246,119 @@ export default function BudgetedAllowance() {
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
     const handleAddBudgetedAlawnace = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setAddBudgetedAllowanceComponet(true);
     }
 
+    const handleEdit = (id) => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+        setIdToEdit(id);
+        setEditFoodAllowancecomponet(true);
+    }
+
+    const handleRemove = (id) => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setIdToRemove(id);
+        setHandleRemovecomponet(true);
+    }
+
+    const handleRemoveClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setHandleRemovecomponet(false);
+    }
+
+
     const handleOnClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
         setAddBudgetedAllowanceComponet(false);
     }
+
+    const handleEditOnClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setEditFoodAllowancecomponet(false);
+    }
+
 
 
     return (
@@ -551,6 +494,8 @@ export default function BudgetedAllowance() {
             </div>
 
             {addbudgetedallowancecomponet && <AddBudgetedAllowancomp onClose={handleOnClose} />}
+            {editbudgetedallowancecomponet && idToEdit && <EdditBudgetedAllowancomp onClose={handleEditOnClose} id={idToEdit} />}
+            {handleRemovecomponet && idToRemove && <RemoveBudgetedAllowancecomp id={idToRemove} onClose={handleRemoveClose} />}
         </motion.div>
     );
 }
