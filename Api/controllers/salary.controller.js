@@ -743,6 +743,34 @@ function ShowUserTotalLoan(req, res) {
     });
 }
 
+//creat function to show UserTotalLoan data by id
+function ShowUserTotalLoanById(req, res) {
+    const tableId = req.params.tableId;
+
+    // Find UserTotalLoan by table ID
+    models.UserTotalLoan.findByPk(tableId)
+        .then(userTotalLoan => {
+            if (!userTotalLoan) {
+                return res.status(404).json({
+                    message: "UserTotalLoan not found"
+                });
+            }
+            res.status(200).json({
+                message: "UserTotalLoan found",
+                userTotalLoan: userTotalLoan
+            });
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: "Something went wrong",
+                error: error
+            });
+        });
+}
+
+
+
+
 function UpdateUserTotalLoan(req, res) {
     const tableId = req.params.tableId;
     const updatedUserTotalLoan = {
@@ -2776,6 +2804,7 @@ module.exports = {
     SaveUserTotalLoan: SaveUserTotalLoan,
     AddUserTotalLoan: AddUserTotalLoan,
     ShowUserTotalLoan: ShowUserTotalLoan,
+    ShowUserTotalLoanById: ShowUserTotalLoanById,
     UpdateUserTotalLoan: UpdateUserTotalLoan,
     DeleteUserTotalLoan: DeleteUserTotalLoan,
     UserMonthLoan: UserMonthLoan,

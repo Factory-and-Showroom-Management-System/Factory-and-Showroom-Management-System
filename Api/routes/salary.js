@@ -32,6 +32,8 @@ router.post('/savesertotalloan', salaryController.SaveUserTotalLoan);
 router.post('/addusertotalloan', salaryController.AddUserTotalLoan);
 // show data from UserTotalLoan table
 router.get('/showusertotalloan', salaryController.ShowUserTotalLoan);
+// show data from UserTotalLoan table by id
+router.get('/showusertotalloan/:tableId', salaryController.ShowUserTotalLoanById);
 // update data from UserTotalLoan table
 router.put('/updateusertotalloan/:tableId', salaryController.UpdateUserTotalLoan);
 // delete data from UserTotalLoan table

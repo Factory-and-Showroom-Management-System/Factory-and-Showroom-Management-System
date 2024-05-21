@@ -10,6 +10,7 @@ import ToBePaidCarts001 from './Cards/ToBePaidCarts001';
 
 import { motion } from 'framer-motion';
 import AddLoan from './componets/AddLoan';
+import EditLoan from './componets/EditLoan';
 
 const container = {
     hidden: { opacity: 0 },
@@ -41,7 +42,8 @@ export default function UserTotalLoans() {
     const [error, setError] = useState('');
 
     const [addloancomponet, setAddLoancomponet] = useState(false);
-
+    const [editloan, setEditLoancecomponet] = useState(false);
+    const [idToEdit, setIdToEdit] = useState(null);
 
     const navigate = useNavigate();
 
@@ -216,7 +218,7 @@ export default function UserTotalLoans() {
     };
 
    
-    const handleEdit = async (id, currentData) => {
+    const handleEdittttt = async (id, currentData) => {
         const { value: formValues } = await MySwal.fire({
             title: 'Edit Loan',
             html: `
@@ -368,9 +370,19 @@ export default function UserTotalLoans() {
         setAddLoancomponet(true);
     }
 
+    const handleEdit = (id) => {
+        setIdToEdit(id);
+        setEditLoancecomponet(true);
+    }
+
     const handleOnClose = () => {
         setAddLoancomponet(false);
     }
+
+    const handleEditOnClose = () => {
+        setEditLoancecomponet(false);
+    }
+
 
 
 
@@ -526,6 +538,7 @@ export default function UserTotalLoans() {
 
             </div>
             {addloancomponet && <AddLoan onClose={handleOnClose} />}
+            {editloan && idToEdit && <EditLoan onClose={handleEditOnClose} id={idToEdit} />}
         </motion.div>
     );
 }
