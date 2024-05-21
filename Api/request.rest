@@ -13,7 +13,8 @@ Content-Type: application/json
 }
 //get product
 ###
-GET http://localhost:3000/adminproduct/view
+GET http://localhost:3000/usersrouter/profile
+
 
 
 //logout

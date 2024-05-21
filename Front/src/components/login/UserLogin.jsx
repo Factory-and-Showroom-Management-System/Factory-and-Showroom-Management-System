@@ -27,10 +27,8 @@ export default function UserLogin() {
     e.preventDefault();
     if (!formData.username || !formData.password) {
       return dispatch(signInFailure("Please fill in all fields."));
-     
     }
-    // setLoading(true);
-
+  
     try {
       dispatch(signInStart());
       const res = await fetch("http://localhost:3000/users/login", {
@@ -38,17 +36,13 @@ export default function UserLogin() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
-      // const data = await res.json();
-      // if(data.success === false){
-      //   setError("Incorrect username or password.");
-      //   dispatch(signInFailure(data.message));
-      // }
-
+  
       if (res.ok) {
         const data = await res.json();
         dispatch(signInSuccess(data));
-        // const data = await res.json();
+        localStorage.setItem('token', data.token); // Store token in local storage
+        console.log("Token stored:", data.token); // Debugging
+  
         // Redirect based on user role
         if (data.role === "admin") {
           navigate("/admin?tab=admindash");
@@ -61,25 +55,20 @@ export default function UserLogin() {
         } else if (data.role === "hr_manager") {
           navigate("/hr?tab=hrdash");
         }
-        
-      } 
-      else {
-        const data = await res.json();
-      if (res.status === 401) {
-        // Invalid username or password
-        dispatch(signInFailure("Invalid username or password."));
       } else {
-        // Other server-side errors
-        dispatch(signInFailure(data.message))
-        
+        const data = await res.json();
+        if (res.status === 401) {
+          dispatch(signInFailure("Invalid username or password."));
+        } else {
+          dispatch(signInFailure(data.message));
+        }
       }
-    }
     } catch (error) {
-      // console.error("Error:", error);
-      // setError("An error occurred. Please try again later.");
       dispatch(signInFailure(error.message));
-    } 
+    }
   };
+  
+
 
   return (
     //drop-shadow-2xl

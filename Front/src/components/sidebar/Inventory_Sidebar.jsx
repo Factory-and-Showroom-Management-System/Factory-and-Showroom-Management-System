@@ -79,7 +79,7 @@ export function Inventory_Sidebar() {
         <Sidebar.Items className="w-full">
           <Sidebar.ItemGroup className="w-full">
             <div className="w-full">
-              <Link to="">
+              <Link to="/profile">
                 <Sidebar.Item
                   href=""
                   icon={HiUser}
