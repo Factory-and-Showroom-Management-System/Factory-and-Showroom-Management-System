@@ -5,46 +5,29 @@ import { FcDeleteDatabase } from "react-icons/fc";
 import { MdDeleteSweep, MdCancel } from "react-icons/md";
 import { motion } from 'framer-motion';
 
-export default function RemoveFoodAllowancecomp({ onClose, id }) {
+export default function RemoveLoan({ onClose, id, userId, name, loanDate, loanAmount, toBePaid, loanRatePercentage, loanDuration }) {
   const [confirmModal, setConfirmModal] = useState(true); // Set to true to open the modal on mount
   const [alertVisible, setAlertVisible] = useState(false);
-  const [allowance, setAllowance] = useState('');
-  const [allowanceDate, setAllowanceDate] = useState('');
-  const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    fetchFoodAllowance();
-  }, [id]);
-
-  const fetchFoodAllowance = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/salary/showfoodallowance/${id}`);
-      const data = await response.json();
-      if (response.ok) {
-        setAllowance(data.allowance.toString());
-        setAllowanceDate(data.allowanceDate.substring(0, 10)); // Extracting the date part from the ISO string
-      } else {
-        setErrors(prevErrors => ({ ...prevErrors, fetch: "Failed to fetch food allowance" }));
-      }
-    } catch (error) {
-      setErrors(prevErrors => ({ ...prevErrors, fetch: "Error fetching food allowance" }));
-    }
-  };
 
   const handleConfirmRemove = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/salary/deletefoodallowance/${id}`, {
+      const response = await fetch(`http://localhost:3000/salary/deleteusertotalloan/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          allowanceDate: allowanceDate,
-          allowance: parseFloat(allowance)
+          userId: parseInt(userId),
+          name: name,
+          loanDate: loanDate,
+          loanAmount: parseFloat(loanAmount),
+          toBePaid: parseFloat(toBePaid),
+          loanRatePercentage: parseFloat(loanRatePercentage),
+          loanDuration: loanDuration
         })
       });
       if (!response.ok) {
-        throw new Error('Failed to delete food allowance');
+        throw new Error('Failed to delete loan');
       }
 
       setConfirmModal(false);
@@ -55,7 +38,7 @@ export default function RemoveFoodAllowancecomp({ onClose, id }) {
         if (onClose) onClose();
       }, 2000);
     } catch (error) {
-      console.error("Error deleting food allowance:", error);
+      console.error("Error deleting loan:", error);
     }
   };
 
@@ -78,7 +61,7 @@ export default function RemoveFoodAllowancecomp({ onClose, id }) {
               </motion.div>
 
               <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                Are you sure you want to <b>Delete</b> this Food Allowance?
+                Are you sure!, You want to <b>Delete</b> this Loan?
               </h3>
               <div className="flex justify-center gap-4">
                 <Button color="failure" onClick={handleConfirmRemove}>
@@ -121,7 +104,7 @@ export default function RemoveFoodAllowancecomp({ onClose, id }) {
               icon={HiInformationCircle}
               onDismiss={() => setAlertVisible(false)}
             >
-              Food Allowance <b>- Deleted Successfully! ✅</b>
+              Loan <b>- Deleted Successfully! ✅</b>
             </Alert>
           </motion.div>
         </div>

@@ -11,6 +11,7 @@ import ToBePaidCarts001 from './Cards/ToBePaidCarts001';
 import { motion } from 'framer-motion';
 import AddLoan from './componets/AddLoan';
 import EditLoan from './componets/EditLoan';
+import RemoveLoan from './componets/RemoveLoan';
 
 const container = {
     hidden: { opacity: 0 },
@@ -44,6 +45,9 @@ export default function UserTotalLoans() {
     const [addloancomponet, setAddLoancomponet] = useState(false);
     const [editloan, setEditLoancecomponet] = useState(false);
     const [idToEdit, setIdToEdit] = useState(null);
+
+    const [handleRemovecomponet, setHandleRemovecomponet] = useState(false);
+    const [idToRemove, setIdToRemove] = useState(null);
 
     const navigate = useNavigate();
 
@@ -218,125 +222,9 @@ export default function UserTotalLoans() {
     };
 
    
-    const handleEdittttt = async (id, currentData) => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Edit Loan',
-            html: `
-                <input id="swal-input1" class="swal2-input" type="number" value="${currentData.userId}">
-                <input id="swal-input2" class="swal2-input" value="${currentData.name}">
-                <input id="swal-input3" class="swal2-input" type="date" value="${currentData.loanDate.slice(0, 10)}">  
-                <input id="swal-input4" class="swal2-input" type="number" value="${currentData.loanAmount}">
-                <input id="swal-input5" class="swal2-input" type="number" value="${currentData.toBePaid}">
-                <input id="swal-input6" class="swal2-input" type="number" value="${currentData.loanRatePresentage}">
-                <input id="swal-input7" class="swal2-input" value="${currentData.loanDuration}">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Save Changes',
-            preConfirm: () => {
-                return [
-                    parseInt(document.getElementById('swal-input1').value, 10),
-                    document.getElementById('swal-input2').value,
-                    document.getElementById('swal-input3').value,
-                    parseFloat(document.getElementById('swal-input4').value),
-                    parseFloat(document.getElementById('swal-input5').value),
-                    parseFloat(document.getElementById('swal-input6').value),
-                    document.getElementById('swal-input7').value
-                ]
-            }
-        });
+   
 
-        if (formValues) {
-            try {
-                await axios.put(`http://localhost:3000/salary/updateusertotalloan/${id}`, {
-                    userId: formValues[0],
-                    name: formValues[1],
-                    loanDate: formValues[2],
-                    loanAmount: formValues[3],
-                    toBePaid: formValues[4],
-                    loanRatePresentage: formValues[5],
-                    loanDuration: formValues[6]
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    text: 'Loan has been successfully updated.',
-                });
-                fetchLoans();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-
-
-            } catch (error) {
-                console.error('Failed to update loan:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to update!',
-                    text: 'Updating loan failed: ' + (error.response ? error.response.data.message || error.response.data : error.message),
-                });
-            }
-        }
-    };
-
-
-    const handleRemove = async (id) => {
-        const result = await MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                await axios.delete(`http://localhost:3000/salary/deleteusertotalloan/${id}`);
-                MySwal.fire({
-                    title: 'Deleted!',
-                    text: 'Loan has been deleted.',
-                    icon: 'success',
-                });
-                fetchLoans();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-
-
-            } catch (error) {
-                console.error('Failed to delete loan:', error);
-                MySwal.fire({
-                    title: 'Failed!',
-                    text: 'Failed to delete loan.',
-                    icon: 'error',
-                });
-            }
-        }
-    };
-
+  
 
     //searching filter-----------------------------------------------------------------------------------------   
     const filteredLoans = searchTerm
@@ -375,6 +263,11 @@ export default function UserTotalLoans() {
         setEditLoancecomponet(true);
     }
 
+    const handleRemove = (id) => {
+        setIdToRemove(id);
+        setHandleRemovecomponet(true);
+    }
+
     const handleOnClose = () => {
         setAddLoancomponet(false);
     }
@@ -382,6 +275,11 @@ export default function UserTotalLoans() {
     const handleEditOnClose = () => {
         setEditLoancecomponet(false);
     }
+
+    const handleRemoveClose = () => {
+        setHandleRemovecomponet(false);
+    }
+
 
 
 
@@ -539,6 +437,7 @@ export default function UserTotalLoans() {
             </div>
             {addloancomponet && <AddLoan onClose={handleOnClose} />}
             {editloan && idToEdit && <EditLoan onClose={handleEditOnClose} id={idToEdit} />}
+            {handleRemovecomponet && idToRemove && <RemoveLoan id={idToRemove} onClose={handleRemoveClose} />}
         </motion.div>
     );
 }
