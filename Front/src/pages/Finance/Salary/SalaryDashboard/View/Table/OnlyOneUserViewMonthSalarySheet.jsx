@@ -21,8 +21,12 @@ const container = {
 export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
     const [openModal, setOpenModal] = useState(true);
     const [data, setData] = useState({});
+    const [biodata, setBiodata] = useState({});
     const [error, setError] = useState('');
     const [invoiceNumber, setInvoiceNumber] = useState('');
+    const [EmployeeNo, setEmployeeNo] = useState('');
+    const [FuLLName, setFuLLName] = useState('');
+    const [BankNumber, setBankNumber] = useState('');
     const date = new Date().toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -42,7 +46,28 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/salary/showmonthsalarysheet/${id}`);
-                setData(response.data); // Set the received data to the state
+                if (!response.data) {
+                    throw new Error('Invalid data');
+                }
+                setData(response.data);
+
+                const userID = response.data.userId;
+                console.log("User ID: ", userID);
+
+                const responseB = await axios.get(`http://localhost:3000/salary/showuseridbiodata/${userID}`);
+                if (!responseB.data || responseB.data.length === 0) {
+                    throw new Error('Invalid biodata');
+                }
+
+                const biodata = responseB.data[0];
+                setBiodata(biodata); // Assuming responseB.data is an array with one element
+                
+
+                setFuLLName(biodata.nameWFull);
+                setEmployeeNo(biodata.userId);
+                setBankNumber(biodata.bankNumber);
+
+
             } catch (err) {
                 console.error('Failed to fetch data:', err);
                 setError(`Failed to load data: ${err.message}`);
@@ -60,25 +85,23 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
     const handleClose = () => {
         setOpenModal(false);
         if (onClose) onClose();
-    }
-
+    };
 
     // Calculations based on data
-    const basicSalary = data.basicSalary || 0;
-    const allowances = data.baValue || 0;
+    const basicSalary = data.basicSalary ?? 0;
+    const allowances = data.baValue ?? 0;
     const BTotal = basicSalary + allowances;
-    const monthLoanDeduction = data.monthLoan || 0;
-    const EPF8 = data.epf8 || 0;
+    const monthLoanDeduction = data.monthLoan ?? 0;
+    const EPF8 = data.epf8 ?? 0;
     const totalDeductions = monthLoanDeduction + EPF8;
-    const totalAllowance = data.totalAllowance || 0;
-    const totalOT = data.totalOT || 0;
+    const totalAllowance = data.totalAllowance ?? 0;
+    const totalOT = data.totalOT ?? 0;
     const totalAdditions = totalAllowance + totalOT;
     const totalEarning = BTotal + totalAdditions;
     const netPay = totalEarning - totalDeductions;
-    const EPF12 = data.epf12 || 0;
-    const ETF3 = data.etf3 || 0;
+    const EPF12 = data.epf12 ?? 0;
+    const ETF3 = data.etf3 ?? 0;
     const totalEPFETF = EPF12 + ETF3;
-
 
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
@@ -93,39 +116,30 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                         </div>
 
                         <div className='mt-5 border-t-2 flex-row flex pt-5'>
-
                             <div className='basis-3/1'></div>
                             <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='basis-1/3 pl-10'>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Employee No :</Label>
-                                    <Label className='text-slate-500'> ?</Label>
+                                    <Label className='text-slate-500'>{EmployeeNo || '?'}</Label>
                                 </div>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Employee Name :</Label>
-                                    <Label className='text-slate-500'> ?</Label>
+                                    <Label className='text-slate-500'>{FuLLName || '?'}</Label>
                                 </div>
                             </motion.div>
-
-
-
-
 
                             <div className='basis-1/3'></div>
                             <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='basis-1/3 pl-10'>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Invoice No :</Label>
-                                    <Label className='text-slate-500'> {invoiceNumber}</Label>
+                                    <Label className='text-slate-500'>{invoiceNumber}</Label>
                                 </div>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Invoice Date :</Label>
-                                    <Label className='text-slate-500'> {date}</Label>
+                                    <Label className='text-slate-500'>{date}</Label>
                                 </div>
                             </motion.div>
-
                         </div>
-
-
-
 
                         <div className='mt-5 border-t-2 flex-row flex pt-5 place-content-center'>
                             <div>
@@ -161,18 +175,14 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                         <td>Budgeted Allowance</td>
                                         <td>Rs. {allowances.toFixed(2)}</td>
                                     </tr>
-
                                     <tr>
                                         <td className='pl-20 font-medium text-gray-700'>Total</td>
                                         <td><strong><div className='w-32 border-t-2 text-gray-700'>Rs. {BTotal.toFixed(2)}</div></strong></td>
                                     </tr>
-
-
                                     <div className='mb-4'></div>
                                     <tr>
                                         <td className='text-stone-600'><strong>Additions</strong></td>
                                     </tr>
-
                                     <tr>
                                         <td>Food Allowance</td>
                                         <td>Rs. {totalAllowance.toFixed(2)}</td>
@@ -185,25 +195,18 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                         <td className='pl-20 font-medium text-green-500'>Total Additions</td>
                                         <td><strong><div className='w-32 border-t-2 text-green-500'>Rs. {totalAdditions.toFixed(2)}</div></strong></td>
                                     </tr>
-
                                     <div className='mb-4'></div>
-
                                     <tr>
                                         <td className='pl-20 text-gray-700 font-medium'>Total Earnings</td>
                                         <td className='text-gray-700'><strong>Rs. {totalEarning.toFixed(2)}</strong></td>
                                     </tr>
-
                                     <div className='mb-4'></div>
-
                                     <tr>
                                         <td className='text-stone-600'><strong>Deductions</strong></td>
-
                                     </tr>
-
                                     <tr>
                                         <td>Loan Deduction</td>
                                         <td>Rs. {monthLoanDeduction.toFixed(2)}</td>
-
                                     </tr>
                                     <tr>
                                         <td>EPF 8%</td>
@@ -214,17 +217,13 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                         <td><strong><div className='w-32 border-t-2 text-red-600'>Rs. {totalDeductions.toFixed(2)}</div></strong></td>
                                     </tr>
                                     <div className='mb-4'></div>
-
                                     <tr>
                                         <td className='text-blue-700'><strong>Nett Pay</strong></td>
                                         <td className='text-blue-700'><strong>Rs. {netPay.toFixed(2)}</strong><div className='w-32 border-t-2 pb-1'></div><div className='w-32 border-t-2'></div></td>
-                                        <td></td>
                                     </tr>
                                     <div className='mb-4'></div>
-
                                     <tr>
                                         <td className='text-stone-600'><strong>Company Contribution</strong></td>
-
                                     </tr>
                                     <tr>
                                         <td>EPF Company Contribution 12%</td>
@@ -238,31 +237,23 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                         <td className='pl-20 font-medium text-gray-700'>Total EPF,ETF </td>
                                         <td><strong><div className='w-32 border-t-2 text-gray-700'>Rs. {totalEPFETF.toFixed(2)}</div></strong></td>
                                     </tr>
-
-
-
-                                    <div className='mb-5 '></div>
-
+                                    <div className='mb-5'></div>
                                     <tr>
-                                        <td ><div className='w-200 border-t-2'></div> </td>
-                                        <td ><div className='w-32 border-t-2'></div> </td>
-
+                                        <td><div className='w-200 border-t-2'></div></td>
+                                        <td><div className='w-32 border-t-2'></div></td>
                                     </tr>
-
-                                    <div className='mb-5 '></div>
-
+                                    <div className='mb-5'></div>
                                     <tr>
                                         <td className='text-stone-600'><strong>Bank Account Details</strong></td>
                                     </tr>
                                     <tr>
                                         <td>Bank Name</td>
-                                        <td>?</td>
+                                        <td>{BankNumber || '?'}</td>
                                     </tr>
                                     <div className='mb-4'></div>
-
                                     <tr>
                                         <td className='text-blue-700'><strong>Nett Pay</strong></td>
-                                        <td className='text-blue-700 '><strong>Rs. {netPay.toFixed(2)}</strong></td>
+                                        <td className='text-blue-700'><strong>Rs. {netPay.toFixed(2)}</strong></td>
                                     </tr>
                                     <div className='mb-10'></div>
                                 </tbody>
@@ -275,13 +266,9 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                 <Label className='text-slate-500'>Owner Signature</Label>
                                 <Label className='text-slate-500 pl-96'>Employee Signature</Label>
                             </div>
-
-
-
                             <div className='pl-32 pt-7'>
                                 <Label className='text-slate-500'>......................................................</Label>
                                 <Label className='text-slate-500 pl-80'>........................................................</Label>
-
                             </div>
                         </div>
 
@@ -290,9 +277,6 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                                 <Label className='text-lg text-slate-600'>DOLPHIN ECO PACK (PVT) LTD</Label>
                             </div>
                         </div>
-
-
-
                     </motion.div>
                 </Modal.Body>
             </Modal>
