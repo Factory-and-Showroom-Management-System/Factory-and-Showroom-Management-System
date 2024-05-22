@@ -13,7 +13,7 @@ import InventoryManager from "./pages/dashboard/InventoryManager";
 import HRManager from "./pages/dashboard/HRManager";
 import HomePage from "./components/HomePage/HomePage";
 import PrivateRoute from "./components/PrivateRoute";
-import Profile from "./components/Profile/Profile";
+import ProfileModal from "./components/Profile/ProfileModal";
 
 export default function App() {
   return (
@@ -32,7 +32,7 @@ export default function App() {
             <Route path="/inventory" element={<InventoryManager />} />
             <Route path="/finance" element={<FinanceManager />} />
             <Route path="/hr" element={<HRManager />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<ProfileModal />} />
           
             </Route>
         </Routes>

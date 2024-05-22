@@ -78,10 +78,10 @@ export function Inventory_Sidebar() {
       <Sidebar className="w-full border-r-2">
         <Sidebar.Items className="w-full">
           <Sidebar.ItemGroup className="w-full">
-            <div className="w-full">
-              <Link to="/profile">
+            <div className="w-full ml-2">
+              <Link to="/inventory?tab=inventorydash">
                 <Sidebar.Item
-                  href=""
+                  
                   icon={HiUser}
                   className={`rounded-full hover:bg-[#cdf8da] ${
                     dashboardClicked ? "bg-[#cdf8da] text-black" : ""
@@ -96,7 +96,7 @@ export function Inventory_Sidebar() {
             
 
             <div className="w-full">
-              <Link to="">
+              <Link to="/inventory?tab=inventoryproduct">
                 <Sidebar.Item
                   icon={HiShoppingBag}
                   className={`rounded-full hover:bg-[#cdf8da] ${
@@ -110,7 +110,7 @@ export function Inventory_Sidebar() {
             </div>
 
             <div className="w-full">
-              <Link to="">
+              <Link to="/inventory?tab=inventoryrow">
                 <Sidebar.Item
                   icon={GoDatabase}
                   className={`rounded-full hover:bg-[#cdf8da] ${
