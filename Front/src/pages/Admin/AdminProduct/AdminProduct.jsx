@@ -4,7 +4,7 @@ import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
 
-export default function Product() {
+export default function AdminProduct() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -222,7 +222,7 @@ export default function Product() {
           </div>
 
           <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-white uppercase bg-blue-600">
+            <thead className="text-xs text-white uppercase bg-[#54db93]">
               <tr>
                 <th scope="col" className="px-6 py-5">
                   Product ID
@@ -245,7 +245,7 @@ export default function Product() {
               {currentRows.map((product) => (
                 <tr
                   key={product.id}
-                  className="text-white bg-blue-500 border-b border-blue-400 hover:bg-blue-400"
+                  className="text-black bg-[#cdf8da] border-b border-[#4bf885] hover:bg-[#a1f0c6]"
                 >
                   <td className="px-6 py-3">{product.productId}</td>
                   <td className="px-6 py-3">{product.p_name}</td>
