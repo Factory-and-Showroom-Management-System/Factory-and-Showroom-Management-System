@@ -5,6 +5,8 @@ import bannerLogoPrint from '../Table/bannerLogoPrint.png';
 import { motion } from 'framer-motion';
 import { TiArrowBackOutline } from "react-icons/ti";
 import { FaDownload } from "react-icons/fa";
+import { Button } from "flowbite-react";
+import { FcPrint } from "react-icons/fc";
 
 const container = {
     hidden: { opacity: 0 },
@@ -23,6 +25,10 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
     const [data, setData] = useState({});
     const [error, setError] = useState('');
     const [invoiceNumber, setInvoiceNumber] = useState('');
+    const [EmployeeNo, setEmployeeNo] = useState('');
+    const [FuLLName, setFuLLName] = useState('');
+    const [BankNumber, setBankNumber] = useState('');
+
     const date = new Date().toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -45,18 +51,32 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
                 const response = await axios.get(`http://localhost:3000/salary/showallmonthsalarysheet/${id}`);
                 console.log('API response:', response.data);
                 setData(response.data); // Set the received data to the state
+
+                const userID = response.data.userId;
+                console.log("User ID: ", userID);
+
+                const responseB = await axios.get(`http://localhost:3000/salary/showuseridbiodata/${userID}`);
+                if (!responseB.data || responseB.data.length === 0) {
+                    throw new Error('Invalid biodata');
+                }
+
+                const biodata = responseB.data[0];
+                setFuLLName(biodata.nameWFull);
+                setEmployeeNo(biodata.userId);
+                setBankNumber(biodata.bankNumber);
+
             } catch (err) {
                 console.error('Failed to fetch data:', err);
                 setError(`Failed to load data: ${err.message}`);
             }
+
+            const lastInvoiceNum = parseInt(localStorage.getItem('lastInvoiceNumber') || '233');
+            const newInvoiceNum = `PMS_${lastInvoiceNum + 1}`;
+            setInvoiceNumber(newInvoiceNum);
+            localStorage.setItem('lastInvoiceNumber', lastInvoiceNum + 1);
         };
 
         fetchData();
-
-        const lastInvoiceNum = parseInt(localStorage.getItem('lastInvoiceNumber') || '233');
-        const newInvoiceNum = `PMS_${lastInvoiceNum + 1}`;
-        setInvoiceNumber(newInvoiceNum);
-        localStorage.setItem('lastInvoiceNumber', lastInvoiceNum + 1);
     }, [id]);
 
     const handleClose = () => {
@@ -85,11 +105,57 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
         month: 'long',
         year: 'numeric'
     });
-    
+
+
+    const handlePrint = () => {
+        window.print();
+    };
+
+
+
 
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
+
+
+            <style>
+                {`
+                    @media print {
+                        body * {
+                            visibility: hidden;
+                        }
+                        #printable-area, #printable-area * {
+                            visibility: visible;
+                        }
+                        #printable-area {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 280mm; /* A4 width */
+                            height: 800mm; /* A4 height */
+                        }
+                    }
+                `}
+            </style>
+
+
             <Modal show={openModal} onClose={handleClose} size="5xl">
+
+
+
+                <Button color="gray" onClick={handlePrint}>
+                    <motion.div
+                        className="flex items-center"
+                        animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                        transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                    >
+                        <FcPrint className="mr-3 h-6 w-6" />
+                    </motion.div>
+                    <p className='text-gray-400'>Print</p>
+                </Button>
+
+
+
                 <Modal.Header />
                 <Modal.Body>
                     <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
@@ -104,11 +170,11 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
                             <motion.div variants={container} initial='hidden' animate='visible' exit='hidden' className='basis-1/3 pl-10'>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Employee No :</Label>
-                                    <Label className='text-slate-500'> {data.userId || '?'}</Label>
+                                    <Label className='text-slate-500'>{EmployeeNo || '?'}</Label>
                                 </div>
                                 <div>
                                     <Label className='font-bold text-slate-600'>Employee Name :</Label>
-                                    <Label className='text-slate-500'> {data.name || '?'}</Label>
+                                    <Label className='text-slate-500'> {FuLLName || '?'}</Label>
                                 </div>
                             </motion.div>
                             <div className='basis-1/3'></div>
@@ -232,7 +298,7 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
                                     </tr>
                                     <tr>
                                         <td>Bank Name</td>
-                                        <td>?</td>
+                                        <td>{BankNumber || '?'}</td>
                                     </tr>
                                     <div className='mb-4'></div>
                                     <tr>

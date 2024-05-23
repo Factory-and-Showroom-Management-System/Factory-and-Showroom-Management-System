@@ -1,25 +1,19 @@
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Modal, Label } from "flowbite-react";
 import bannerLogoPrint from '../Table/bannerLogoPrint.png';
 import { motion } from 'framer-motion';
 import { Button } from "flowbite-react";
-import { TiArrowBackOutline } from "react-icons/ti";
-import { FaDownload } from "react-icons/fa";
-
-
-
+import { FcPrint } from "react-icons/fc";
 
 const container = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            delay: 0.2, // Delay the animation to make it more noticeable
-            when: "beforeChildren", // Animate children after the parent
-            staggerChildren: 0.2, // Add a small stagger effect to each child
+            delay: 0.2,
+            when: "beforeChildren",
+            staggerChildren: 0.2,
         },
     },
 };
@@ -29,15 +23,11 @@ const item = {
     visible: { opacity: 1, y: 0 },
 };
 
-
-
-
 export default function ViewMonthSalarySheet({ onClose }) {
     const [openModal, setOpenModal] = useState(true);
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
     const [invoiceNumber, setInvoiceNumber] = useState('');
-    //current date with time (AM or PM)
     const date = new Date().toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -50,18 +40,8 @@ export default function ViewMonthSalarySheet({ onClose }) {
     const CurrentMonth = new Date().toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
-
         hour12: true
     });
-
-    //auto genarate invoice Number fist must add PMS other auto add number
-
-
-
-
-
-
-
 
     useEffect(() => {
         axios.get('http://localhost:3000/salary/showmonthsalarysheet')
@@ -73,59 +53,72 @@ export default function ViewMonthSalarySheet({ onClose }) {
                 setError('Failed to load data');
             });
 
-        // Load the last invoice number from local storage or start with 233
         const lastInvoiceNum = parseInt(localStorage.getItem('lastInvoiceNumber') || '233');
         const newInvoiceNum = `PMS_${lastInvoiceNum + 1}`;
         setInvoiceNumber(newInvoiceNum);
-
-        // Save the new invoice number back to local storage
         localStorage.setItem('lastInvoiceNumber', lastInvoiceNum + 1);
     }, []);
 
     const basicSalary = data.reduce((acc, curr) => acc + curr.basicSalary, 0);
     const allowances = data.reduce((acc, curr) => acc + curr.baValue, 0);
-    //BTotal = basicSalary+allowances
     const BTotal = basicSalary + allowances;
-    //month loan deduction
     const monthLoanDeduction = data.reduce((acc, curr) => acc + curr.monthLoan, 0);
-    //EPF 8%
     const EPF8 = data.reduce((acc, curr) => acc + curr.epf8, 0);
-    //total deductions
     const totalDeductions = monthLoanDeduction + EPF8;
-    //food allowance totalAllowance
     const totalAllowance = data.reduce((acc, curr) => acc + curr.totalAllowance, 0);
-    //OT Commission totalOT 
     const totalOT = data.reduce((acc, curr) => acc + curr.totalOT, 0);
-    //total additions
     const totalAdditions = totalAllowance + totalOT;
-
-    //total Earning BTotal+totalAdditions
     const totalEarning = BTotal + totalAdditions;
-    //netpay totalEarning-totalDeductions
     const netPay = totalEarning - totalDeductions;
-    //total EPF12 epf12
     const EPF12 = data.reduce((acc, curr) => acc + curr.epf12, 0);
-    //total ETF3 etf3
     const ETF3 = data.reduce((acc, curr) => acc + curr.etf3, 0);
-    //total EPF12+ETF3
     const totalEPFETF = EPF12 + ETF3;
-
-
 
     const handleClose = () => {
         setOpenModal(false);
-        if (onClose) onClose(); // Safeguard to ensure onClose is provided
-    }
+        if (onClose) onClose();
+    };
+
+    const handlePrint = () => {
+        window.print();
+    };
 
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
-
+            <style>
+                {`
+                    @media print {
+                        body * {
+                            visibility: hidden;
+                        }
+                        #printable-area, #printable-area * {
+                            visibility: visible;
+                        }
+                        #printable-area {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 280mm; /* A4 width */
+                            height: 1000mm; /* A4 height */
+                        }
+                    }
+                `}
+            </style>
             <Modal show={openModal} onClose={handleClose} size="5xl">
-            
+                <Button color="gray" onClick={handlePrint}>
+                    <motion.div
+                        className="flex items-center"
+                        animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                        transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                    >
+                        <FcPrint className="mr-3 h-6 w-6" />
+                    </motion.div>
+                    <p className='text-gray-400'>Print</p>
+                </Button>
+
                 <Modal.Header></Modal.Header>
 
-                <Modal.Body>
-
+                <Modal.Body id="printable-area">
                     <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
                         <div className='w-full h-full flex pr-20'>
                             <div className="max-w-xl ">
@@ -187,7 +180,6 @@ export default function ViewMonthSalarySheet({ onClose }) {
                                         <td><strong><div className='w-32 border-t-2 text-gray-700'>Rs. {BTotal.toFixed(2)}</div></strong></td>
                                     </tr>
 
-
                                     <div className='mb-4'></div>
                                     <tr>
                                         <td className='text-stone-600'><strong>Additions</strong></td>
@@ -210,18 +202,16 @@ export default function ViewMonthSalarySheet({ onClose }) {
 
                                     <tr>
                                         <td className='pl-20 text-gray-700 font-medium'>Total Earnings</td>
-                                        <td className='text-gray-700'><strong>Rs. {totalEarning.toFixed(2)}</strong></td>
+                                        <td className='text-gray-700'><strong>Rs. {totalEarning.toFixed(2)}</strong><div className='w-32 border-t-2'></div></td>
                                     </tr>
 
                                     <div className='mb-4'></div>
 
                                     <tr>
                                         <td className='text-stone-600'><strong>Deductions</strong></td>
-
                                     </tr>
-
                                     <tr>
-                                        <td>Loan Deduction</td>
+                                        <td>Loan Amount</td>
                                         <td>Rs. {monthLoanDeduction.toFixed(2)}</td>
 
                                     </tr>
@@ -258,8 +248,6 @@ export default function ViewMonthSalarySheet({ onClose }) {
                                         <td className='pl-20 font-medium text-gray-700'>Total EPF,ETF </td>
                                         <td><strong><div className='w-32 border-t-2 text-gray-700'>Rs. {totalEPFETF.toFixed(2)}</div></strong></td>
                                     </tr>
-
-
 
                                     <div className='mb-5 '></div>
 
@@ -310,5 +298,3 @@ export default function ViewMonthSalarySheet({ onClose }) {
         </motion.div>
     );
 }
-
-

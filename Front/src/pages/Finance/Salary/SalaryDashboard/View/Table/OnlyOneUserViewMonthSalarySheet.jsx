@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Modal, Label } from "flowbite-react";
+import { Modal, Label, Button } from "flowbite-react";
 import bannerLogoPrint from '../Table/bannerLogoPrint.png';
 import { motion } from 'framer-motion';
-import { TiArrowBackOutline } from "react-icons/ti";
-import { FaDownload } from "react-icons/fa";
+import { FcPrint } from "react-icons/fc";
 
 const container = {
     hidden: { opacity: 0 },
@@ -52,7 +51,6 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                 setData(response.data);
 
                 const userID = response.data.userId;
-                console.log("User ID: ", userID);
 
                 const responseB = await axios.get(`http://localhost:3000/salary/showuseridbiodata/${userID}`);
                 if (!responseB.data || responseB.data.length === 0) {
@@ -61,12 +59,10 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
 
                 const biodata = responseB.data[0];
                 setBiodata(biodata); // Assuming responseB.data is an array with one element
-                
 
                 setFuLLName(biodata.nameWFull);
                 setEmployeeNo(biodata.userId);
                 setBankNumber(biodata.bankNumber);
-
 
             } catch (err) {
                 console.error('Failed to fetch data:', err);
@@ -103,12 +99,46 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
     const ETF3 = data.etf3 ?? 0;
     const totalEPFETF = EPF12 + ETF3;
 
+    const handlePrint = () => {
+        window.print();
+    };
+
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
+            <style>
+                {`
+                    @media print {
+                        body * {
+                            visibility: hidden;
+                        }
+                        #printable-area, #printable-area * {
+                            visibility: visible;
+                        }
+                        #printable-area {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                        }
+                    }
+                `}
+            </style>
+
             <Modal show={openModal} onClose={handleClose} size="5xl">
+                <Button color="gray" onClick={handlePrint}>
+                    <motion.div
+                        className="flex items-center"
+                        animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                        transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                    >
+                        <FcPrint className="mr-3 h-6 w-6" />
+                    </motion.div>
+                    <p className='text-gray-400'>Print</p>
+                </Button>
+
                 <Modal.Header />
                 <Modal.Body>
-                    <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
+                    <motion.div id="printable-area" className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
                         <div className='w-full h-full flex pr-20'>
                             <div className="max-w-xl">
                                 <img src={bannerLogoPrint} alt="Monthly Salary Sheet" />
