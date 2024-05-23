@@ -98,8 +98,8 @@ export default function ViewMonthSalarySheet({ onClose }) {
                             position: absolute;
                             left: 0;
                             top: 0;
-                            width: 280mm; /* A4 width */
-                            height: 1000mm; /* A4 height */
+                            width: 250mm; /* A4 width */
+                            height: 800mm; /* A4 height */
                         }
                     }
                 `}

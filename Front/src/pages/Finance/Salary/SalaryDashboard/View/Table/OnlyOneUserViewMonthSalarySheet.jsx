@@ -105,7 +105,7 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
 
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
-            <style>
+              <style>
                 {`
                     @media print {
                         body * {
@@ -118,7 +118,8 @@ export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
                             position: absolute;
                             left: 0;
                             top: 0;
-                            width: 100%;
+                            width: 280mm; /* A4 width */
+                            height: 800mm; /* A4 height */
                         }
                     }
                 `}
