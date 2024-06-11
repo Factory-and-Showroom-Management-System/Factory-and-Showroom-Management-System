@@ -9,26 +9,13 @@ export default function Product() {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [currentDateTime, setCurrentDateTime] = useState('');
+    
 
     useEffect(() => {
         fetchProducts();
     }, []);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            const now = new Date();
-            const dateString = now.toLocaleDateString('en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
-            });
-            setCurrentDateTime(`${dateString}, ${timeString}`);
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
-
+  
     const fetchProducts = async () => {
         try {
             const response = await fetch('http://localhost:3000/product/view');
@@ -57,7 +44,7 @@ export default function Product() {
     return (
         <div className="shadow-lg p-20 bg-white rounded-lg">
             <div className="relative overflow-x-auto l:rounded-lg">
-                <h1 className="text-3xl text-blue-500 pl-1 pt-2">Product Table: {currentDateTime}</h1>
+                <h2 className="text-3xl text-black pl-1 pt-2">Products Detail </h2>
 
                 <div className='mb-2 mt-5 flex items-center'>
                     <div className="relative ml-4">

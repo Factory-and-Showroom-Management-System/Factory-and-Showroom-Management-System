@@ -11,25 +11,12 @@ export default function Order() {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [currentDateTime, setCurrentDateTime] = useState('');
+    
 
     useEffect(() => {
         fetchOrders();
     }, []);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            const now = new Date();
-            const dateString = now.toLocaleDateString('en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
-            });
-            setCurrentDateTime(`${dateString}, ${timeString}`);
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -281,7 +268,7 @@ export default function Order() {
     return (
         <div className="shadow-lg p-20 bg-white rounded-lg">
             <div className="relative overflow-x-auto l:rounded-lg">
-                <h1 className="text-3xl text-blue-500 pl-1 pt-2">Order Table: {currentDateTime}</h1>
+                <h2 className="text-3xl text-black pl-1 pt-2 ">Orders Detail</h2>
 
                 <div className='mb-2 mt-5 flex items-center'>
                     <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
@@ -380,6 +367,6 @@ export default function Order() {
 
 
             </div>
-        </div>
+         </div> 
     );
 }

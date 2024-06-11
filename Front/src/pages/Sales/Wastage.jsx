@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import './popup.css';
+import { FaRegCheckCircle, FaTools, FaExclamationCircle } from 'react-icons/fa';
 
 const MySwal = withReactContent(Swal);
 
@@ -11,25 +11,12 @@ export default function Machine() {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [currentDateTime, setCurrentDateTime] = useState('');
+    
 
     useEffect(() => {
         fetchMachines();
     }, []);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            const now = new Date();
-            const dateString = now.toLocaleDateString('en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
-            });
-            setCurrentDateTime(`${dateString}, ${timeString}`);
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -46,9 +33,26 @@ export default function Machine() {
                 throw new Error('Failed to fetch machines');
             }
             const data = await response.json();
-            setMachines(data);
+            // Calculate waste and waste percentage for each machine
+            const machinesWithWaste = data.map(machine => ({
+                ...machine,
+                waste: machine.inputp - machine.outputp,
+                wastePercentage: ((machine.inputp - machine.outputp) / machine.inputp) * 100,
+                machinePerformance: calculateMachinePerformance(((machine.inputp - machine.outputp) / machine.inputp) * 100)
+            }));
+            setMachines(machinesWithWaste);
         } catch (error) {
-            console.error('Failed to fetch machines:', error);
+            console.error('Failed to fetch machines:', error); 
+        }
+    };
+
+    const calculateMachinePerformance = (wastePercentage) => {
+        if (wastePercentage < 10) {
+            return 'Good';
+        } else if (wastePercentage >= 10 && wastePercentage < 30) {
+            return 'Medium (Be Repair)';
+        } else {
+            return 'Repair Machine or Remove';
         }
     };
 
@@ -234,7 +238,7 @@ export default function Machine() {
     return (
         <div className="shadow-lg p-20 bg-white rounded-lg">
             <div className="relative overflow-x-auto l:rounded-lg">
-                <h1 className="text-3xl text-blue-500 pl-1 pt-2">Machine Table: {currentDateTime}</h1>
+                <h2 className="text-3xl text-black pl-1 pt-2"> Machines and Wastage Details</h2>
                 <div className='mb-2 mt-5 flex items-center'>
                     <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Add Machine
@@ -259,10 +263,13 @@ export default function Machine() {
                     <thead className="text-xs text-black uppercase bg-[#54db93]">
                         <tr>
                             <th scope="col" className="px-6 py-5">Machine ID</th>
-                            <th scope="col" className="px-6 py-3">Input</th>
-                            <th scope="col" className="px-6 py-3">Output</th>
+                            <th scope="col" className="px-6 py-3">Input(kg)</th>
+                            <th scope="col" className="px-6 py-3">Output(kg)</th>
                             <th scope="col" className="px-6 py-3">Date In</th>
                             <th scope="col" className="px-6 py-3">Time In</th>
+                            <th scope="col" className="px-6 py-3">Waste(kg)</th>
+                            <th scope="col" className="px-6 py-3">Waste Percentage</th>
+                            <th scope="col" className="px-6 py-3">Machine Performance</th>
                             <th scope="col" className="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
@@ -274,44 +281,58 @@ export default function Machine() {
                                 <td className="px-6 py-3">{machine.outputp}</td>
                                 <td className="px-6 py-3">{formatDate(machine.dateIn)}</td>
                                 <td className="px-6 py-3">{machine.timeIn}</td>
+                                <td className="px-6 py-3">{machine.waste}</td>
+                                <td className="px-6 py-3">{machine.wastePercentage.toFixed(2)}%</td>
                                 <td className="px-6 py-3">
-                                    <button className="font-medium text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-3 rounded mr-2" onClick={() => handleEdit(machine.id, machine)}>
-                                        Edit
-                                    </button>
-                                    <button className="font-medium text-white bg-red-500 hover:bg-red-600 py-1 px-3 rounded" onClick={() => handleRemove(machine.id)}>
-                                        Remove
-                                    </button>
-                                </td>
+    {machine.machinePerformance === 'Good' && (
+        <span className="inline-block h-4 w-4 rounded-full bg-green-500 mr-2"></span>
+    )}
+    {machine.machinePerformance === 'Medium (Be Repair)' && (
+        <span className="inline-block h-4 w-4 rounded-full bg-yellow-500 mr-2"></span>
+    )}
+    {machine.machinePerformance === 'Repair Machine or Remove' && (
+        <span className="inline-block h-4 w-4 rounded-full bg-red-500 mr-2"></span>
+    )}
+    {machine.machinePerformance}
+</td>
+<td className="px-6 py-3">
+    <button className="font-medium text-sm text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-2 rounded mr-2" onClick={() => handleEdit(machine.id, machine)}>
+        Edit
+    </button>
+    <button className="font-medium text-sm text-white bg-red-500 hover:bg-red-600 py-1 px-2 rounded" onClick={() => handleRemove(machine.id)}>
+        Remove
+    </button>
+</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
-    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredMachines.length ? filteredMachines.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredMachines.length}</span> machines out of <span className="font-semibold text-gray-900 dark:text-black">{machines.length}</span>
-    </span>
+                    <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+                        Showing <span className="font-semibold text-gray-900 dark:text-black">{indexOfFirstRow + 1}-{indexOfLastRow > filteredMachines.length ? filteredMachines.length : indexOfLastRow}</span> of <span className="font-semibold text-gray-900 dark:text-black">{filteredMachines.length}</span> machines out of <span className="font-semibold text-gray-900 dark:text-black">{machines.length}</span>
+                    </span>
 
-    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
-        <li>
-            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
-                Previous
-            </button>
-        </li>
-        {Array.from({ length: totalPages }, (_, index) => (
-            <li key={index}>
-                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
-                    {index + 1}
-                </button>
-            </li>
-        ))}
-        <li>
-            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
-                Next
-            </button>
-        </li>
-    </ul>
-</nav>
+                    <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
+                        <li>
+                            <button onClick={handlePrevPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === 1}>
+                                Previous
+                            </button>
+                        </li>
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <li key={index}>
+                                <button onClick={() => setCurrentPage(index + 1)} className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 ${currentPage === index + 1 ? 'bg-gray-200' : ''} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}>
+                                    {index + 1}
+                                </button>
+                            </li>
+                        ))}
+                        <li>
+                            <button onClick={handleNextPage} className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" disabled={currentPage === totalPages}>
+                                Next
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     );

@@ -11,31 +11,12 @@ export default function Customer() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [currentDateTime, setCurrentDateTime] = useState("");
+
 
   useEffect(() => {
     fetchCustomers();
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date();
-      const dateString = now.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-      const timeString = now.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: true,
-      });
-      setCurrentDateTime(`${dateString}, ${timeString}`);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   const fetchCustomers = async () => {
     try {
@@ -251,9 +232,9 @@ export default function Customer() {
   return (
     <div className="shadow-lg p-20 bg-white rounded-lg">
       <div className="relative overflow-x-auto l:rounded-lg">
-        <h1 className="text-3xl text-blue-500 pl-1 pt-2">
-          Customer Table: {currentDateTime}
-        </h1>
+        <h2 className="text-3xl text-black pl-1 pt-2">
+          Customers Detail 
+        </h2>
 
         <div className="mb-2 mt-5 flex items-center">
           <button
@@ -302,7 +283,7 @@ export default function Customer() {
                 Address
               </th>
               <th scope="col" className="px-6 py-3">
-                Phone
+                Phone Number
               </th>
               <th scope="col" className="px-6 py-3">
                 Number Of Orders
@@ -318,12 +299,12 @@ export default function Customer() {
                 key={customer.id}
                 className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]"
               >
-                <td className="px-6 py-3">{customer.customerId}</td>
-                <td className="px-6 py-3">{customer.name}</td>
-                <td className="px-6 py-3">{customer.address}</td>
-                <td className="px-6 py-3">{customer.phone}</td>
-                <td className="px-6 py-3">{customer.numberOf}</td>
-                <td className="px-6 py-3">
+                <td className="px-6 py-2">{customer.customerId}</td>
+                <td className="px-6 py-2">{customer.name}</td>
+                <td className="px-6 py-2">{customer.address}</td>
+                <td className="px-6 py-2">{customer.phone}</td>
+                <td className="px-6 py-2">{customer.numberOf}</td>
+                <td className="px-6 py-2">
                   <button
                     className="font-medium text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-3 rounded mr-2"
                     onClick={() => handleEdit(customer.id, customer)}
