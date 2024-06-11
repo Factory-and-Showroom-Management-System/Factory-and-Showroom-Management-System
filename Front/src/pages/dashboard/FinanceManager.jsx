@@ -26,7 +26,7 @@ export function FinanceManager() {
           </div>
       </div>
     
-  );a
+  );
 }
 
 export default FinanceManager;

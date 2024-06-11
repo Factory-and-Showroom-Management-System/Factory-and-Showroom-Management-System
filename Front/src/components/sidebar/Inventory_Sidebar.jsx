@@ -1,20 +1,20 @@
 import { Sidebar } from "flowbite-react";
 import { HiShoppingBag, HiUser } from "react-icons/hi";
-import { Link } from "react-router-dom";
 import { GoDatabase } from "react-icons/go";
 import { useState } from "react";
-import { signOutSuccess } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { signOutSuccess } from "../../redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export function Inventory_Sidebar() {
   const [dashboardClicked, setDashboardClicked] = useState(false);
   const [productClicked, setProductClicked] = useState(false);
   const [materialClicked, setMaterialClicked] = useState(false);
-  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [showModal, setShowModal] = useState(false);
   const [logoutClicked, setLogoutClicked] = useState(false);
-  const [InventoryClicked, setInventoryClicked] = useState(false);
+  const [inventoryClicked, setInventoryClicked] = useState(false);
   const dispatch = useDispatch();
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const navigate = useNavigate();
 
   const handleDashboardClick = () => {
     setDashboardClicked(true);
@@ -22,6 +22,7 @@ export function Inventory_Sidebar() {
     setMaterialClicked(false);
     setLogoutClicked(false);
     setInventoryClicked(false);
+    navigate("/inventory?tab=inventorydash");
   };
 
   const handleProductClick = () => {
@@ -30,6 +31,7 @@ export function Inventory_Sidebar() {
     setMaterialClicked(false);
     setLogoutClicked(false);
     setInventoryClicked(false);
+    navigate("/inventory?tab=inventoryproduct");
   };
 
   const handleMaterialClick = () => {
@@ -38,6 +40,7 @@ export function Inventory_Sidebar() {
     setMaterialClicked(true);
     setLogoutClicked(false);
     setInventoryClicked(false);
+    navigate("/inventory?tab=inventoryrow");
   };
 
   const handleSignoutClick = () => {
@@ -47,11 +50,7 @@ export function Inventory_Sidebar() {
     setMaterialClicked(false);
     setLogoutClicked(true);
     setInventoryClicked(false);
-    
-    
   };
-
- 
 
   const handleSignoutConfirm = async () => {
     try {
@@ -70,7 +69,7 @@ export function Inventory_Sidebar() {
   };
 
   const handleSignoutCancel = () => {
-    setShowModal(false); // Hide the modal on cancel
+    setShowModal(false);
   };
 
   return (
@@ -79,69 +78,51 @@ export function Inventory_Sidebar() {
         <Sidebar.Items className="w-full">
           <Sidebar.ItemGroup className="w-full">
             <div className="w-full ml-2">
-              <Link to="/inventory?tab=inventorydash">
-                <Sidebar.Item
-                  
-                  icon={HiUser}
-                  className={`rounded-full hover:bg-[#cdf8da] ${
-                    dashboardClicked ? "bg-[#cdf8da] text-black" : ""
-                  }`}
-                  onClick={handleDashboardClick}
-                >
-                  Inventory Dashboard
-                </Sidebar.Item>
-              </Link>
+              <Sidebar.Item
+                icon={HiUser}
+                className={`rounded-full hover:bg-[#cdf8da] ${
+                  dashboardClicked ? "bg-[#cdf8da] text-black" : ""
+                }`}
+                onClick={handleDashboardClick}
+              >
+                Inventory Dashboard
+              </Sidebar.Item>
             </div>
-
-            
-
             <div className="w-full">
-              <Link to="/inventory?tab=inventoryproduct">
-                <Sidebar.Item
-                  icon={HiShoppingBag}
-                  className={`rounded-full hover:bg-[#cdf8da] ${
-                    productClicked ? "bg-[#cdf8da] text-black" : ""
-                  }`}
-                  onClick={handleProductClick}
-                >
-                  Product
-                </Sidebar.Item>
-              </Link>
+              <Sidebar.Item
+                icon={HiShoppingBag}
+                className={`rounded-full hover:bg-[#cdf8da] ${
+                  productClicked ? "bg-[#cdf8da] text-black" : ""
+                }`}
+                onClick={handleProductClick}
+              >
+                Product
+              </Sidebar.Item>
             </div>
-
             <div className="w-full">
-              <Link to="/inventory?tab=inventoryrow">
-                <Sidebar.Item
-                  icon={GoDatabase}
-                  className={`rounded-full hover:bg-[#cdf8da] ${
-                    materialClicked ? "bg-[#cdf8da] text-black" : ""
-                  }`}
-                  onClick={handleMaterialClick}
-                >
-                  Raw Material
-                </Sidebar.Item>
-              </Link>
-            </div>
-            
-            
-            
-          </Sidebar.ItemGroup>
-        </Sidebar.Items>
-       
-          
-            <Sidebar.ItemGroup>
               <Sidebar.Item
                 icon={GoDatabase}
-                className={`rounded-full hover:bg-[#cdf8da] cursor-pointer ${
-                  logoutClicked ? "bg-[#cdf8da] text-black" : ""
+                className={`rounded-full hover:bg-[#cdf8da] ${
+                  materialClicked ? "bg-[#cdf8da] text-black" : ""
                 }`}
-                onClick={handleSignoutClick}
+                onClick={handleMaterialClick}
               >
-                Logout
+                Raw Material
               </Sidebar.Item>
-            </Sidebar.ItemGroup>
-     
-      
+            </div>
+          </Sidebar.ItemGroup>
+        </Sidebar.Items>
+        <Sidebar.ItemGroup>
+          <Sidebar.Item
+            icon={GoDatabase}
+            className={`rounded-full hover:bg-[#cdf8da] cursor-pointer ${
+              logoutClicked ? "bg-[#cdf8da] text-black" : ""
+            }`}
+            onClick={handleSignoutClick}
+          >
+            Logout
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
       </Sidebar>
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pt-10 bg-gray-900 bg-opacity-50">

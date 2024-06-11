@@ -60,6 +60,7 @@ const Navbar = () => {
 
   // Check if the current location is the login page
   const isLoginPage = location.pathname === '/login';
+  const isHomepage = location.pathname === '/';
 
   return (
     <div className="flex justify-between p-0 py-2 bg-[#cdf8da] border-b-2">
@@ -67,12 +68,12 @@ const Navbar = () => {
         <img src={image} className="h-10 mt-2" alt="Logo" />
         <span className="flex self-center ml-2 text-xl font-semibold whitespace-nowrap">
           DOLPHIN ECO PACK
-          <div className="pl-4 text-sm">
+          <div className="pl-8 text-sm mt-1.5">
             {currentDateTime}
           </div>
         </span>
       </div>
-      {user && !isLoginPage && (
+      {user && !isLoginPage && !isHomepage &&(
       <div className="flex items-center gap-2"><div className="font-semibold">User Profile </div>
       
           <div className="flex items-center justify-center w-8 h-8 mr-4 overflow-hidden bg-gray-200 rounded-full cursor-pointer" onClick={handleProfileClick}>

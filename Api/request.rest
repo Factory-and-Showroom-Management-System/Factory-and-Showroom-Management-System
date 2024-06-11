@@ -62,7 +62,7 @@ Content-Type: application/json
 
 //create hr manager 
 ###
-POST http://localhost:5000/users
+POST http://localhost:3000/users/createUser
 Content-Type: application/json
 
 {
