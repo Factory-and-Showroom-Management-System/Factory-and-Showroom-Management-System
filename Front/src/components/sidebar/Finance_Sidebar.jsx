@@ -1,4 +1,9 @@
 import { Sidebar } from "flowbite-react";
+
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { signOutSuccess } from "../../redux/user/userSlice";
+
 import { BiBuoy } from "react-icons/bi";
 import { CgAdidas } from "react-icons/cg";
 import { CgBox } from "react-icons/cg";
@@ -29,6 +34,35 @@ import { useLocation } from "react-router-dom";
 
 export function Finance_Sidebar() {
 
+  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleSignoutClick = () => {
+    setShowModal(true);
+  };
+
+  const handleSignoutConfirm = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/users/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleSignoutCancel = () => {
+    setShowModal(false); // Hide the modal on cancel
+  };
+  
+
+
   const [tab, setTab] = useState("");
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -38,7 +72,7 @@ export function Finance_Sidebar() {
     }
   }, [location.search]);
   return (
-
+<div>
     <Sidebar className="w-56 border-r-2">
       <Sidebar.Items className="bg-[#F5FFF5] ">
 
@@ -84,6 +118,7 @@ export function Finance_Sidebar() {
             <Link to="/finance?tab=nettpaydash">
             <Sidebar.Item icon={FaMoneyCheckAlt} active={tab == 'nettpaydash'}>
               NettPay
+
             </Sidebar.Item>
             </Link>
           </Sidebar.Collapse>
@@ -127,12 +162,7 @@ export function Finance_Sidebar() {
           </Sidebar.Collapse>
 
 
-
-
-
-          {/* <Sidebar.Item icon={HiUser}>
-            <Link to=""></Link>
-          </Sidebar.Item> */}
+        
           <Sidebar.Collapse label="Expence" icon={FaMoneyBillTrendUp}>
 
             <Sidebar.Item icon={GiReceiveMoney}>
@@ -195,6 +225,31 @@ export function Finance_Sidebar() {
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
+    {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center pt-10 bg-gray-900 bg-opacity-50">
+          <div className="overflow-hidden bg-white rounded-lg shadow-lg w-96">
+            <div className="p-4">
+              <h2 className="mb-4 text-xl font-bold">Do you want to log out?</h2>
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="px-4 py-2 font-bold text-white bg-gray-500 rounded cursor-pointer"
+                  onClick={handleSignoutCancel}
+                >
+                  No
+                </button>
+                <button
+                  className="px-4 py-2 font-bold text-white bg-red-500 rounded cursor-pointer"
+                  onClick={handleSignoutConfirm}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      </div>
+
 
   );
 }
