@@ -10,6 +10,31 @@ import { TiArrowBackOutline } from "react-icons/ti";
 import { useNavigate } from 'react-router-dom';
 import BACart002 from './Carts/BACart002';
 
+//AddBudgetedAllowancomp
+import AddBudgetedAllowancomp from './componets/AddBudgetedAllowancomp';
+
+
+
+import { motion } from 'framer-motion';
+import EdditBudgetedAllowancomp from './componets/EdditBudgetedAllowancomp';
+import RemoveBudgetedAllowancecomp from './componets/RemoveBudgetedAllowancecomp';
+
+const container = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            delay: 0.2, // Delay the animation to make it more noticeable
+            when: "beforeChildren", // Animate children after the parent
+            staggerChildren: 0.2, // Add a small stagger effect to each child
+        },
+    },
+};
+
+const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+};
 
 
 
@@ -22,6 +47,13 @@ export default function BudgetedAllowance() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const navigate = useNavigate();
+
+    const [addbudgetedallowancecomponet, setAddBudgetedAllowanceComponet] = useState(false);
+    const [editbudgetedallowancecomponet, setEditFoodAllowancecomponet] = useState(false);
+    const [idToEdit, setIdToEdit] = useState(null);
+
+    const [handleRemovecomponet, setHandleRemovecomponet] = useState(false);
+    const [idToRemove, setIdToRemove] = useState(null);
 
 
     const handleEarning = () => {
@@ -190,177 +222,6 @@ export default function BudgetedAllowance() {
         }
     };
 
-    const handleAdd = async () => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Add New Budgeted Allowance',
-            html: `
-            <input id="swal-input1" class="swal2-input" placeholder="Select Date">
-            <input id="swal-input2" class="swal2-input" placeholder="Enter Value" type="number">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Add',
-            didOpen: () => {
-                flatpickr("#swal-input1", {
-                    altInput: true,
-                    altFormat: "F j, Y",
-                    dateFormat: "Y-m-d",
-                });
-            },
-            preConfirm: () => {
-                const date = document.getElementById('swal-input1').value;
-                const value = parseFloat(document.getElementById('swal-input2').value);
-                if (!date || isNaN(value)) {
-                    Swal.showValidationMessage("Please select a date and enter a valid value.");
-                }
-                return { date, value };
-            }
-        });
-
-        if (formValues) {
-            try {
-                await axios.post('http://localhost:3000/salary/addbudgetedallowance', {
-                    baDate: formValues.date,
-                    baValue: formValues.value
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Added!',
-                    text: 'Budgeted allowance has been added.'
-                });
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to add budgeted allowance:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to add!',
-                    text: 'Adding new budgeted allowance failed.'
-                });
-            }
-        }
-    };
-
-    const handleEdit = async (id, currentBaDate, currentBaValue) => {
-        const { value: formValues } = await MySwal.fire({
-            title: 'Edit Budgeted Allowance',
-            html: `
-            <input id="swal-input1" class="swal2-input" value="${currentBaDate}">
-            <input id="swal-input2" class="swal2-input" type="number" value="${currentBaValue}">`,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Save Changes',
-            didOpen: () => {
-                flatpickr("#swal-input1", {
-                    altInput: true,
-                    altFormat: "F j, Y",
-                    dateFormat: "Y-m-d",
-                });
-            },
-            preConfirm: () => {
-                const date = document.getElementById('swal-input1')._flatpickr.input.value;
-                const value = parseFloat(document.getElementById('swal-input2').value);
-                if (!date || isNaN(value)) {
-                    Swal.showValidationMessage("Please select a date and enter a valid value.");
-                }
-                return { date, value };
-            }
-        });
-
-        if (formValues) {
-            try {
-                await axios.put(`http://localhost:3000/salary/updatebudgetedallowance/${id}`, {
-                    baDate: formValues.date,
-                    baValue: formValues.value
-                });
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    text: 'Budgeted allowance has been updated.'
-                });
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to update budgeted allowance:', error);
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Failed to update!',
-                    text: 'Updating budgeted allowance failed.'
-                });
-            }
-        }
-    };
-
-    const handleRemove = async (id) => {
-        const result = await MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                await axios.delete(`http://localhost:3000/salary/deletebudgetedallowance/${id}`);
-                MySwal.fire({
-                    title: 'Deleted!',
-                    text: 'Budgeted allowance has been deleted.',
-                    icon: 'success'
-                });
-                fetchAllowances();
-                handleSubmit();
-                handleSubmitEarning();
-                handleSubmitUserLoan();
-                handleSubmitDeduct();
-                handleSubmitEpsEtf();
-                handleSubmitMonthFoodAllwance();
-                handleSubmitMonthOT();
-                handleSubmitAdditon();
-                handleSubmitNetPay();
-                handleSubmitMonthSalarySheet();
-                handleSubmitSubMonthSalarySheet();
-                handleSubmitAllMonthSalarySheet();
-
-            } catch (error) {
-                console.error('Failed to delete budgeted allowance:', error);
-                MySwal.fire({
-                    title: 'Failed!',
-                    text: 'Failed to delete budgeted allowance.',
-                    icon: 'error'
-                });
-            }
-        }
-    };
 
     const filteredAllowances = searchTerm
         ? allowances.filter(allowance =>
@@ -384,8 +245,130 @@ export default function BudgetedAllowance() {
     const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
     const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
 
+    const handleAddBudgetedAlawnace = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+        setAddBudgetedAllowanceComponet(true);
+    }
+
+    const handleEdit = (id) => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+        setIdToEdit(id);
+        setEditFoodAllowancecomponet(true);
+    }
+
+    const handleRemove = (id) => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setIdToRemove(id);
+        setHandleRemovecomponet(true);
+    }
+
+    const handleRemoveClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setHandleRemovecomponet(false);
+    }
+
+
+    const handleOnClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+        setAddBudgetedAllowanceComponet(false);
+    }
+
+    const handleEditOnClose = () => {
+        fetchAllowances();
+        handleSubmit();
+        handleSubmitEarning();
+        handleSubmitUserLoan();
+        handleSubmitDeduct();
+        handleSubmitEpsEtf();
+        handleSubmitMonthFoodAllwance();
+        handleSubmitMonthOT();
+        handleSubmitAdditon();
+        handleSubmitNetPay();
+        handleSubmitMonthSalarySheet();
+        handleSubmitSubMonthSalarySheet();
+        handleSubmitAllMonthSalarySheet();
+
+
+        setEditFoodAllowancecomponet(false);
+    }
+
+
+
     return (
-        <div className="w-full bg-white ">
+        <motion.div
+            className='w-full'
+            variants={container}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+        >
             <div className="relative overflow-x-auto sm:rounded-lg ">
                 <div className='w-full'>
                     <div className='flex gap-4 '>
@@ -399,17 +382,13 @@ export default function BudgetedAllowance() {
 
                 <div className='p-5'>
 
-                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Budgeted Allowances Table: {currentDateTime}</h1>
+                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Budgeted Allowances </h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
-                        <Button onClick={handleAdd} className='bg-green-600'>
+                        <Button onClick={handleAddBudgetedAlawnace} className='bg-green-600'>
                             <IoIosAddCircle className="mr-2 h-5 w-5 " />
                             Add Budgeted Allowance
                         </Button>
-
-                        {/* <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Add Budgeted Allowance
-                    </button> */}
 
 
 
@@ -446,45 +425,46 @@ export default function BudgetedAllowance() {
 
                         </div>
                     </div>
+                    <div className="relative overflow-x-auto sm:rounded-lg">
 
-
-                    <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-white uppercase bg-blue-600">
-                            <tr>
-                                <th scope="col" className="px-6 py-7">ID</th>
-                                <th scope="col" className="px-6 py-3">Date</th>
-                                <th scope="col" className="px-6 py-3">Budgeted Allowances</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.map((allowance) => (
-                                <tr key={allowance.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                    <td className="px-6 py-4">{allowance.id}</td>
-                                    <td className="px-6 py-4">{allowance.baDate}</td>
-                                    <td className="px-6 py-4">{allowance.baValue.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(allowance.id, allowance.baDate, allowance.baValue)}>Edit</a>
-                                        <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(allowance.id)}>Remove</a>
-                                    </td>
+                        <table className="w-full text-sm text-left text-gray-500">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">Date</th>
+                                    <th scope="col" className="px-6 py-3">Budgeted Allowances</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
                                 </tr>
-                            ))}
-                            {filteredAllowances.length > 0 && (
-                                <>
-                                    <tr className="bg-blue-800 text-white">
-                                        <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.):</td>
-                                        <td className="px-6 font-bold">Rs. {totalValue.toFixed(2)}</td>
-                                        <td className="px-6 font-bold"></td>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((allowance) => (
+                                    <tr key={allowance.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{allowance.id}</td>
+                                        <td className="px-6 py-4">{allowance.baDate}</td>
+                                        <td className="px-6 py-4">{allowance.baValue.toFixed(2)}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(allowance.id, allowance.baDate, allowance.baValue)}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(allowance.id)}>Remove</a>
+                                        </td>
                                     </tr>
-                                    <tr className="bg-blue-800 text-white">
-                                        <td className="px-20 py-2 text-right font-bold" colSpan="2">Total (Rs.):</td>
-                                        <td className="px-6 font-bold">Rs. {totalValue.toFixed(4)}</td>
-                                        <td className="px-6 font-bold"></td>
-                                    </tr>
-                                </>
-                            )}
-                        </tbody>
-                    </table>
+                                ))}
+                                {filteredAllowances.length > 0 && (
+                                    <>
+                                        <tr className="bg-blue-800 text-white">
+                                            <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.):</td>
+                                            <td className="px-6 font-bold">Rs. {totalValue.toFixed(2)}</td>
+                                            <td className="px-6 font-bold"></td>
+                                        </tr>
+                                        <tr className="bg-blue-800 text-white">
+                                            <td className="px-20 py-2 text-right font-bold" colSpan="2">Total (Rs.):</td>
+                                            <td className="px-6 font-bold">Rs. {totalValue.toFixed(4)}</td>
+                                            <td className="px-6 font-bold"></td>
+                                        </tr>
+                                    </>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <nav className="flex items-center justify-between pt-2" aria-label="Table navigation">
                     <span className="pl-10 text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
@@ -512,6 +492,10 @@ export default function BudgetedAllowance() {
                     </ul>
                 </nav>
             </div>
-        </div>
+
+            {addbudgetedallowancecomponet && <AddBudgetedAllowancomp onClose={handleOnClose} />}
+            {editbudgetedallowancecomponet && idToEdit && <EdditBudgetedAllowancomp onClose={handleEditOnClose} id={idToEdit} />}
+            {handleRemovecomponet && idToRemove && <RemoveBudgetedAllowancecomp id={idToRemove} onClose={handleRemoveClose} />}
+        </motion.div>
     );
 }

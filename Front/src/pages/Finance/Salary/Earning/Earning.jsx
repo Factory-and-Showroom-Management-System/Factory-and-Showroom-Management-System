@@ -198,7 +198,7 @@ export default function Earnings() {
         <div className="w-full bg-white ">
 
             <div className="relative overflow-x-auto sm:rounded-lg ">
-                
+
                 <div className=''>
 
                     <h1 className="  text-3xl text-blue-500">Earnings Table</h1>
@@ -214,7 +214,7 @@ export default function Earnings() {
 
 
                                 </div>
-                                
+
                                 <input
                                     type="text"
                                     className="block w-80 h-10 pl-10  py-2 border border-blue-400 rounded-lg focus:ring-blue-500"
@@ -250,49 +250,52 @@ export default function Earnings() {
                         </div>
                     </div>
 
-                    <table className="w-full text-sm text-left text-gray-900 dark:text-white">
-                        <thead className="text-xs text-white uppercase bg-blue-600">
-                            <tr>
-                                <th scope="col" className="px-6 py-7">ID</th>
-                                <th scope="col" className="px-6 py-3">User ID</th>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Basic Salary</th>
-                                <th scope="col" className="px-6 py-3">Budgeted Allowance Value</th>
-                                <th scope="col" className="px-6 py-3">Total Earning</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.map((item) => (
-                                <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
-                                    <td className="px-6 py-4">{item.id}</td>
-                                    <td className="px-6 py-4">{item.userId}</td>
-                                    <td className="px-6 py-4">{item.name}</td>
-                                    <td className="px-6 py-4">Rs. {item.basicSalary.toFixed(2)}</td>
-                                    <td className="px-6 py-4">Rs. {item.baValue.toFixed(2)}</td>
-                                    <td className="px-6 py-4">Rs. {item.totalEarning.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
-                                        <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }}>Edit</a>
-                                        <a href="#" className="font-medium text-white hover:underline">Remove</a>
-                                    </td>
+                    <div className="relative overflow-x-auto sm:rounded-lg">
+
+                        <table className="w-full text-sm text-left text-gray-900 dark:text-white">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">User ID</th>
+                                    <th scope="col" className="px-6 py-3">Name</th>
+                                    <th scope="col" className="px-6 py-3">Basic Salary</th>
+                                    <th scope="col" className="px-6 py-3">Budgeted Allowance Value</th>
+                                    <th scope="col" className="px-6 py-3">Total Earning</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
                                 </tr>
-                            ))}
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 py-2 text-right font-bold" colSpan="3">Sub Total (Rs.):</td>
-                                <td className="px-6 font-bold">Rs. {totalBasicSalary.toFixed(2)}</td>
-                                <td className="px-6 font-bold">Rs. {totalBAValue.toFixed(2)}</td>
-                                <td className="px-6 font-bold">Rs. {totalEarning.toFixed(2)}</td>
-                                <td className="px-6 font-bold"></td>
-                            </tr>
-                            <tr className="bg-blue-800 text-white">
-                                <td className="px-20 py-2 text-right font-bold" colSpan="3">Total (Rs.):</td>
-                                <td className="px-6 font-bold">Rs. {totalEarning.toFixed(4)}</td>
-                                <td className="px-6 font-bold"></td>
-                                <td className="px-6 font-bold"></td>
-                                <td className="px-6 font-bold"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((item) => (
+                                    <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{item.id}</td>
+                                        <td className="px-6 py-4">{item.userId}</td>
+                                        <td className="px-6 py-4">{item.name}</td>
+                                        <td className="px-6 py-4">Rs. {item.basicSalary.toFixed(2)}</td>
+                                        <td className="px-6 py-4">Rs. {item.baValue.toFixed(2)}</td>
+                                        <td className="px-6 py-4">Rs. {item.totalEarning.toFixed(2)}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }}>Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline">Remove</a>
+                                        </td>
+                                    </tr>
+                                ))}
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 py-2 text-right font-bold" colSpan="3">Sub Total (Rs.):</td>
+                                    <td className="px-6 font-bold">Rs. {totalBasicSalary.toFixed(2)}</td>
+                                    <td className="px-6 font-bold">Rs. {totalBAValue.toFixed(2)}</td>
+                                    <td className="px-6 font-bold">Rs. {totalEarning.toFixed(2)}</td>
+                                    <td className="px-6 font-bold"></td>
+                                </tr>
+                                <tr className="bg-blue-800 text-white">
+                                    <td className="px-20 py-2 text-right font-bold" colSpan="3">Total (Rs.):</td>
+                                    <td className="px-6 font-bold">Rs. {totalEarning.toFixed(4)}</td>
+                                    <td className="px-6 font-bold"></td>
+                                    <td className="px-6 font-bold"></td>
+                                    <td className="px-6 font-bold"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-2 " aria-label="Table navigation">
                     <span className="pl-10 text-mm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">

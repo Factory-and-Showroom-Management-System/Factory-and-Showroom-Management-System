@@ -10,10 +10,14 @@ router.put('/updateroleincome/:tableId', salaryController.rupdate);
 router.delete('/deleteroleincome/:tableId', salaryController.rdestroy);
 router.post('/addsalary', salaryController.bssalaryAll);
 router.get('/showallsalary', salaryController.bsshow);
+
+
 //add BudgetedAllowance
 router.post('/addbudgetedallowance', salaryController.basave);
 //show BudgetedAllowance
 router.get('/showbudgetedallowance', salaryController.bashow);
+//show BudgetedAllowance by id
+router.get('/showbudgetedallowance/:tableId', salaryController.baIdshow);
 //update BudgetedAllowance
 router.put('/updatebudgetedallowance/:tableId', salaryController.baupdate);
 //delete BudgetedAllowance
@@ -28,6 +32,8 @@ router.post('/savesertotalloan', salaryController.SaveUserTotalLoan);
 router.post('/addusertotalloan', salaryController.AddUserTotalLoan);
 // show data from UserTotalLoan table
 router.get('/showusertotalloan', salaryController.ShowUserTotalLoan);
+// show data from UserTotalLoan table by id
+router.get('/showusertotalloan/:tableId', salaryController.ShowUserTotalLoanById);
 // update data from UserTotalLoan table
 router.put('/updateusertotalloan/:tableId', salaryController.UpdateUserTotalLoan);
 // delete data from UserTotalLoan table
@@ -48,6 +54,8 @@ router.get('/showmonthepfetf', salaryController.MonthEpfEtfShow);
 router.post('/addfoodallowance', salaryController.FoodAllowanSave);
 //show to FoodAllowance table
 router.get('/showfoodallowance', salaryController.FoodAllowanceShow);
+//FoodAllowanceShowId
+router.get('/showfoodallowance/:tableId', salaryController.FoodAllowanceShowId);
 //update to FoodAllowance table
 router.put('/updatefoodallowance/:tableId', salaryController.FoodAllowanceUpdate);
 //delete to FoodAllowance table
@@ -60,6 +68,8 @@ router.get('/showmonthfoodallowance', salaryController.MonthFoodAllowanceShow);
 router.post('/addroleotincome', salaryController.RoleOTIncomeSave);
 //show to RoleOTIncome table
 router.get('/showroleotincome', salaryController.RoleOTIncomeShow);
+//RoleOTIncomeShowById
+router.get('/showroleotincome/:tableId', salaryController.RoleOTIncomeShowById);
 //update to RoleOTIncome table
 router.put('/updateroleotincome/:tableId', salaryController.RoleOTIncomeUpdate);
 //delete to RoleOTIncome table
@@ -90,12 +100,21 @@ router.get('/showsubtotalmonthsalarysheet', salaryController.SubTotalMonthSalary
 router.post('/addallmonthsalarysheet', salaryController.AllMonthSalarySheet);
 //show to AllMonthSalarySheet table
 router.get('/showallmonthsalarysheet', salaryController.AllMonthSalarySheetShow);
+//Show table id to AllMonthSalarySheet table
+router.get('/showallmonthsalarysheet/:tableId', salaryController.AllMonthSalarySheetIdShow);
+//show showAllrole
+router.get('/showallrole', salaryController.showAllrole); 
 
 
 // //Add to BioData table
 // router.post('/addbiodata', salaryController.BioDataSave);
 // //Show to BioData table
 // router.get('/showbiodata', salaryController.BioDataShow);
+
+// //Show to BioData table by id
+router.get('/showbiodata/:tableId', salaryController.BioDataShowId);
+//BioDataShowUserId
+router.get('/showuseridbiodata/:userId', salaryController.BioDataShowUserId);
 // //Update to BioData table
 // router.put('/updatebiodata/:tableId', salaryController.BioDataUpdate);
 // //Delete to BioData table
