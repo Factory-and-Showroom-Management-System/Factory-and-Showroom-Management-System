@@ -17,7 +17,7 @@ const container = {
     },
 };
 
-export default function OnlyOneUserViewMonthSalarySheet({ id, onClose }) {
+export default function OnlyUserVMSheet({ id, onClose }) {
     const [openModal, setOpenModal] = useState(true);
     const [data, setData] = useState({});
     const [biodata, setBiodata] = useState({});

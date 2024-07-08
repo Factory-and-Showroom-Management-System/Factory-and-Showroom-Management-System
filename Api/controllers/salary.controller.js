@@ -2086,184 +2086,8 @@ function UserNetPayShow(req, res) {
     });
 }
 
-//creat function Fetch and All auto add to data MonthSalarySheet table(currentDate(Current Date),userId,name,role(name),basicSalary,baValue,totalEarning,monthLoan,epf8,totalDeduction,totalAllowance,totalOT,totalAddition,netTotal,epf12,etf3,totaNetPay)  and BasicSalary table (userId,name,role(name): (Fetch to RoleIncome table  to BasicSalary roleId )) and Fetch  Earning table(basicSalary,baValue,totalEarning) and Fetch to Deduction table(monthLoan,epf8,totalDeduction) and  Fetch to Addition table(totalOT,totalAllowance,totalAddition) and Fetch to UserNetPay table(netTotal) and Fetch to MonthEpfEtf table(epf12,etf3) and Fetch to UserNetPay table(netTotal: MonthSalarySheet  table totaNetPay ) data
-// async function MonthSalarySheet(req, res) {
 
-//     try {
-//         // Fetch data from BasicSalary table
-//         const basicSalaries = await models.BasicSalary.findAll();
-//         if (!basicSalaries || basicSalaries.length === 0) {
-//             return res.status(404).json({ message: "No basic salary records found" });
-//         }
-
-//         // Fetch data from Earning table
-//         const earnings = await models.Earning.findAll();
-//         if (!earnings || earnings.length === 0) {
-//             return res.status(404).json({ message: "No earning records found" });
-//         }
-
-//         // Fetch data from Deduction table
-//         const deductions = await models.Deduction.findAll();
-//         if (!deductions || deductions.length === 0) {
-//             return res.status(404).json({ message: "No deduction records found" });
-//         }
-
-//         // Fetch data from Addition table
-//         const additions = await models.Addition.findAll();
-//         if (!additions || additions.length === 0) {
-//             return res.status(404).json({ message: "No addition records found" });
-//         }
-
-//         // Fetch data from UserNetPay table
-//         const userNetPays = await models.UserNetPay.findAll();
-//         if (!userNetPays || userNetPays.length === 0) {
-//             return res.status(404).json({ message: "No user net pay records found" });
-//         }
-
-//         // Fetch data from MonthEpfEtf table
-//         const monthEpfEtfs = await models.MonthEpfEtf.findAll();
-//         if (!monthEpfEtfs || monthEpfEtfs.length === 0) {
-//             return res.status(404).json({ message: "No month epf etf records found" });
-//         }
-
-//         // Get the current date
-//         const currentDate = new Date();
-
-//         // Iterate through basicSalaries to update or create month salary sheet records
-//         const monthSalarySheets = [];
-//         for (const basicSalary of basicSalaries) {
-//             let monthSalarySheet = await models.MonthSalarySheet.findOne({ where: { userId: basicSalary.userId } });
-
-//             if (!monthSalarySheet) {
-//                 // If no existing record found, create a new one
-//                 monthSalarySheet = await models.MonthSalarySheet.create({
-//                     currentDate: currentDate,
-//                     userId: basicSalary.userId,
-//                     name: basicSalary.name,
-//                     role: basicSalary.roleId,
-//                     basicSalary: basicSalary.basicSalary,
-//                     baValue: 0,
-//                     totalEarning: 0,
-//                     monthLoan: 0,
-//                     epf8: 0,
-//                     totalDeduction: 0,
-//                     totalAllowance: 0,
-//                     totalOT: 0,
-//                     totalAddition: 0,
-//                     netTotal: 0,
-//                     epf12: 0,
-//                     etf3: 0,
-//                     totaNetPay: 0
-//                 });
-//             }
-
-//             // Find the baValue for the userId
-//             let baValue = await models.Earning.findOne({ where: { userId: basicSalary.userId } });
-//             if (baValue) {
-//                 // Update the baValue
-//                 monthSalarySheet.baValue = baValue.baValue;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             // Find the totalEarning for the userId
-//             let totalEarning = await models.Earning.findOne({ where: { userId: basicSalary.userId } });
-//             if (totalEarning) {
-//                 // Update the totalEarning
-//                 monthSalarySheet.totalEarning = totalEarning.totalEarning;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-
-
-//             // Find the monthLoan for the userId
-//             let monthLoan = await models.Deduction.findOne({ where: { userId: basicSalary.userId } });
-//             if (monthLoan) {
-//                 // Update the monthLoan
-//                 monthSalarySheet.monthLoan = monthLoan.monthLoan;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             // find the epf8 for the userId
-//             let epf8 = await models.Deduction.findOne({ where: { userId: basicSalary.userId } });
-//             if (epf8) {
-//                 // Update the epf8
-//                 monthSalarySheet.epf8 = epf8.epf8;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-//             // Find the totalDeduction for the userId
-//             let totalDeduction = await models.Deduction.findOne({ where: { userId: basicSalary.userId } });
-//             if (totalDeduction) {
-//                 // Update the totalDeduction
-//                 monthSalarySheet.totalDeduction = totalDeduction.totalDeduction;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             //find the totalAllowance for the userId
-//             let totalAllowance = await models.Addition.findOne({ where: { userId: basicSalary.userId } });
-//             if (totalAllowance) {
-//                 // Update the totalAllowance
-//                 monthSalarySheet.totalAllowance = totalAllowance.totalAllowance;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             //find the totalOT for the userId
-//             let totalOT = await models.Addition.findOne({ where: { userId: basicSalary.userId } });
-//             if (totalOT) {
-//                 // Update the totalOT
-//                 monthSalarySheet.totalOT = totalOT.totalOT;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             // Find the totalAddition for the userId
-//             let totalAddition = await models.Addition.findOne({ where: { userId: basicSalary.userId } });
-//             if (totalAddition) {
-//                 // Update the totalAddition
-//                 monthSalarySheet.totalAddition = totalAddition.totalAddition;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             // Find the netTotal for the userId
-//             let netTotal = await models.UserNetPay.findOne({ where: { userId: basicSalary.userId } });
-//             if (netTotal) {
-//                 // Update the netTotal
-//                 monthSalarySheet.netTotal = netTotal.netTotal;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             // Find the epf12 and etf3 for the userId
-//             let monthEpfEtf = await models.MonthEpfEtf.findOne({ where: { userId: basicSalary.userId } });
-//             if (monthEpfEtf) {
-//                 // Update the epf12 and etf3
-//                 monthSalarySheet.epf12 = monthEpfEtf.epf12;
-//                 monthSalarySheet.etf3 = monthEpfEtf.etf3;
-//                 await monthSalarySheet.save(); // Save the changes
-//             }
-
-//             // Calculate the totaNetPay
-
-//             monthSalarySheet.totaNetPay = monthSalarySheet.netTotal - (monthSalarySheet.epf12 + monthSalarySheet.etf3);
-//             await monthSalarySheet.save(); // Save the changes
-
-//             monthSalarySheets.push(monthSalarySheet);
-//         }
-
-//         res.status(200).json({
-//             message: "MonthSalarySheets updated/created successfully",
-//             monthSalarySheets: monthSalarySheets
-//         });
-//     }
-
-//     catch (error) {
-//         res.status(500).json({
-//             message: "Something went wrong",
-//             error: error.message
-//         });
-//     }
-// }
-
-
-
-//creat function Fetch and All auto add to data MonthSalarySheet table(currentDate(Current Date),userId,name,role(name),basicSalary,baValue,totalEarning,monthLoan,epf8,totalDeduction,totalAllowance,totalOT,totalAddition,netTotal,epf12,etf3,totaNetPay)  and BasicSalary table (userId,name,role(name): (Fetch to RoleIncome table  to BasicSalary roleId )) and Fetch  Earning table(basicSalary,baValue,totalEarning) and Fetch to Deduction table(monthLoan,epf8,totalDeduction) and  Fetch to Addition table(totalOT,totalAllowance,totalAddition) and Fetch to UserNetPay table(netTotal) and Fetch to MonthEpfEtf table(epf12,etf3) and Fetch to UserNetPay table(netTotal: MonthSalarySheet  table totaNetPay ) The same userId should not be entered repeatedly. Other data here should be updated.  data
+//creat function Fetch and All auto add to data MonthSalarySheet table(currentDate(Current Date),userId,name,role(role: get the roleName from the matching roles table),basicSalary,baValue,totalEarning,monthLoan,epf8,totalDeduction,totalAllowance,totalOT,totalAddition,netTotal,epf12,etf3,totaNetPay)  and BasicSalary table (userId,name,role(name): (Fetch to RoleIncome table  to BasicSalary roleId )) and Fetch  Earning table(basicSalary,baValue,totalEarning) and Fetch to Deduction table(monthLoan,epf8,totalDeduction) and  Fetch to Addition table(totalOT,totalAllowance,totalAddition) and Fetch to UserNetPay table(netTotal) and Fetch to MonthEpfEtf table(epf12,etf3) and Fetch to UserNetPay table(netTotal: MonthSalarySheet  table totaNetPay ) The same userId should not be entered repeatedly. Other data here should be updated.  data
 
 async function MonthSalarySheet(req, res) {
     try {
@@ -2274,11 +2098,12 @@ async function MonthSalarySheet(req, res) {
         const monthSalarySheets = [];
         for (const basicSalary of basicSalaries) {
             // Fetch associated records for each basicSalary record
-            const [earnings, deductions, additions, epfEtfs] = await Promise.all([
+            const [earnings, deductions, additions, epfEtfs, role] = await Promise.all([
                 models.Earning.findAll({ where: { userId: basicSalary.userId } }),
                 models.Deduction.findAll({ where: { userId: basicSalary.userId } }),
                 models.Addition.findAll({ where: { userId: basicSalary.userId } }),
-                models.MonthEpfEtf.findAll({ where: { userId: basicSalary.userId } })
+                models.MonthEpfEtf.findAll({ where: { userId: basicSalary.userId } }),
+                models.Role.findOne({ where: { id: basicSalary.roleId } }) // Fetch role name
             ]);
 
             // Mapping data from fetched arrays for quicker access
@@ -2294,7 +2119,7 @@ async function MonthSalarySheet(req, res) {
                 currentDate: new Date(),
                 userId: basicSalary.userId,
                 name: basicSalary.name,
-                role: basicSalary.roleId,
+                role: role ? role.roleName : null, // Use roleName from Roles table
                 basicSalary: basicSalary.basicSalary,
                 baValue: earning ? earning.baValue : 0,
                 totalEarning: earning ? earning.totalEarning : 0,

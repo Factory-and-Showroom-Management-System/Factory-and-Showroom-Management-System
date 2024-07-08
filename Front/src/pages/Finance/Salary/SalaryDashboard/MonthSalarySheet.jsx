@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { FaEye } from "react-icons/fa";
 import ViewMonthSalarySheet from './View/Table/ViewMonthSalarySheet';
-import OnlyOneUserViewMonthSalarySheet from './View/Table/OnlyOneUserViewMonthSalarySheet';
+import OnlyUserVMSheet from './View/Table/OnlyUserVMSheet';
 
 export default function MonthSalarySheet() {
     const [salarySheets, setSalarySheets] = useState([]);
@@ -404,7 +404,7 @@ export default function MonthSalarySheet() {
                 <ViewMonthSalarySheet
                     onClose={onCloseCard} />
             )}
-            {viewOnlyOneCard && <OnlyOneUserViewMonthSalarySheet id={selectedRowId} onClose={onCloseOnlyOneCard} />}
+            {viewOnlyOneCard && <OnlyUserVMSheet id={selectedRowId} onClose={onCloseOnlyOneCard} />}
 
         </>
     );
