@@ -1,6 +1,5 @@
 import { Sidebar } from "flowbite-react";
 
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../../redux/user/userSlice";
 
