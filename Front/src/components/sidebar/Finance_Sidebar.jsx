@@ -37,6 +37,10 @@ export function Finance_Sidebar() {
       setTab(tabFromUrl);
     }
   }, [location.search]);
+
+
+
+  
   return (
 
     <Sidebar className="w-56 border-r-2">
