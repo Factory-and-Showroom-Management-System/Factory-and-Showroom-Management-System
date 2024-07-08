@@ -118,8 +118,10 @@ export default function OnlyUserVMSheet({ id, onClose }) {
                             position: absolute;
                             left: 0;
                             top: 0;
-                            width: 280mm; /* A4 width */
-                            height: 800mm; /* A4 height */
+                            width: 100%;
+                            height: 100%;
+                            margin: 0;
+                            padding: 0;
                         }
                     }
                 `}

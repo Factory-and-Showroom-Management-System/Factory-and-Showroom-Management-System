@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Modal, Label } from "flowbite-react";
+import { Modal, Label, Button } from "flowbite-react";
 import bannerLogoPrint from '../Table/bannerLogoPrint.png';
 import { motion } from 'framer-motion';
-import { TiArrowBackOutline } from "react-icons/ti";
-import { FaDownload } from "react-icons/fa";
-import { Button } from "flowbite-react";
 import { FcPrint } from "react-icons/fc";
 
 const container = {
@@ -106,18 +103,12 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
         year: 'numeric'
     });
 
-
     const handlePrint = () => {
         window.print();
     };
 
-
-
-
     return (
         <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
-
-
             <style>
                 {`
                     @media print {
@@ -138,26 +129,22 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
                 `}
             </style>
 
-
             <Modal show={openModal} onClose={handleClose} size="5xl">
-
-
-
-                <Button color="gray" onClick={handlePrint}>
-                    <motion.div
-                        className="flex items-center"
-                        animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
-                        transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-                    >
-                        <FcPrint className="mr-3 h-6 w-6" />
-                    </motion.div>
-                    <p className='text-gray-400'>Print</p>
-                </Button>
-
-
-
-                <Modal.Header />
-                <Modal.Body>
+            <Button color="gray" onClick={handlePrint}>
+                        <motion.div
+                            className="flex items-center"
+                            animate={{ opacity: [1, 0.5, 1], scale: [1, 1.01, 1] }}
+                            transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                        >
+                            <FcPrint className="mr-3 h-6 w-6" />
+                        </motion.div>
+                        <p className='text-gray-400'>Print</p>
+                    </Button>
+                    
+                <Modal.Header></Modal.Header>
+               
+                <Modal.Body id="printable-area">
+                  
                     <motion.div className='w-full' variants={container} initial='hidden' animate='visible' exit='hidden'>
                         <div className='w-full h-full flex pr-20'>
                             <div className="max-w-xl">
@@ -269,7 +256,6 @@ export default function OneUserViewAllMSSheet({ id, onClose }) {
                                     <tr>
                                         <td className='text-blue-700'><strong>Nett Pay</strong></td>
                                         <td className='text-blue-700'><strong>Rs. {netPay.toFixed(2)}</strong><div className='w-32 border-t-2 pb-1'></div><div className='w-32 border-t-2'></div></td>
-                                        <td></td>
                                     </tr>
                                     <div className='mb-4'></div>
                                     <tr>
