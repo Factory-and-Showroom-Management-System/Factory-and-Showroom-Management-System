@@ -68,8 +68,8 @@ export default function Product() {
                         <tr>
                             <th scope="col" className="px-6 py-5">Product ID</th>
                             <th scope="col" className="px-6 py-3">Product Name</th>
-                            <th scope="col" className="px-6 py-3">Available</th>
-                            <th scope="col" className="px-6 py-3">Unit Price</th>
+                            <th scope="col" className="px-6 py-3">Available (kg.)</th>
+                            <th scope="col" className="px-6 py-3">Unit Price (Rs.)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,7 +78,7 @@ export default function Product() {
                                 <td className="px-6 py-3">{product.productId}</td>
                                 <td className="px-6 py-3">{product.p_name}</td>
                                 <td className="px-6 py-3">{product.available}</td>
-                                <td className="px-6 py-3">{product.unitPrice}</td>
+                                <td className="px-6 py-3">{product.unitPrice.toFixed(2)}</td>
                             </tr>
                         ))}
                     </tbody>

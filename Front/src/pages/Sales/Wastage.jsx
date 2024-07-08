@@ -12,11 +12,9 @@ export default function Machine() {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     
-
     useEffect(() => {
         fetchMachines();
     }, []);
-
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -56,6 +54,10 @@ export default function Machine() {
         }
     };
 
+    const isPositiveNumber = (value) => {
+        return parseFloat(value) > 0;
+    };
+
     const handleAdd = async () => {
         const { value: formValues } = await MySwal.fire({
             title: 'Add New Machine',
@@ -71,10 +73,18 @@ export default function Machine() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Add',
             preConfirm: () => {
+                const input = document.getElementById('swal-input2').value;
+                const output = document.getElementById('swal-input3').value;
+                if (!isPositiveNumber(input) || !isPositiveNumber(output)) {
+                    Swal.showValidationMessage(
+                        `Input and Output must be positive numbers`
+                    );
+                    return false;
+                }
                 return [
                     document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value,
-                    document.getElementById('swal-input3').value,
+                    input,
+                    output,
                     document.getElementById('swal-input4').value,
                     document.getElementById('swal-input5').value
                 ]
@@ -140,10 +150,18 @@ export default function Machine() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Save Changes',
             preConfirm: () => {
+                const input = document.getElementById('swal-input2').value;
+                const output = document.getElementById('swal-input3').value;
+                if (!isPositiveNumber(input) || !isPositiveNumber(output)) {
+                    Swal.showValidationMessage(
+                        `Input and Output must be positive numbers`
+                    );
+                    return false;
+                }
                 return [
                     document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value,
-                    document.getElementById('swal-input3').value,
+                    input,
+                    output,
                     document.getElementById('swal-input4').value,
                     document.getElementById('swal-input5').value
                 ]
@@ -284,25 +302,25 @@ export default function Machine() {
                                 <td className="px-6 py-3">{machine.waste}</td>
                                 <td className="px-6 py-3">{machine.wastePercentage.toFixed(2)}%</td>
                                 <td className="px-6 py-3">
-    {machine.machinePerformance === 'Good' && (
-        <span className="inline-block h-4 w-4 rounded-full bg-green-500 mr-2"></span>
-    )}
-    {machine.machinePerformance === 'Medium (Be Repair)' && (
-        <span className="inline-block h-4 w-4 rounded-full bg-yellow-500 mr-2"></span>
-    )}
-    {machine.machinePerformance === 'Repair Machine or Remove' && (
-        <span className="inline-block h-4 w-4 rounded-full bg-red-500 mr-2"></span>
-    )}
-    {machine.machinePerformance}
-</td>
-<td className="px-6 py-3">
-    <button className="font-medium text-sm text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-2 rounded mr-2" onClick={() => handleEdit(machine.id, machine)}>
-        Edit
-    </button>
-    <button className="font-medium text-sm text-white bg-red-500 hover:bg-red-600 py-1 px-2 rounded" onClick={() => handleRemove(machine.id)}>
-        Remove
-    </button>
-</td>
+                                    {machine.machinePerformance === 'Good' && (
+                                        <span className="inline-block h-4 w-4 rounded-full bg-green-500 mr-2"></span>
+                                    )}
+                                    {machine.machinePerformance === 'Medium (Be Repair)' && (
+                                        <span className="inline-block h-4 w-4 rounded-full bg-yellow-500 mr-2"></span>
+                                    )}
+                                    {machine.machinePerformance === 'Repair Machine or Remove' && (
+                                        <span className="inline-block h-4 w-4 rounded-full bg-red-500 mr-2"></span>
+                                    )}
+                                    {machine.machinePerformance}
+                                </td>
+                                <td className="px-6 py-3">
+                                    <button className="font-medium text-sm text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-2 rounded mr-2" onClick={() => handleEdit(machine.id, machine)}>
+                                        Edit
+                                    </button>
+                                    <button className="font-medium text-sm text-white bg-red-500 hover:bg-red-600 py-1 px-2 rounded" onClick={() => handleRemove(machine.id)}>
+                                        Remove
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

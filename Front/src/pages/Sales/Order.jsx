@@ -48,7 +48,7 @@ export default function Order() {
                 <input id="swal-input3" class="swal2-input" placeholder="Product ID">
                 <input id="swal-input4" class="swal2-input" placeholder="Order Date" type="date">
                 <input id="swal-input5" class="swal2-input" placeholder="Quantity" type="number">
-                <input id="swal-input6" class="swal2-input" placeholder="Unit Price" type="number">
+                <input id="swal-input6" class="swal2-input" placeholder="Unit Price">
                 <input id="swal-input7" class="swal2-input" placeholder="Status">`,
             focusConfirm: false,
             showCancelButton: true,

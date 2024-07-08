@@ -7,3 +7,4 @@ const SalesDashboard = () => {
 }
 
 export default SalesDashboard
+

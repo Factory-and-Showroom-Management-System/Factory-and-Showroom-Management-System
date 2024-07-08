@@ -36,10 +36,6 @@ export function Sales_Sidebar() {
               <Sidebar.Item icon={HiShoppingBag}>
               <Link to="/sales?tab=product">Products</Link>
               </Sidebar.Item>
-              <Sidebar.Item icon={GrOverview}>
-              <Link to="">Overview</Link>
-              </Sidebar.Item>
-
               <Sidebar.Item icon={GiNuclearWaste}>
               <Link to="/sales?tab=machine">Wastage</Link>
               </Sidebar.Item>

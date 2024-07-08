@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import "./popup.css";
-//import './Button.css';
 
 const MySwal = withReactContent(Swal);
 
@@ -12,11 +11,9 @@ export default function Customer() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-
   useEffect(() => {
     fetchCustomers();
   }, []);
-
 
   const fetchCustomers = async () => {
     try {
@@ -35,11 +32,11 @@ export default function Customer() {
     const { value: formValues } = await MySwal.fire({
       title: "Add New Customer",
       html: `
-                <input id="swal-input1" class="swal2-input" placeholder="Customer ID" required>
-                <input id="swal-input2" class="swal2-input" placeholder="Name" required>
-                <input id="swal-input3" class="swal2-input" placeholder="Address" required>
-                <input id="swal-input4" class="swal2-input" placeholder="Phone (10 digits)" required pattern="[0-9]{10}">
-                <input id="swal-input5" class="swal2-input" placeholder="Number Of" type="number" required>`,
+        <input id="swal-input1" class="swal2-input" placeholder="Customer ID" required>
+        <input id="swal-input2" class="swal2-input" placeholder="Name" required>
+        <input id="swal-input3" class="swal2-input" placeholder="Address" required>
+        <input id="swal-input4" class="swal2-input" placeholder="Phone (10 digits)" required pattern="[0-9]{10}">
+        <input id="swal-input5" class="swal2-input" placeholder="Number Of Orders" type="number" required>`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#008000",
@@ -52,15 +49,19 @@ export default function Customer() {
         const phone = document.getElementById("swal-input4").value;
         const numberOf = document.getElementById("swal-input5").value;
 
-        // Basic field validation
         if (!customerId || !name || !address || !phone || !numberOf) {
           MySwal.showValidationMessage("All fields are required");
           return;
         }
 
-        // Phone number validation
         if (!/^\d{10}$/.test(phone)) {
           MySwal.showValidationMessage("Invalid phone number format");
+          return;
+        }
+
+        // Validate name to contain only letters and spaces
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+          MySwal.showValidationMessage("Name can only contain letters and spaces");
           return;
         }
 
@@ -104,18 +105,18 @@ export default function Customer() {
     const { value: formValues } = await MySwal.fire({
       title: "Edit Customer",
       html: `
-            <div class="swal-input-container">
-                <label for="swal-input1">Customer ID:</label>
-                <input id="swal-input1" class="swal2-input" value="${currentData.customerId}" required>
-                <label for="swal-input2">Name:</label>
-                <input id="swal-input2" class="swal2-input" value="${currentData.name}" required>
-                <label for="swal-input3">Address:</label>
-                <input id="swal-input3" class="swal2-input" value="${currentData.address}" required>
-                <label for="swal-input4">Phone:</label>
-                <input id="swal-input4" class="swal2-input" value="${currentData.phone}" required pattern="[0-9]{10}">
-                <label for="swal-input5">Orders:</label>
-                <input id="swal-input5" class="swal2-input" value="${currentData.numberOf}" type="number" required>
-            </div>`,
+        <div class="swal-input-container">
+          <label for="swal-input1">Customer ID:</label>
+          <input id="swal-input1" class="swal2-input" value="${currentData.customerId}" required>
+          <label for="swal-input2">Name:</label>
+          <input id="swal-input2" class="swal2-input" value="${currentData.name}" required>
+          <label for="swal-input3">Address:</label>
+          <input id="swal-input3" class="swal2-input" value="${currentData.address}" required>
+          <label for="swal-input4">Phone:</label>
+          <input id="swal-input4" class="swal2-input" value="${currentData.phone}" required pattern="[0-9]{10}">
+          <label for="swal-input5">Number of Orders:</label>
+          <input id="swal-input5" class="swal2-input" value="${currentData.numberOf}" type="number" required>
+        </div>`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#008000",
@@ -128,15 +129,19 @@ export default function Customer() {
         const phone = document.getElementById("swal-input4").value;
         const numberOf = document.getElementById("swal-input5").value;
 
-        // Basic field validation
         if (!customerId || !name || !address || !phone || !numberOf) {
           MySwal.showValidationMessage("All fields are required");
           return;
         }
 
-        // Phone number validation
         if (!/^\d{10}$/.test(phone)) {
           MySwal.showValidationMessage("Invalid phone number format");
+          return;
+        }
+
+        // Validate name to contain only letters and spaces
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+          MySwal.showValidationMessage("Name can only contain letters and spaces");
           return;
         }
 
@@ -232,10 +237,7 @@ export default function Customer() {
   return (
     <div className="shadow-lg p-20 bg-white rounded-lg">
       <div className="relative overflow-x-auto l:rounded-lg">
-        <h2 className="text-3xl text-black pl-1 pt-2">
-          Customers Detail 
-        </h2>
-
+        <h2 className="text-3xl text-black pl-1 pt-2">Customers Detail</h2>
         <div className="mb-2 mt-5 flex items-center">
           <button
             onClick={handleAdd}
@@ -269,7 +271,6 @@ export default function Customer() {
             />
           </div>
         </div>
-
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-black uppercase bg-[#54db93]">
             <tr>
@@ -322,7 +323,6 @@ export default function Customer() {
             ))}
           </tbody>
         </table>
-
         <nav
           className="flex items-center justify-between pt-2"
           aria-label="Table navigation"
@@ -330,21 +330,14 @@ export default function Customer() {
           <span className="pl-10 text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
             Showing{" "}
             <span className="font-semibold text-gray-900 dark:text-black">
-              {indexOfFirstRow + 1}-
-              {indexOfLastRow > filteredCustomers.length
-                ? filteredCustomers.length
-                : indexOfLastRow}
+              {currentPage}
             </span>{" "}
             of{" "}
             <span className="font-semibold text-gray-900 dark:text-black">
-              {filteredCustomers.length}
+              {totalPages}
             </span>{" "}
-            customers out of{" "}
-            <span className="font-semibold text-gray-900 dark:text-black">
-              {customers.length}
-            </span>
+            pages
           </span>
-
           <ul className="pr-10 inline-flex -space-x-px rtl:space-x-reverse text-sm h-10">
             <li>
               <button

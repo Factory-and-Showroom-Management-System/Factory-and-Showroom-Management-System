@@ -17,6 +17,8 @@ const customerRouter = require('./routes/customer');
 const productRouter = require('./routes/product');
 const machineRouter = require('./routes/machine');
 
+
+
 // const attendanceRouter = require('./routes/attendance');
 // const salaryRouter = require('./routes/salary');
 
@@ -30,6 +32,8 @@ app.use('/order', orderRouter);
 app.use('/customer', customerRouter);
 app.use('/product', productRouter);
 app.use('/machine', machineRouter);
+
+
 // app.use('/attendance', attendanceRouter);
 // app.use('/salary', salaryRouter);
 
