@@ -7,6 +7,7 @@ import {
   HiShoppingBag,
   HiTable,
   HiUser,
+  HiCalendar,
   HiViewBoards,
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
@@ -35,8 +36,8 @@ export function Hr_Sidebar() {
         <Sidebar.ItemGroup>
           <div className="mb-2">
             <Link to="/hr?tab=hrdash" >
-              <Sidebar.Item href="" icon={HiUser} className={` rounded-full  hover:bg-[#cdf8da] ${dashboardClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleDashboardClick}>
-                Admin Dashboard
+              <Sidebar.Item href="" icon={HiInbox} className={` rounded-full  hover:bg-[#cdf8da] ${dashboardClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleDashboardClick}>
+                HR Dashboard
               </Sidebar.Item>
             </Link>
           </div>
@@ -51,7 +52,7 @@ export function Hr_Sidebar() {
 
           <div className="mb-2">
             <Link to="/hr?tab=hrattendance" >
-              <Sidebar.Item href="" icon={HiUser} className={` rounded-full  hover:bg-[#cdf8da] ${dashboardClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleDashboardClick}>
+              <Sidebar.Item href="" icon={HiCalendar} className={` rounded-full  hover:bg-[#cdf8da] ${dashboardClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleDashboardClick}>
                 Attendance
               </Sidebar.Item>
             </Link>

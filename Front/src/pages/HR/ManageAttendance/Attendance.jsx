@@ -74,6 +74,47 @@ export default function Attendance() {
         }
     };
 
+    const handleGenerateReport = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/attendance/generatereport');
+            if (!response.ok) {
+                throw new Error('Failed to generate report');
+            }
+            const blob = await response.blob();
+             // Fetch the current date and format it
+            const currentDate = new Date();
+            const formattedDate = `${currentDate.getFullYear()}-${('0' + (currentDate.getMonth() + 1)).slice(-2)}-${('0' + currentDate.getDate()).slice(-2)}`;
+
+            // Generate file name with date
+            const fileName = `attendance_report_${formattedDate}.xlsx`;
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } catch (error) {
+                console.error('Failed to generate report:', error);
+        }
+    };
+
+    const handleResetDailyAttendance = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/attendance/resetdailyattendance', {
+                method: 'POST'
+            });
+            if (response.ok) {
+                fetchAttendanceList(); // Refresh the attendance list
+            } else {
+                console.error('Failed to reset daily attendance');
+            }
+        } catch (error) {
+            console.error('Failed to reset daily attendance:', error);
+        }
+    };
+
     const filteredAttendance = searchTerm
         ? attendanceList.filter(attendance =>
             (attendance.userId && attendance.userId.toString().includes(searchTerm)) ||
@@ -88,9 +129,15 @@ export default function Attendance() {
 
     return (
         <div className="attendance-container">
-            <h1>Attendance</h1>
+            <h2 className="text-3xl text-black pl-1 pt-2 ">Attendance</h2>
             <div className='mb-2 mt-5 flex items-center'>
-                <div className="relative ml-4">
+                <button onClick={handleGenerateReport} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Generate Report
+                </button>
+                <button onClick={handleResetDailyAttendance} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">
+                    Reset Daily Attendance
+                </button>
+                <div className="relative ml-4"> 
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
@@ -146,7 +193,7 @@ export default function Attendance() {
                     ))}
                 </tbody>
             </table>
-            <div className="pagination-controls mt-4">
+            {/* <div className="pagination-controls mt-4">
                 <button onClick={handlePrevPage} disabled={currentPage === 1}>
                     Previous
                 </button>
@@ -156,7 +203,7 @@ export default function Attendance() {
                 <button onClick={handleNextPage} disabled={currentPage === totalPages}>
                     Next
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 }
