@@ -27,7 +27,7 @@ const Navbar = () => {
         second: "numeric",
         hour12: true,
       });
-      setCurrentDateTime(`${dateString}, ${timeString}`);
+      setCurrentDateTime(${dateString}, ${timeString});
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -45,7 +45,7 @@ const Navbar = () => {
           "http://localhost:3000/users/profile",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: Bearer ${token},
             },
           }
         );
