@@ -1,0 +1,19 @@
+.sales-dashboard {
+    padding: 20px;
+}
+
+.chart-container {
+    margin-bottom: 40px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 10px;
+}

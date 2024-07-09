@@ -1,185 +1,141 @@
-import React from "react";
-import { Bar, Line } from "react-chartjs-2";
-import { useTable } from "react-table";
-import { Container, Row, Col, Table, Card } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-
-const customerData = [
-  { name: "Customer 1", count: 5 },
-  { name: "Customer 2", count: 10 },
-  { name: "Customer 3", count: 15 },
-  { name: "Customer 4", count: 20 },
-  { name: "Customer 5", count: 25 },
-  { name: "Customer 6", count: 30 },
-  { name: "Customer 7", count: 35 },
-];
-
-const orderData = [
-  { name: "Order 1", count: 3 },
-  { name: "Order 2", count: 7 },
-  { name: "Order 3", count: 8 },
-  { name: "Order 4", count: 15 },
-  { name: "Order 5", count: 22 },
-  { name: "Order 6", count: 26 },
-  { name: "Order 7", count: 30 },
-];
-
-const productData = [
-  { name: "Product 1", count: 2 },
-  { name: "Product 2", count: 5 },
-  { name: "Product 3", count: 8 },
-  { name: "Product 4", count: 12 },
-  { name: "Product 5", count: 18 },
-  { name: "Product 6", count: 20 },
-  { name: "Product 7", count: 25 },
-];
-
-const wastageData = [
-  { name: "Wastage 1", count: 1 },
-  { name: "Wastage 2", count: 3 },
-  { name: "Wastage 3", count: 2 },
-  { name: "Wastage 4", count: 5 },
-  { name: "Wastage 5", count: 4 },
-  { name: "Wastage 6", count: 6 },
-  { name: "Wastage 7", count: 7 },
-];
+import React, { useState, useEffect } from 'react';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import axios from 'axios';
+import './SalesDashboard.css';
 
 const SalesDashboard = () => {
-  const chartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-    datasets: [
-      {
-        label: "Customers",
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        data: customerData.map((customer) => customer.count),
-      },
-      {
-        label: "Orders",
-        backgroundColor: "rgba(153,102,255,0.4)",
-        borderColor: "rgba(153,102,255,1)",
-        data: orderData.map((order) => order.count),
-      },
-      {
-        label: "Products",
-        backgroundColor: "rgba(255,159,64,0.4)",
-        borderColor: "rgba(255,159,64,1)",
-        data: productData.map((product) => product.count),
-      },
-      {
-        label: "Wastage",
-        backgroundColor: "rgba(255,99,132,0.4)",
-        borderColor: "rgba(255,99,132,1)",
-        data: wastageData.map((wastage) => wastage.count),
-      },
-    ],
-  };
+    const [customersData, setCustomersData] = useState([]);
+    const [productsData, setProductsData] = useState([]);
+    const [ordersData, setOrdersData] = useState([]);
+    const [machinesData, setMachinesData] = useState([]);
+    const [salesData, setSalesData] = useState([]);
 
-  const tableData = React.useMemo(
-    () =>
-      orderData.map((order, index) => ({
-        col1: customerData[index] ? customerData[index].name : "N/A",
-        col2: order.name,
-        col3: productData[index] ? productData[index].name : "N/A",
-        col4: wastageData[index] ? wastageData[index].name : "N/A",
-      })),
-    []
-  );
+    useEffect(() => {
+        // Extended mock data for testing
+        const mockCustomersData = [
+            { date: '2023-01-01', count: 50 },
+            { date: '2023-02-01', count: 60 },
+            { date: '2023-03-01', count: 70 },
+            { date: '2023-04-01', count: 80 },
+            { date: '2023-05-01', count: 90 },
+        ];
+        const mockProductsData = [
+            { name: 'Pre Opened Poly Bags On a Roll', count: 200 },
+            { name: 'Poly Bag', count: 300 },
+            { name: 'MTG Card Sleeves', count: 250 },
+            { name: 'Auto Bag', count: 400 },
+           
+        ];
+        const mockOrdersData = [
+            { date: '2023-01-01', count: 30 },
+            { date: '2023-02-01', count: 40 },
+            { date: '2023-03-01', count: 50 },
+            { date: '2023-04-01', count: 60 },
+            { date: '2023-05-01', count: 70 },
+        ];
+        const mockMachinesData = [
+            { name: 'Machine 1', count: 10 },
+            { name: 'Machine 2', count: 20 },
+            { name: 'Machine 3', count: 15 },
+            { name: 'Machine 4', count: 25 },
+            { name: 'Machine 5', count: 30 },
+        ];
+        const mockSalesData = [
+            { name: 'Pre Opened Poly Bags On a Roll', value: 400 },
+            { name: 'Poly Bag', value: 300 },
+            { name: 'MTG Card Sleeves', value: 300 },
+            { name: 'Auto Bag', value: 200 },
+        ];
 
-  const columns = React.useMemo(
-    () => [
-      { Header: "Customer", accessor: "col1" },
-      { Header: "Order", accessor: "col2" },
-      { Header: "Product", accessor: "col3" },
-      { Header: "Wastage", accessor: "col4" },
-    ],
-    []
-  );
+        setCustomersData(mockCustomersData);
+        setProductsData(mockProductsData);
+        setOrdersData(mockOrdersData);
+        setMachinesData(mockMachinesData);
+        setSalesData(mockSalesData);
+    }, []);
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: tableData });
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-  return (
-    <Container fluid>
-      <Row>
-        <Col>
-          <Card className="mb-4">
-            <Card.Header>Sales Dashboard</Card.Header>
-            <Card.Body>
-              <Row>
-                <Col md={4}>
-                  <img
-                    src="/pic.JPG"
-                    alt="Profile"
-                    className="img-fluid rounded-circle mb-3"
-                  />
-                </Col>
-                <Col md={8}>
-                  <h5>User Profile</h5>
-                  <p>Name: Prageeth Madhushan</p>
-                  <p>Role: Sales Manager</p>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={6}>
-          <Card className="mb-4">
-            <Card.Header>Customers and Orders</Card.Header>
-            <Card.Body>
-              <Bar data={chartData} />
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6}>
-          <Card className="mb-4">
-            <Card.Header>Products and Wastage</Card.Header>
-            <Card.Body>
-              <Line data={chartData} />
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={12}>
-          <Card className="mb-4">
-            <Card.Header>Details Table</Card.Header>
-            <Card.Body>
-              <Table {...getTableProps()} striped bordered hover>
-                <thead>
-                  {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column) => (
-                        <th {...column.getHeaderProps()}>
-                          {column.render("Header")}
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                  {rows.map((row) => {
-                    prepareRow(row);
-                    return (
-                      <tr {...row.getRowProps()}>
-                        {row.cells.map((cell) => (
-                          <td {...cell.getCellProps()}>
-                            {cell.render("Cell")}
-                          </td>
-                        ))}
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  );
+    return (
+        <div className="sales-dashboard">
+            <h1>Sales Dashboard</h1>
+            <div className="chart-container">
+                <h2>Customers Data</h2>
+                <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={customersData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
+            <div className="chart-container">
+                <h2>Products Data</h2>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={productsData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="count" fill="#82ca9d" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+            <div className="chart-container">
+                <h2>Orders Data</h2>
+                <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={ordersData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
+            <div className="chart-container">
+                <h2>Machines Data</h2>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={machinesData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="count" fill="#82ca9d" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+            <div className="chart-container">
+                <h2>Sales Distribution</h2>
+                <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                        <Pie
+                            data={salesData}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={100}
+                            fill="#8884d8"
+                            label
+                        >
+                            {salesData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
+        </div>
+    );
 };
 
 export default SalesDashboard;
