@@ -1,5 +1,6 @@
 const models = require('../models');
 const Validator = require('fastest-validator');
+const { updateOrCreateAttendance } = require('./attendance.controller');
 
 // Create function (userId:integer,nameWini:string,nameWFull:string,birthdate:date,age:integer,roleId:integer,gender:string,address:string,email:string,bankNumber:integer,phoneNumber:string,imgSrc:string) save BioDataSave and validation data
 function BioDataSave(req, res) {
@@ -30,7 +31,7 @@ function BioDataSave(req, res) {
         nameWFull: {type: "string", optional: false, max: "200" },
         birthdate: {type: "string", optional: false }, // Change type to string
         roleName: {type: "string", optional: false, max: "100" },
-        gender: {type: "string", ptional: false, max: "100" },
+        gender: {type: "string", optional: false, max: "100" },
         address: {type: "string", optional: false, max: "300" },
         phoneNumber: {type: "string", optional: false, max: "10" },
         bankNumber: {type: "string", optional: false, max: "15"},
@@ -76,9 +77,12 @@ function BioDataSave(req, res) {
             bankNumber: bankNumber,
             imgSrc: imgSrc
         }).then(result => {
-            res.status(201).json({
-                message: "BioData saved successfully",
-                bioData: result
+            // Update or create attendance
+            return updateOrCreateAttendance(userId, roleName, nameWini).then(() => {
+                res.status(201).json({
+                    message: "BioData saved successfully",
+                    bioData: result
+                });
             });
         }).catch(error => {
             res.status(500).json({
@@ -86,13 +90,15 @@ function BioDataSave(req, res) {
                 error: error
             });
         });
+        
     }).catch(error => {
         res.status(500).json({
             message: "Something went wrong",
             error: error
         });
-    });
+    });   
 }
+
 
 // Function to calculate age from birthdate
 function calculateAge(birthdate) {
@@ -100,6 +106,7 @@ function calculateAge(birthdate) {
     const currentYear = new Date().getFullYear();
     return currentYear - birthYear;
 }
+
 
 
 // Create Function Show BioDataSave
@@ -178,20 +185,6 @@ function BioDataDelete(req, res) {
         });
     });
 }
-
-function findRoleId(req, res){
-    const roleName = req.params.roleName;
-    models.Role.findOne({
-        where: { roleName: roleName }
-    }).then(role => {
-        if (!role) {
-            return res.status(404).json({
-                message: "Role not found"
-            });
-        }
-    });
-}
-
 
 // Create function to Update BioData table
 function BioDataUpdate(req, res) {

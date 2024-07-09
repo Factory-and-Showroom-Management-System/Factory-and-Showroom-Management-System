@@ -4,14 +4,11 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class BioData extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-
     static associate(models) {
-      // define association here
+      BioData.hasMany(models.attendance, {
+        foreignKey: 'userId',
+        as: 'attendance',
+      });
       BioData.belongsTo(models.Role,
         {
           foreignKey: 'roleId',
@@ -36,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'BioData',
+    tableName: 'BioData',
   });
   return BioData;
 };
