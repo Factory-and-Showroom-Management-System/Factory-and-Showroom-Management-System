@@ -349,7 +349,7 @@ const indexTo = currentPage * rowsPerPage;
 
 return (
     <div className="biodata-container">
-        <h1>Biodata</h1>
+        <h2 className="text-3xl text-black pl-1 pt-2 ">Profiles</h2>
         <div className='mb-2 mt-5 flex items-center'>
             <button onClick={handleAdd} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Add Profile
@@ -396,8 +396,8 @@ return (
                         <td className="px-6 py-4">{biodata.phoneNumber}</td>
                         <td className="px-6 py-4">{biodata.imgSrc}</td>
                         <td className="px-6 py-4">
-                            <button onClick={() => handleEdit(biodata.id)}>Edit</button>
-                            <button onClick={() => handleRemove(biodata.id)}>Remove</button>
+                            <button className="px-2 py-1 mr-2 bg-green-500 text-white rounded" onClick={() => handleEdit(biodata.id)}>Edit</button>
+                            <button className="px-2 py-1 bg-red-500 text-white rounded" onClick={() => handleRemove(biodata.id)}>Remove</button>
                         </td>
                     </tr>
                 ))}

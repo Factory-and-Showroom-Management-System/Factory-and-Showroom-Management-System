@@ -12,6 +12,8 @@ router.get('/showattendance', attendanceController.attendanceShow);
 // router.get('/countpresent/:userId', attendanceController.countPresent);
 router.put('/updateattendance/:attendanceId', attendanceController.updateTimeInAndOut);
 // router.delete('/deleteattendance/:attendanceId', attendanceController.destroy);
+router.get('/generatereport', attendanceController.generateReport);
+router.post('/resetdailyattendance', attendanceController.resetDailyAttendance);
 
 
 module.exports = router;
