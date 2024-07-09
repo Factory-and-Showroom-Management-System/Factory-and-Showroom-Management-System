@@ -21,7 +21,7 @@ const Navbar = () => {
       const timeString = now.toLocaleTimeString('en-US', {
         hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
       });
-      setCurrentDateTime(`${dateString}, ${timeString}`);
+      setCurrentDateTime(${dateString}, ${timeString});
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -37,7 +37,7 @@ const Navbar = () => {
       try {
         const response = await axios.get('http://localhost:3000/users/profile', {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: Bearer ${token}
           }
         });
         setUser(response.data.user);
@@ -90,4 +90,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
- 
