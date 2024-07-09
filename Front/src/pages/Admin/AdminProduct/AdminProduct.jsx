@@ -222,7 +222,7 @@ export default function AdminProduct() {
           </div>
 
           <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-white uppercase bg-[#54db93]">
+            <thead className="text-xs text-black uppercase bg-[#54db93]">
               <tr>
                 <th scope="col" className="px-6 py-5">
                   Product ID

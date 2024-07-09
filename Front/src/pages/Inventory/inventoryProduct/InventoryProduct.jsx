@@ -16,7 +16,9 @@ export default function InventoryProduct() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3000/inventoryproduct/view");
+      const response = await fetch(
+        "http://localhost:3000/inventoryproduct/view"
+      );
       const data = await response.json();
       setProducts(data);
     } catch (error) {
@@ -26,7 +28,7 @@ export default function InventoryProduct() {
 
   const handleEdit = async (id, currentData) => {
     const { value: formValues } = await MySwal.fire({
-      title: "Edit Product",
+      title: "Update Quantity",
       html: `
         <input id="swal-input3" class="swal2-input" value="${currentData.available}" type="number" min="1" step="1">`,
       focusConfirm: false,
@@ -43,7 +45,7 @@ export default function InventoryProduct() {
         return [quantity];
       },
     });
-  
+
     if (formValues) {
       try {
         await fetch(`http://localhost:3000/inventoryproduct/update/${id}`, {

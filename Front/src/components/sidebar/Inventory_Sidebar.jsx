@@ -74,19 +74,11 @@ export function Inventory_Sidebar() {
 
   return (
     <div className="flex flex-col h-screen">
-      <Sidebar className="w-full border-r-2">
+      <Sidebar className="w-full ">
         <Sidebar.Items className="w-full">
           <Sidebar.ItemGroup className="w-full">
             <div className="w-full ml-2">
-              <Sidebar.Item
-                icon={HiUser}
-                className={`rounded-full hover:bg-[#cdf8da] ${
-                  dashboardClicked ? "bg-[#cdf8da] text-black" : ""
-                }`}
-                onClick={handleDashboardClick}
-              >
-                Inventory Dashboard
-              </Sidebar.Item>
+              
             </div>
             <div className="w-full">
               <Sidebar.Item
