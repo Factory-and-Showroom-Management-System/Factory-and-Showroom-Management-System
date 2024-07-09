@@ -1,7 +1,7 @@
 import { Sidebar } from "flowbite-react";
 import { HiShoppingBag, HiUser } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { GoDatabase } from "react-icons/go";
+import { GoDatabase, GoBook, GoSignOut, GoPackage } from "react-icons/go";
 import { useState } from "react";
 import { signOutSuccess } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
@@ -47,11 +47,7 @@ export function Admin_Sidebar() {
     setMaterialClicked(false);
     setLogoutClicked(true);
     setInventoryClicked(false);
-    
-    
   };
-
- 
 
   const handleSignoutConfirm = async () => {
     try {
@@ -93,64 +89,63 @@ export function Admin_Sidebar() {
               </Link>
             </div>
 
-            <Sidebar.Collapse icon={HiShoppingBag} className={`rounded-full hover:bg-[#cdf8da] ${
-                    InventoryClicked ? "bg-[#cdf8da] text-black" : ""
-                  }`}
-                   label="Inventory" >
+            <Sidebar.Collapse
+              icon={HiShoppingBag}
+              className={`rounded-full hover:bg-[#cdf8da] ${
+                InventoryClicked ? "bg-[#cdf8da] text-black" : ""
+              }`}
+              label="Inventory"
+            >
+              <div className="w-full">
+                <Link to="/admin?tab=adminproduct">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      productClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleProductClick}
+                  >
+                    Product
+                  </Sidebar.Item>
+                </Link>
+              </div>
 
-            <div className="w-full">
-              <Link to="/admin?tab=adminproduct">
-                <Sidebar.Item
-                  icon={HiShoppingBag}
-                  className={`rounded-full hover:bg-[#cdf8da] ${
-                    productClicked ? "bg-[#cdf8da] text-black" : ""
-                  }`}
-                  onClick={handleProductClick}
-                >
-                  Product
-                </Sidebar.Item>
-              </Link>
-            </div>
-
-            <div className="w-full">
-              <Link to="/admin?tab=adminmaterial">
-                <Sidebar.Item
-                  icon={GoDatabase}
-                  className={`rounded-full hover:bg-[#cdf8da] ${
-                    materialClicked ? "bg-[#cdf8da] text-black" : ""
-                  }`}
-                  onClick={handleMaterialClick}
-                >
-                  Raw Material
-                </Sidebar.Item>
-              </Link>
-            </div>
-            
+              <div className="w-full">
+                <Link to="/admin?tab=adminmaterial">
+                  <Sidebar.Item
+                   icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      materialClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleMaterialClick}
+                  >
+                    Raw Material
+                  </Sidebar.Item>
+                </Link>
+              </div>
             </Sidebar.Collapse>
-            
           </Sidebar.ItemGroup>
         </Sidebar.Items>
-       
-          
-            <Sidebar.ItemGroup>
-              <Sidebar.Item
-                icon={GoDatabase}
-                className={`rounded-full hover:bg-[#cdf8da] cursor-pointer ${
-                  logoutClicked ? "bg-[#cdf8da] text-black" : ""
-                }`}
-                onClick={handleSignoutClick}
-              >
-                Logout
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-     
-      
+
+        <Sidebar.ItemGroup>
+          <Sidebar.Item
+            icon={GoSignOut}
+            className={`rounded-full hover:bg-[#cdf8da] cursor-pointer ${
+              logoutClicked ? "bg-[#cdf8da] text-black" : ""
+            }`}
+            onClick={handleSignoutClick}
+          >
+            Logout
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
       </Sidebar>
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pt-10 bg-gray-900 bg-opacity-50">
           <div className="overflow-hidden bg-white rounded-lg shadow-lg w-96">
             <div className="p-4">
-              <h2 className="mb-4 text-xl font-bold">Do you want to log out?</h2>
+              <h2 className="mb-4 text-xl font-bold">
+                Do you want to log out?
+              </h2>
               <div className="flex justify-end space-x-4">
                 <button
                   className="px-4 py-2 font-bold text-white bg-gray-500 rounded cursor-pointer"

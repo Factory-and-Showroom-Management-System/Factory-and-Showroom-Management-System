@@ -27,7 +27,7 @@ export default function AdminRowMaterial() {
 
   const handleAdd = async () => {
     const { value: formValues } = await MySwal.fire({
-      title: "Add New Product",
+      title: "Add New Material",
       html: `
                 <input id="swal-input1" class="swal2-input" placeholder="Material ID">
                 <input id="swal-input2" class="swal2-input" placeholder="Material Name">
@@ -81,12 +81,17 @@ export default function AdminRowMaterial() {
 
   const handleEdit = async (id, currentData) => {
     const { value: formValues } = await MySwal.fire({
-      title: "Edit Product",
+      title: "Edit Material",
       html: `
-                <input id="swal-input1" class="swal2-input" value="${currentData.materialid}">
-                <input id="swal-input2" class="swal2-input" value="${currentData.materialname}">
-                <input id="swal-input3" class="swal2-input" value="${currentData.quantity}" type="number">
-                <input id="swal-input4" class="swal2-input" value="${currentData.price}" type="number">`,
+               <label for="swal-input1">Material ID:</label>
+<input id="swal-input1" class="swal2-input" value="${currentData.materialid}">
+<label for="swal-input2">Material Name:</label>
+<input id="swal-input2" class="swal2-input" value="${currentData.materialname}">
+<label for="swal-input3">Quantity:</label>
+<input id="swal-input3" class="swal2-input" value="${currentData.quantity}" type="number">
+<label for="swal-input4">Price:</label>
+<input id="swal-input4" class="swal2-input" value="${currentData.price}" type="number">
+`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#008000",

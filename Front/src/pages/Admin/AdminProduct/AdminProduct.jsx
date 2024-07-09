@@ -28,9 +28,13 @@ export default function AdminProduct() {
     const { value: formValues } = await MySwal.fire({
       title: "Add New Product",
       html: `
+                
                 <input id="swal-input1" class="swal2-input" placeholder="Product ID">
+                
                 <input id="swal-input2" class="swal2-input" placeholder="Product Name">
+                
                 <input id="swal-input3" class="swal2-input" placeholder="Available" type="number">
+                
                 <input id="swal-input4" class="swal2-input" placeholder="Unit Price" type="number">`,
       focusConfirm: false,
       showCancelButton: true,
@@ -82,9 +86,13 @@ export default function AdminProduct() {
     const { value: formValues } = await MySwal.fire({
       title: "Edit Product",
       html: `
+                <label for="swal-input1">Product ID:</label>
                 <input id="swal-input1" class="swal2-input" value="${currentData.productId}">
+                <label for="swal-input2">Product Name:</label>
                 <input id="swal-input2" class="swal2-input" value="${currentData.p_name}">
+                <label for="swal-input3">Quantity:</label>
                 <input id="swal-input3" class="swal2-input" value="${currentData.available}" type="number">
+                <label for="swal-input4">Price:</label>
                 <input id="swal-input4" class="swal2-input" value="${currentData.unitPrice}" type="number">`,
       focusConfirm: false,
       showCancelButton: true,
