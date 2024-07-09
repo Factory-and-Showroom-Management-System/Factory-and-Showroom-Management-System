@@ -1,5 +1,5 @@
 import { Sidebar } from "flowbite-react";
-
+import { GoDatabase } from "react-icons/go";
 import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../../redux/user/userSlice";
 
@@ -35,6 +35,7 @@ export function Finance_Sidebar() {
 
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
+  const [logoutClicked, setLogoutClicked] = useState(false);
 
   const handleSignoutClick = () => {
     setShowModal(true);
@@ -224,7 +225,15 @@ export function Finance_Sidebar() {
 
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
-          <Sidebar.Item icon={HiArrowSmRight}>Logout</Sidebar.Item>
+        <Sidebar.Item
+            icon={GoDatabase}
+            className={`rounded-full hover:bg-[#cdf8da] cursor-pointer ${
+              logoutClicked ? "bg-[#cdf8da] text-black" : ""
+            }`}
+            onClick={handleSignoutClick}
+          >
+            Logout
+          </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
