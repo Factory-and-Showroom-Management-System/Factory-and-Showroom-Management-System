@@ -23,7 +23,7 @@ export function Sales_Sidebar() {
             <Sidebar.ItemGroup>
               <Sidebar>
               <Link to="/sales?tab=salesdash" style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                 Sales_Product Dashboard
+                 Sales Dashboard
               </Link>
               </Sidebar>
 

@@ -6,6 +6,7 @@ import { FaRegCheckCircle, FaTools, FaExclamationCircle } from 'react-icons/fa';
 
 const MySwal = withReactContent(Swal);
 
+
 export default function Machine() {
     const [machines, setMachines] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -355,3 +356,6 @@ export default function Machine() {
         </div>
     );
 }
+
+
+  
