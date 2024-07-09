@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button } from "flowbite-react";
+import { TiArrowBackOutline } from "react-icons/ti";
+import { TbHandClick } from "react-icons/tb";
+import { useNavigate } from 'react-router-dom';
 
 export default function UserNetPays() {
     const [netPays, setNetPays] = useState([]);
@@ -7,6 +11,15 @@ export default function UserNetPays() {
     const [rowsPerPage] = useState(5);
     const [currentDateTime, setCurrentDateTime] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+
+
+    const navigate = useNavigate();
+
+
+    //dashboard
+    const handleDashboard = () => {
+        navigate('/finance?tab=salarydash');
+    }
 
 
     const handleSubmit = async (event) => {
@@ -144,7 +157,7 @@ export default function UserNetPays() {
         handleSubmitMonthSalarySheet();
         handleSubmitSubMonthSalarySheet();
         handleSubmitAllMonthSalarySheet();
-        
+
     }, []);
 
     const filteredNetPays = searchTerm
@@ -171,63 +184,82 @@ export default function UserNetPays() {
     };
 
     return (
-        <div className="w-full bg-white rounded-lg shadow-lg">
-            <div className="relative overflow-x-auto sm:rounded-lg">
-                <h1 className="pt-2 pl-2 text-3xl text-blue-500">User Net Pays Overview : {currentDateTime}</h1>
-                <div className="pt-2 pb-2 pl-2 bg-white">
-                    <div className="relative ml-4">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
-                            </svg>
-                        </div>
+        <div className="w-full bg-white ">
 
-                        <input
-                            type="text"
-                            className="block h-10 py-2 pl-10 pr-3 border border-blue-400 rounded-lg w-80 focus:ring-blue-500 focus:border-red-500"
-                            placeholder="Search by User ID or Name"
-                            value={searchTerm}
-                            onChange={e => setSearchTerm(e.target.value)}
-                        />
+            <div className="relative overflow-x-auto sm:rounded-lg ">
+
+                <div className=''>
+
+                    <h1 className="  text-3xl text-blue-500">User Net Pays Overview </h1>
+                    <div className="pt-2 pb-2 bg-white">
+                        <div className="relative ">
+
+                            <div className='flex'>
+                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+
+                                    <svg className="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                </div>
+
+                                <input
+                                    type="text"
+                                    className="block h-10 py-2 pl-10 pr-3 border border-blue-400 rounded-lg w-80 focus:ring-blue-500 focus:border-red-500"
+                                    placeholder="Search by User ID or Name"
+                                    value={searchTerm}
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                />
+
+                                <Button.Group outline className='ml-2'>
+                                    <Button color="gray" onClick={handleDashboard} >
+                                        <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
+                                        Dashboard
+                                    </Button>
+                                </Button.Group>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="relative overflow-x-auto sm:rounded-lg">
+                        <table className="w-full text-sm text-left text-gray-900 dark:text-white">
+                            <thead className="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" className="px-6 py-7">ID</th>
+                                    <th scope="col" className="px-6 py-3">User ID</th>
+                                    <th scope="col" className="px-6 py-3">Name</th>
+                                    <th scope="col" className="px-6 py-3">Net Total (Rs.)</th>
+                                    <th scope="col" className="px-6 py-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentRows.map((item) => (
+                                    <tr key={item.id} className="text-white bg-blue-500 border-b border-blue-400 hover:bg-blue-400">
+                                        <td className="px-6 py-4">{item.id}</td>
+                                        <td className="px-6 py-4">{item.userId}</td>
+                                        <td className="px-6 py-4">{item.name}</td>
+                                        <td className="px-6 py-4">Rs. {item.netTotal.toFixed(2)}</td>
+                                        <td className="px-6 py-4">
+                                            <a href="#" className="font-medium text-white hover:underline">Edit</a>
+                                            <a href="#" className="font-medium text-white hover:underline" style={{ marginLeft: '10px' }}>Remove</a>
+                                        </td>
+                                    </tr>
+                                ))}
+                                <tr className="text-white bg-blue-800">
+                                    <td className="px-20 py-2 font-bold text-right" colSpan="3">Sub Total (Rs.):</td>
+                                    <td className="px-6 font-bold" colSpan="2">Rs. {totalNet.toFixed(2)}</td>
+
+
+                                </tr>
+                                <tr className="text-white bg-blue-800">
+                                    <td className="px-20 py-2 font-bold text-right" colSpan="3">Total (Rs.):</td>
+                                    <td className="px-6 font-bold" colSpan="4">Rs. {totalNet.toFixed(4)}</td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <table className="w-full text-sm text-left text-gray-900 dark:text-white">
-                    <thead className="text-xs text-white uppercase bg-blue-600">
-                        <tr>
-                            <th scope="col" className="px-6 py-4">ID</th>
-                            <th scope="col" className="px-6 py-3">User ID</th>
-                            <th scope="col" className="px-6 py-3">Name</th>
-                            <th scope="col" className="px-6 py-3">Net Total (Rs.)</th>
-                            <th scope="col" className="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentRows.map((item) => (
-                            <tr key={item.id} className="text-white bg-blue-500 border-b border-blue-400 hover:bg-blue-400">
-                                <td className="px-6 py-4">{item.id}</td>
-                                <td className="px-6 py-4">{item.userId}</td>
-                                <td className="px-6 py-4">{item.name}</td>
-                                <td className="px-6 py-4">Rs. {item.netTotal.toFixed(2)}</td>
-                                <td className="px-6 py-4">
-                                    <a href="#" className="font-medium text-white hover:underline">Edit</a>
-                                    <a href="#" className="font-medium text-white hover:underline" style={{ marginLeft: '10px' }}>Remove</a>
-                                </td>
-                            </tr>
-                        ))}
-                        <tr className="text-white bg-blue-800">
-                            <td className="px-20 py-2 font-bold text-right" colSpan="3">Sub Total (Rs.):</td>
-                            <td className="px-6 font-bold" colSpan="2">Rs. {totalNet.toFixed(2)}</td>
-
-
-                        </tr>
-                        <tr className="text-white bg-blue-800">
-                            <td className="px-20 py-2 font-bold text-right" colSpan="3">Total (Rs.):</td>
-                            <td className="px-6 font-bold" colSpan="4">Rs. {totalNet.toFixed(4)}</td>
-
-                        </tr>
-
-                    </tbody>
-                </table>
                 <nav className="flex items-center justify-between pt-2">
                     <span className="pl-10 text-sm font-normal text-gray-500">
                         Showing <span className="font-semibold text-gray-900">

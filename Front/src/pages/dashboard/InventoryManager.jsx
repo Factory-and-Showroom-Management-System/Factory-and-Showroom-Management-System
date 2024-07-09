@@ -4,6 +4,8 @@ import {Inventory_Sidebar} from '../../components/sidebar/Inventory_Sidebar';
 
 
 import InventoryDashboard from '../Inventory/InventoryDashboard/InventoryDashboard';
+import InventoryProduct from '../Inventory/inventoryProduct/InventoryProduct';
+import InventoryRawMaterial from '../Inventory/InventoryRawMaterial/InventoryRawMaterial';
 
 export function InventoryManager() {
   const location = useLocation();
@@ -23,6 +25,9 @@ export function InventoryManager() {
     <div className="w-full">
       {/* {tab === 'User' && <<BasicSalaries />/>}  */}
       {tab === "inventorydash" && <InventoryDashboard />}
+      {tab === "inventoryproduct" && < InventoryProduct/>}
+      {tab === "inventoryrow" && <InventoryRawMaterial />}
+      
       </div>
   </div>
   );
