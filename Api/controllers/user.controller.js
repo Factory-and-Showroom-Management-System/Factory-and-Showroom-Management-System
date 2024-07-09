@@ -73,8 +73,33 @@ function login(req, res) {
   });
 }
 
+//create signout function . include with .clearCookie('access_token').status(200).json("Signout successful"), use try catch block to handle error
+
+function signout(req, res) {
+  try {
+    res.clearCookie('access_token').status(200).json("Signout successful");
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+}
+
+const getProfile = (req, res) => {
+  const userId = req.user.userId;  // Extract userId from req.user set by the authenticate middleware
+  models.Users.findOne({ where: { id: userId } })
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.status(200).json({ user });
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Something went wrong" });
+    });
+};
 
 module.exports = {
     createUser : createUser,
-    login: login
+    login: login,
+    signout: signout,
+    getProfile: getProfile
 }

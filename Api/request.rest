@@ -1,19 +1,31 @@
 //create a user
-
-POST http://localhost:3000/users/createUser
+PUT http://localhost:3000/adminproduct/update/5
 Content-Type: application/json
 
 {
     
-    "name" : "buddhi2",
-    "username" : "hr002",
-    "password" : "123456",
-    "role" : "hr_manager"
+    "productId" : "pm",
+    "p_name" : "hr",
+    "available" :250,
+    "unitPrice" : 23456
+  
    
 }
 //get product
 ###
-GET http://localhost:3000/products/showProduct
+GET http://localhost:3000/usersrouter/profile
+
+
+
+//logout
+###
+POST http://localhost:3000/users/signout
+Content-Type: application/json
+
+{
+    "username" : "admin001",
+    "password" : "123456"
+}
 
 //add product
 ###
@@ -50,7 +62,7 @@ Content-Type: application/json
 
 //create hr manager 
 ###
-POST http://localhost:5000/users
+POST http://localhost:3000/users/createUser
 Content-Type: application/json
 
 {

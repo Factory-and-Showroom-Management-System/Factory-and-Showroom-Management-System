@@ -4,26 +4,17 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Attendance extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
-
-      //one to many user with attendance
-      Attendance.belongsTo(models.User);
-
-
-
-
-
+      Attendance.belongsTo(models.BioData, {
+        foreignKey: 'userId',
+        as: 'BioData',
+      });
     }
   }
+  
   Attendance.init({
-    name: DataTypes.STRING,
     userId: DataTypes.INTEGER,
+    name: DataTypes.STRING,
     role: DataTypes.STRING,
     dateIn: DataTypes.DATE,
     timeIn: DataTypes.TIME,
@@ -31,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Attendance',
+    modelName: 'attendance',
+    tableName: 'attendances',
   });
   return Attendance;
 };

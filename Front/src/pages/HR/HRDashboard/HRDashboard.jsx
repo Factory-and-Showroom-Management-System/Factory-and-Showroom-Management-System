@@ -6,4 +6,4 @@ const HRDashboard = () => {
   )
 }
 
-export default HRDashboard
+export default HRDashboard;
