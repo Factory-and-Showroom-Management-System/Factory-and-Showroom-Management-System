@@ -24,7 +24,6 @@ const SalesDashboard = () => {
             { name: 'Poly Bag', count: 300 },
             { name: 'MTG Card Sleeves', count: 250 },
             { name: 'Auto Bag', count: 400 },
-           
         ];
         const mockOrdersData = [
             { date: '2023-01-01', count: 30 },
@@ -56,9 +55,21 @@ const SalesDashboard = () => {
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
+    // Calculate total sales for display
+    const totalSales = salesData.reduce((total, item) => total + item.value, 0);
+
     return (
         <div className="sales-dashboard">
             <h1>Sales Dashboard</h1>
+            
+            <div className="chart-container">
+                <h2>Sales Performance</h2>
+                <div className="sales-performance-card">
+                    <p>Total Sales: ${totalSales}</p>
+                    {/* Add more metrics or data as needed */}
+                </div>
+            </div>
+
             <div className="chart-container">
                 <h2>Customers Data</h2>
                 <ResponsiveContainer width="100%" height={300}>
@@ -72,6 +83,9 @@ const SalesDashboard = () => {
                     </LineChart>
                 </ResponsiveContainer>
             </div>
+            
+            {/* Existing charts */}
+            
             <div className="chart-container">
                 <h2>Products Data</h2>
                 <ResponsiveContainer width="100%" height={300}>
