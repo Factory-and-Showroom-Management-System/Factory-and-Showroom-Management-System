@@ -16,7 +16,9 @@ export default function InventoryProduct() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3000/inventoryproduct/view");
+      const response = await fetch(
+        "http://localhost:3000/inventoryproduct/view"
+      );
       const data = await response.json();
       setProducts(data);
     } catch (error) {
@@ -26,21 +28,24 @@ export default function InventoryProduct() {
 
   const handleEdit = async (id, currentData) => {
     const { value: formValues } = await MySwal.fire({
-      title: "Edit Product",
+      title: "Update Quantity",
       html: `
-        <input id="swal-input3" class="swal2-input" value="${currentData.available}" type="number">`,
+        <input id="swal-input3" class="swal2-input" value="${currentData.available}" type="number" min="1" step="1">`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#008000",
       cancelButtonColor: "#d33",
       confirmButtonText: "Save Changes",
       preConfirm: () => {
-        return [
-          document.getElementById("swal-input3").value,
-        ];
+        const quantity = document.getElementById("swal-input3").value;
+        if (quantity <= 0) {
+          Swal.showValidationMessage("Please enter a positive number");
+          return false;
+        }
+        return [quantity];
       },
     });
-  
+
     if (formValues) {
       try {
         await fetch(`http://localhost:3000/inventoryproduct/update/${id}`, {
@@ -69,10 +74,6 @@ export default function InventoryProduct() {
     }
   };
 
-  
-
-  
-
   const filteredProducts = searchTerm
     ? products.filter(
         (product) =>
@@ -96,7 +97,6 @@ export default function InventoryProduct() {
       <div className="pt-0 pl-5 pr-5 bg-white drop-shadow-[1px_10px_10px_rgba(0,0,0,0.20)] rounded-lg">
         <div className="relative overflow-x-auto l:rounded-lg">
           <div className="flex items-center mt-5 mb-2">
-            
             <div className="relative ml-0">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
@@ -161,7 +161,6 @@ export default function InventoryProduct() {
                     >
                       Update Quantity
                     </button>
-                    
                   </td>
                 </tr>
               ))}
