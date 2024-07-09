@@ -146,7 +146,7 @@ const SalesDashboard = () => {
                         <Tooltip />
                         <Legend />
                     </PieChart>
-                </ResponsiveContainer>
+                    </ResponsiveContainer>
             </div>
         </div>
     );
