@@ -61,7 +61,9 @@ export default function Customer() {
 
         // Validate name to contain only letters and spaces
         if (!/^[a-zA-Z\s]+$/.test(name)) {
-          MySwal.showValidationMessage("Name can only contain letters and spaces");
+          MySwal.showValidationMessage(
+            "Name can only contain letters and spaces"
+          );
           return;
         }
 
@@ -141,7 +143,9 @@ export default function Customer() {
 
         // Validate name to contain only letters and spaces
         if (!/^[a-zA-Z\s]+$/.test(name)) {
-          MySwal.showValidationMessage("Name can only contain letters and spaces");
+          MySwal.showValidationMessage(
+            "Name can only contain letters and spaces"
+          );
           return;
         }
 

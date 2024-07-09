@@ -1,8 +1,8 @@
-import React from 'react';
-import { Bar, Line } from 'react-chartjs-2';
-import { useTable } from 'react-table';
-import { Container, Row, Col, Table, Card } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import { Bar, Line } from "react-chartjs-2";
+import { useTable } from "react-table";
+import { Container, Row, Col, Table, Card } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const customerData = [
   { name: "Customer 1", count: 5 },
@@ -46,62 +46,58 @@ const wastageData = [
 
 const SalesDashboard = () => {
   const chartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
     datasets: [
       {
-        label: 'Customers',
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        data: customerData.map(customer => customer.count),
+        label: "Customers",
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        data: customerData.map((customer) => customer.count),
       },
       {
-        label: 'Orders',
-        backgroundColor: 'rgba(153,102,255,0.4)',
-        borderColor: 'rgba(153,102,255,1)',
-        data: orderData.map(order => order.count),
+        label: "Orders",
+        backgroundColor: "rgba(153,102,255,0.4)",
+        borderColor: "rgba(153,102,255,1)",
+        data: orderData.map((order) => order.count),
       },
       {
-        label: 'Products',
-        backgroundColor: 'rgba(255,159,64,0.4)',
-        borderColor: 'rgba(255,159,64,1)',
-        data: productData.map(product => product.count),
+        label: "Products",
+        backgroundColor: "rgba(255,159,64,0.4)",
+        borderColor: "rgba(255,159,64,1)",
+        data: productData.map((product) => product.count),
       },
       {
-        label: 'Wastage',
-        backgroundColor: 'rgba(255,99,132,0.4)',
-        borderColor: 'rgba(255,99,132,1)',
-        data: wastageData.map(wastage => wastage.count),
+        label: "Wastage",
+        backgroundColor: "rgba(255,99,132,0.4)",
+        borderColor: "rgba(255,99,132,1)",
+        data: wastageData.map((wastage) => wastage.count),
       },
     ],
   };
 
   const tableData = React.useMemo(
-    () => orderData.map((order, index) => ({
-      col1: customerData[index] ? customerData[index].name : 'N/A',
-      col2: order.name,
-      col3: productData[index] ? productData[index].name : 'N/A',
-      col4: wastageData[index] ? wastageData[index].name : 'N/A',
-    })),
+    () =>
+      orderData.map((order, index) => ({
+        col1: customerData[index] ? customerData[index].name : "N/A",
+        col2: order.name,
+        col3: productData[index] ? productData[index].name : "N/A",
+        col4: wastageData[index] ? wastageData[index].name : "N/A",
+      })),
     []
   );
 
   const columns = React.useMemo(
     () => [
-      { Header: 'Customer', accessor: 'col1' },
-      { Header: 'Order', accessor: 'col2' },
-      { Header: 'Product', accessor: 'col3' },
-      { Header: 'Wastage', accessor: 'col4' },
+      { Header: "Customer", accessor: "col1" },
+      { Header: "Order", accessor: "col2" },
+      { Header: "Product", accessor: "col3" },
+      { Header: "Wastage", accessor: "col4" },
     ],
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data: tableData });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data: tableData });
 
   return (
     <Container fluid>
@@ -153,21 +149,25 @@ const SalesDashboard = () => {
             <Card.Body>
               <Table {...getTableProps()} striped bordered hover>
                 <thead>
-                  {headerGroups.map(headerGroup => (
+                  {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map(column => (
-                        <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                      {headerGroup.headers.map((column) => (
+                        <th {...column.getHeaderProps()}>
+                          {column.render("Header")}
+                        </th>
                       ))}
                     </tr>
                   ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                  {rows.map(row => {
+                  {rows.map((row) => {
                     prepareRow(row);
                     return (
                       <tr {...row.getRowProps()}>
-                        {row.cells.map(cell => (
-                          <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                        {row.cells.map((cell) => (
+                          <td {...cell.getCellProps()}>
+                            {cell.render("Cell")}
+                          </td>
                         ))}
                       </tr>
                     );
