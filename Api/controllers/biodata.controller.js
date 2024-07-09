@@ -2,7 +2,14 @@ const models = require('../models');
 const Validator = require('fastest-validator');
 const { updateOrCreateAttendance } = require('./attendance.controller');
 
-// Create function (userId:integer,nameWini:string,nameWFull:string,birthdate:date,age:integer,roleId:integer,gender:string,address:string,email:string,bankNumber:integer,phoneNumber:string,imgSrc:string) save BioDataSave and validation data
+// Function to calculate age from birthdate
+function calculateAge(birthdate) {
+    const birthYear = new Date(birthdate).getFullYear();
+    const currentYear = new Date().getFullYear();
+    return currentYear - birthYear;
+}
+
+// Create function to save BioData
 function BioDataSave(req, res) {
     const {
         userId,
@@ -26,16 +33,16 @@ function BioDataSave(req, res) {
 
     // Validation schema
     const schema = {
-        userId: {type: "number", optional: false, max: "100", unique: true },
-        nameWini: {type: "string", optional: false, max: "100" },
-        nameWFull: {type: "string", optional: false, max: "200" },
-        birthdate: {type: "string", optional: false }, // Change type to string
-        roleName: {type: "string", optional: false, max: "100" },
-        gender: {type: "string", optional: false, max: "100" },
-        address: {type: "string", optional: false, max: "300" },
-        phoneNumber: {type: "string", optional: false, max: "10" },
-        bankNumber: {type: "string", optional: false, max: "15"},
-        imgSrc: {type: "string", optional: true, max: "300" }
+        userId: { type: "number", optional: false, max: "100", unique: true },
+        nameWini: { type: "string", optional: false, max: "100" },
+        nameWFull: { type: "string", optional: false, max: "200" },
+        birthdate: { type: "string", optional: false }, // Change type to string
+        roleName: { type: "string", optional: false, max: "100" },
+        gender: { type: "string", optional: false, max: "100" },
+        address: { type: "string", optional: false, max: "300" },
+        phoneNumber: { type: "string", optional: false, max: "10" },
+        bankNumber: { type: "string", optional: false, max: "15" },
+        imgSrc: { type: "string", optional: true, max: "300" }
     };
 
     // Create a validator instance
@@ -90,24 +97,14 @@ function BioDataSave(req, res) {
                 error: error
             });
         });
-        
+
     }).catch(error => {
         res.status(500).json({
             message: "Something went wrong",
             error: error
         });
-    });   
+    });
 }
-
-
-// Function to calculate age from birthdate
-function calculateAge(birthdate) {
-    const birthYear = new Date(birthdate).getFullYear();
-    const currentYear = new Date().getFullYear();
-    return currentYear - birthYear;
-}
-
-
 
 // Create Function Show BioDataSave
 function BioDataShow(req, res) {
@@ -137,18 +134,18 @@ function biodataShowId(req, res) {
         },
         //get role by roleId
         include: [
-        {
-            model: models.Role,
-            as: 'role',
-            attributes: ['roleName'],
-        }]
+            {
+                model: models.Role,
+                as: 'role',
+                attributes: ['roleName'],
+            }]
     }).then(result => {
         if (result) {
             res.status(200).json(result);
         } else {
             res.status(404).json({
                 message: "User not found"
-            })
+            });
         }
     }).catch(error => {
         res.status(500).json({
@@ -168,9 +165,21 @@ function BioDataDelete(req, res) {
                 message: "BioData not found"
             });
         }
+        const userId = result.userId; // Get the userId before destroying the BioData record
+
         result.destroy().then(() => {
-            res.status(200).json({
-                message: "BioData deleted successfully"
+            // Now delete the corresponding attendance record
+            models.attendance.destroy({
+                where: { userId: userId }
+            }).then(() => {
+                res.status(200).json({
+                    message: "BioData and corresponding attendance deleted successfully"
+                });
+            }).catch(error => {
+                res.status(500).json({
+                    message: "Failed to delete attendance",
+                    error: error
+                });
             });
         }).catch(error => {
             res.status(500).json({
@@ -212,7 +221,7 @@ function BioDataUpdate(req, res) {
         roleName: { type: "string", optional: false, max: "100" },
         gender: { type: "string", optional: false, max: "100" },
         address: { type: "string", optional: false, max: "300" },
-        bankNumber: {type: "string", optional: false, max: "15"},
+        bankNumber: { type: "string", optional: false, max: "15" },
         phoneNumber: { type: "string", optional: false, max: "10" },
         imgSrc: { type: "string", optional: true, max: "300" }
     };
@@ -228,8 +237,6 @@ function BioDataUpdate(req, res) {
             errors: validationResponse
         });
     }
-
-    
 
     models.Role.findOne({
         where: { roleName: roleName }
@@ -262,10 +269,20 @@ function BioDataUpdate(req, res) {
             result.imgSrc = imgSrc;
 
             result.save().then(updatedBioDataRecord => {
-                res.status(200).json({
-                    message: "BioData updated successfully",
-                    bioData: updatedBioDataRecord
-                });
+                // Update or create attendance record
+                updateOrCreateAttendance(userId, role.roleName, nameWini, null, null)
+                    .then(() => {
+                        res.status(200).json({
+                            message: "BioData updated successfully",
+                            bioData: updatedBioDataRecord
+                        });
+                    })
+                    .catch(error => {
+                        res.status(500).json({
+                            message: "Failed to update attendance",
+                            error: error
+                        });
+                    });
             }).catch(error => {
                 res.status(500).json({
                     message: "Something went wrong",
@@ -306,17 +323,14 @@ function findRoleIDbyRoleName(req, res) {
             error: error
         });
     });
-
 }
-
-
 
 // Export functions
 module.exports = {
-    BioDataSave: BioDataSave,
-    BioDataShow: BioDataShow,
-    biodataShowId: biodataShowId,
-    BioDataUpdate: BioDataUpdate,
-    BioDataDelete: BioDataDelete,
-    findRoleIDbyRoleName: findRoleIDbyRoleName
+    BioDataSave,
+    BioDataShow,
+    biodataShowId,
+    BioDataUpdate,
+    BioDataDelete,
+    findRoleIDbyRoleName
 };

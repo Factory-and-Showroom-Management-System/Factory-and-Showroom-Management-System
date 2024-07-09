@@ -36,6 +36,7 @@ async function save(req, res) {
     }
 }
 
+// Show all attendance records
 async function attendanceShow(req, res) {
     try {
         const attendance = await models.attendance.findAll({
@@ -61,7 +62,7 @@ async function attendanceShow(req, res) {
 }
 
 // Function to update or create Attendance record
-async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn, timeOut) {
+async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn = null, timeOut = null) {
     try {
         let status = 'Absent';
         if (timeOut) {
@@ -88,7 +89,6 @@ async function updateTimeInAndOut(req, res) {
         const attendance = await models.attendance.findOne({
             where: {
                 userId: req.body.userId,
-                // dateIn: moment(req.body.dateIn).format('YYYY-MM-DD') // Format date to match the database date format
             },
         });
 

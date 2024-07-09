@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Hr_Sidebar } from '../../components/sidebar/Hr_Sidebar';
 import HRDashboard from '../HR/HRDashboard/HRDashboard';
 import Profiles from '../HR/ManageProfile/Profiles';
+import Attendance from '../HR/ManageAttendance/Attendance';
 
 export function HRManager() {
   const location = useLocation();
@@ -23,6 +24,7 @@ export function HRManager() {
       {/* {tab === 'User' && <<BasicSalaries />/>}  */}
       {tab === "hrdash" && <HRDashboard/>}
       {tab === "hrprofile" && <Profiles/>}
+      {tab === "hrattendance" && <Attendance/>}
       </div>
   </div>
   );
