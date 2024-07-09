@@ -16,6 +16,7 @@ import { GiMoneyStack } from "react-icons/gi";
 import { TbMoneybag } from "react-icons/tb";
 import { AiFillTags } from "react-icons/ai";
 import { BiSolidDashboard } from "react-icons/bi";
+import {  GoSignOut } from "react-icons/go";
 
 
 import {
@@ -226,7 +227,7 @@ export function Finance_Sidebar() {
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
         <Sidebar.Item
-            icon={GoDatabase}
+            icon={GoSignOut}
             className={`rounded-full hover:bg-[#cdf8da] cursor-pointer ${
               logoutClicked ? "bg-[#cdf8da] text-black" : ""
             }`}
