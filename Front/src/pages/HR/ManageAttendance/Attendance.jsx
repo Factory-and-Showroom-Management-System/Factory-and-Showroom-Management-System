@@ -129,12 +129,12 @@ export default function Attendance() {
 
     return (
         <div className="attendance-container">
-            <h2 className="text-3xl text-black pl-1 pt-2 ">Attendance</h2>
-            <div className='mb-2 mt-5 flex items-center'>
-                <button onClick={handleGenerateReport} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <h2 className="pt-2 pl-1 text-3xl text-black ">Attendance</h2>
+            <div className='flex items-center mt-5 mb-2'>
+                <button onClick={handleGenerateReport} className="px-4 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-700">
                     Generate Report
                 </button>
-                <button onClick={handleResetDailyAttendance} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">
+                <button onClick={handleResetDailyAttendance} className="px-4 py-2 ml-4 font-bold text-white bg-red-600 rounded hover:bg-red-700">
                     Reset Daily Attendance
                 </button>
                 <div className="relative ml-4"> 
@@ -177,13 +177,13 @@ export default function Attendance() {
                             <td className="px-6 py-4">{attendance.status}</td>
                             <td className="px-6 py-4">
                                 <button 
-                                    className="px-2 py-1 mr-2 bg-green-500 text-white rounded"
+                                    className="px-2 py-1 mr-2 text-white bg-green-500 rounded"
                                     onClick={() => handleTimeIn(attendance.userId, attendance.name, attendance.role)}
                                 >
                                     Time In
                                 </button>
                                 <button 
-                                    className="px-2 py-1 bg-red-500 text-white rounded"
+                                    className="px-2 py-1 text-white bg-red-500 rounded"
                                     onClick={() => handleTimeOut(attendance.userId, attendance.name, attendance.role)}
                                 >
                                     Time Out
@@ -193,7 +193,7 @@ export default function Attendance() {
                     ))}
                 </tbody>
             </table>
-            {/* <div className="pagination-controls mt-4">
+            {/* <div className="mt-4 pagination-controls">
                 <button onClick={handlePrevPage} disabled={currentPage === 1}>
                     Previous
                 </button>

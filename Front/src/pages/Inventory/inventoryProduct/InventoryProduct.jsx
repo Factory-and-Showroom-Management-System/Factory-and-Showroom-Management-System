@@ -28,7 +28,7 @@ export default function InventoryProduct() {
 
   const handleEdit = async (id, currentData) => {
     const { value: formValues } = await MySwal.fire({
-      title: "Update Quantity",
+      title: "Update Quantity (kg)",
       html: `
         <input id="swal-input3" class="swal2-input" value="${currentData.available}" type="number" min="1" step="1">`,
       focusConfirm: false,

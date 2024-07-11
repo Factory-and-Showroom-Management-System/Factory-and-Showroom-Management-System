@@ -31,8 +31,8 @@ export default function AdminRowMaterial() {
       html: `
                 <input id="swal-input1" class="swal2-input" placeholder="Material ID">
                 <input id="swal-input2" class="swal2-input" placeholder="Material Name">
-                <input id="swal-input3" class="swal2-input" placeholder="Quantity" type="number">
-                <input id="swal-input4" class="swal2-input" placeholder="Unit Price" type="number">`,
+                <input id="swal-input3" class="swal2-input" placeholder="Quantity (kg)" type="number">
+                <input id="swal-input4" class="swal2-input" placeholder="Unit Price (Rs)" type="number">`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#008000",
@@ -87,9 +87,9 @@ export default function AdminRowMaterial() {
 <input id="swal-input1" class="swal2-input" value="${currentData.materialid}">
 <label for="swal-input2">Material Name:</label>
 <input id="swal-input2" class="swal2-input" value="${currentData.materialname}">
-<label for="swal-input3">Quantity:</label>
+<label for="swal-input3">Quantity (Kg):</label>
 <input id="swal-input3" class="swal2-input" value="${currentData.quantity}" type="number">
-<label for="swal-input4">Price:</label>
+<label for="swal-input4">Price (Rs):</label>
 <input id="swal-input4" class="swal2-input" value="${currentData.price}" type="number">
 `,
       focusConfirm: false,
@@ -228,7 +228,7 @@ export default function AdminRowMaterial() {
           </div>
 
           <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-black uppercase bg-[#54db93]">
+            <thead className="text-xs text-white uppercase bg-[#54db93]">
               <tr>
                 <th scope="col" className="px-6 py-5">
                   Material ID
@@ -237,10 +237,10 @@ export default function AdminRowMaterial() {
                   Material Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Available
+                Available Quantity (Kg)
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Unit Price
+                Unit Price (Rs)
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Actions

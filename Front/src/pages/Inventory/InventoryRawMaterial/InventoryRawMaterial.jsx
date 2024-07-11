@@ -28,11 +28,10 @@ export default function AdminRowMaterial() {
  
 
   const handleEdit = async (id, currentData) => {
-    const { value: formValues } = await MySwal.fire({
-      title: "Update Quantity",
+    const { value: quantity } = await MySwal.fire({
+      title: "Update Quantity (kg)",
       html: `
-           
-                <input id="swal-input3" class="swal2-input" value="${currentData.quantity}" type="number">`,
+        <input id="swal-input3" class="swal2-input" value="${currentData.quantity}" type="number">`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#008000",
@@ -44,11 +43,11 @@ export default function AdminRowMaterial() {
           Swal.showValidationMessage("Please enter a positive number");
           return false;
         }
-        return [quantity];
+        return quantity;
       },
     });
-
-    if (formValues) {
+  
+    if (quantity) {
       try {
         await fetch(`http://localhost:3000/adminmaterial/update/${id}`, {
           method: "PUT",
@@ -56,10 +55,10 @@ export default function AdminRowMaterial() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            materialid: formValues[0],
-            materialname: formValues[1],
-            quantity: parseFloat(formValues[2]),
-            price: parseFloat(formValues[3]),
+            materialid: currentData.materialid,
+            materialname: currentData.materialname,
+            quantity: parseFloat(quantity),
+            price: parseFloat(currentData.price),
           }),
         });
         MySwal.fire({
@@ -78,6 +77,7 @@ export default function AdminRowMaterial() {
       }
     }
   };
+  
 
 
 
@@ -133,7 +133,7 @@ export default function AdminRowMaterial() {
           </div>
 
           <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-black uppercase bg-[#54db93]">
+            <thead className="text-xs text-white uppercase bg-[#54db93]">
               <tr>
                 <th scope="col" className="px-6 py-5">
                   Material ID
@@ -142,10 +142,10 @@ export default function AdminRowMaterial() {
                   Material Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Available
+                Available Quantity (Kg)
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Unit Price
+                Unit Price (Rs)
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Actions

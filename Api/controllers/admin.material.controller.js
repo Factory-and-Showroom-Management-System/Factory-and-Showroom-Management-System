@@ -1,12 +1,11 @@
-
 const moment = require('moment');
 const Validator = require('fastest-validator');
 const models = require('../models');
 
-// Function to save product data
+// Function to save raw material data
 function rawmaterialSave(req, res) {
     const rawmaterial = {
-        materialId: req.body.materialId,
+        materialid: req.body.materialid,
         materialname: req.body.materialname,
         quantity: req.body.quantity,
         price: req.body.price
@@ -14,7 +13,7 @@ function rawmaterialSave(req, res) {
 
     // Validation schema
     const schema = {
-        materialId: { type: "string", optional: false },
+        materialid: { type: "string", optional: false },
         materialname: { type: "string", optional: false },
         quantity: { type: "number", optional: false },
         price: { type: "number", optional: false }
@@ -32,10 +31,10 @@ function rawmaterialSave(req, res) {
         });
     }
 
-    // Save product data
+    // Save raw material data
     models.Rawmaterial.create(rawmaterial).then(result => {
         res.status(201).json({
-            message: "Product created successfully",
+            message: "Raw material created successfully",
             rawmaterial: result
         });
     }).catch(error => {
@@ -46,7 +45,7 @@ function rawmaterialSave(req, res) {
     });
 }
 
-// Function to view all rawmaterial
+// Function to view all raw materials
 function rawmaterialView(req, res) {
     models.Rawmaterial.findAll().then(result => {
         res.status(200).json(result);
@@ -62,16 +61,16 @@ function rawmaterialView(req, res) {
 function rawmaterialViewOne(req, res) {
     const tableId = req.params.tableId;
 
-    // Find rawmaterial by table id
+    // Find raw material by table id
     models.Rawmaterial.findByPk(tableId)
         .then(rawmaterial => {
             if (!rawmaterial) {
                 return res.status(404).json({
-                    message: "raw material not found"
+                    message: "Raw material not found"
                 });
             }
             res.status(200).json({
-                message: "raw material found",
+                message: "Raw material found",
                 rawmaterial: rawmaterial
             });
         })
@@ -83,11 +82,11 @@ function rawmaterialViewOne(req, res) {
         });
 }
 
-// Function to update product data for a specific table id
+// Function to update raw material data for a specific table id
 function rawmaterialUpdate(req, res) {
     const tableId = req.params.tableId;
     const updatedRawmaterial = {
-        materialId: req.body.materialId,
+        materialid: req.body.materialid,
         materialname: req.body.materialname,
         quantity: req.body.quantity,
         price: req.body.price
@@ -95,13 +94,13 @@ function rawmaterialUpdate(req, res) {
 
     // Validation schema
     const schema = {
-        materialId: { type: "string", optional: false },
+        materialid: { type: "string", optional: false },
         materialname: { type: "string", optional: false },
         quantity: { type: "number", optional: false },
         price: { type: "number", optional: false }
     };
 
-    // Validate updated rawmaterial data
+    // Validate updated raw material data
     const v = new Validator();
     const validationResponse = v.validate(updatedRawmaterial, schema);
 
@@ -115,17 +114,17 @@ function rawmaterialUpdate(req, res) {
 
     // Update raw material data
     models.Rawmaterial.findByPk(tableId)
-        .then(rawmaterialt => {
+        .then(rawmaterial => {
             if (!rawmaterial) {
                 return res.status(404).json({
-                    message: "rawmaterial not found"
+                    message: "Raw material not found"
                 });
             }
             return rawmaterial.update(updatedRawmaterial)
                 .then(updatedRawmaterial => {
                     res.status(200).json({
-                        message: "raw material updated successfully",
-                        product: updatedRawmaterial
+                        message: "Raw material updated successfully",
+                        rawmaterial: updatedRawmaterial
                     });
                 })
                 .catch(error => {
@@ -143,7 +142,7 @@ function rawmaterialUpdate(req, res) {
         });
 }
 
-// Function to delete product data for a specific table id
+// Function to delete raw material data for a specific table id
 function rawmaterialDelete(req, res) {
     const tableId = req.params.tableId;
 
@@ -151,13 +150,13 @@ function rawmaterialDelete(req, res) {
         .then(rawmaterial => {
             if (!rawmaterial) {
                 return res.status(404).json({
-                    message: "raw material not found"
+                    message: "Raw material not found"
                 });
             }
             return rawmaterial.destroy()
                 .then(() => {
                     res.status(200).json({
-                        message: "raw material deleted successfully"
+                        message: "Raw material deleted successfully"
                     });
                 })
                 .catch(error => {
