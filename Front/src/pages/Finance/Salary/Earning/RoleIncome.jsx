@@ -88,6 +88,7 @@ export default function RoleIncome() {
     useEffect(() => {
 
         fetchRoleIncomes();
+        handleMonthCount();
         handleSubmit();
         handleSubmitEarning();
         handleSubmitUserLoan();
@@ -103,6 +104,12 @@ export default function RoleIncome() {
 
     }, []);
 
+    const handleMonthCount = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addmonthattempcount
+        const response = await axios.post('http://localhost:3000/salary/addmonthattempcount', {
+        });
+        console.log(response);
+    };
 
 
     const fetchRoleIncomes = async () => {

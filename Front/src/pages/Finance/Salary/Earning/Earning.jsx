@@ -40,6 +40,12 @@ export default function Earnings() {
     }
 
 
+    const handleMonthCount = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addmonthattempcount
+        const response = await axios.post('http://localhost:3000/salary/addmonthattempcount', {
+        });
+        console.log(response);
+    };
 
 
     const handleSubmit = async (event) => {
@@ -159,6 +165,7 @@ export default function Earnings() {
             }
         };
         fetchEarnings();
+        handleMonthCount();
         handleSubmit();
         handleSubmitEarning();
         handleSubmitUserLoan();
