@@ -64,6 +64,13 @@ export default function RoleOTIncome() {
 
 
 
+    
+    const handleMonthCount = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addmonthattempcount
+        const response = await axios.post('http://localhost:3000/salary/addmonthattempcount', {
+        });
+        console.log(response);
+    };
 
 
     const handleSubmit = async (event) => {
@@ -185,6 +192,7 @@ export default function RoleOTIncome() {
 
     useEffect(() => {
         fetchRoleOTIncomes();
+        handleMonthCount();
         handleSubmit();
         handleSubmitEarning();
         handleSubmitUserLoan();

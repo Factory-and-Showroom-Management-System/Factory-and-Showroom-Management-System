@@ -9,6 +9,12 @@ router.get('/showroleincome/:tableId', salaryController.ridshow);
 router.put('/updateroleincome/:tableId', salaryController.rupdate);
 router.delete('/deleteroleincome/:tableId', salaryController.rdestroy);
 router.post('/addsalary', salaryController.bssalaryAll);
+//MonthAttempCount
+router.post('/addmonthattempcount', salaryController.MonthAttempCount);
+//MonthAttempCountShow
+router.get('/showmonthattempcount', salaryController.MonthAttempCountShow);
+
+
 router.get('/showallsalary', salaryController.bsshow);
 
 
