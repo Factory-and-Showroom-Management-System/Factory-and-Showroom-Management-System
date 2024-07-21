@@ -390,7 +390,7 @@ export default function BudgetedAllowance() {
 
                 <div className='p-5'>
 
-                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Budgeted Allowances </h1>
+                    <h1 className="text-3xl text-green-700 pl-1 pt-2">Budgeted Allowances </h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
                         <Button onClick={handleAddBudgetedAlawnace} className='bg-green-600'>
@@ -436,7 +436,7 @@ export default function BudgetedAllowance() {
                     <div className="relative overflow-x-auto sm:rounded-lg">
 
                         <table className="w-full text-sm text-left text-gray-500">
-                            <thead className="text-xs text-white uppercase bg-blue-600">
+                            <thead className="text-xs text-white uppercase bg-green-600">
                                 <tr>
                                     <th scope="col" className="px-6 py-7">ID</th>
                                     <th scope="col" className="px-6 py-3">Date</th>
@@ -446,7 +446,7 @@ export default function BudgetedAllowance() {
                             </thead>
                             <tbody>
                                 {currentRows.map((allowance) => (
-                                    <tr key={allowance.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                    <tr key={allowance.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                         <td className="px-6 py-4">{allowance.id}</td>
                                         <td className="px-6 py-4">{allowance.baDate}</td>
                                         <td className="px-6 py-4">{allowance.baValue.toFixed(2)}</td>
@@ -458,12 +458,12 @@ export default function BudgetedAllowance() {
                                 ))}
                                 {filteredAllowances.length > 0 && (
                                     <>
-                                        <tr className="bg-blue-800 text-white">
+                                        <tr className="bg-green-800 text-white">
                                             <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.):</td>
                                             <td className="px-6 font-bold">Rs. {totalValue.toFixed(2)}</td>
                                             <td className="px-6 font-bold"></td>
                                         </tr>
-                                        <tr className="bg-blue-800 text-white">
+                                        <tr className="bg-green-800 text-white">
                                             <td className="px-20 py-2 text-right font-bold" colSpan="2">Total (Rs.):</td>
                                             <td className="px-6 font-bold">Rs. {totalValue.toFixed(4)}</td>
                                             <td className="px-6 font-bold"></td>
