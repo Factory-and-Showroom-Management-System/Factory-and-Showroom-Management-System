@@ -46,10 +46,10 @@ const FinanceDashboard = () => {
         </div>
       </div>
       <div>
-        <AreaChart01 />
+        {/* <AreaChart01 /> */}
       </div>
       <div className='w-full p-5'>
-        xxxxxxxxxx
+        {/* xxxxxxxxxx */}
       </div>
     </motion.div>
   )

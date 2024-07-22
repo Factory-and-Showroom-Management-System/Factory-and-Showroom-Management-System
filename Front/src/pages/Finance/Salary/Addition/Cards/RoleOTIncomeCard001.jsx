@@ -22,7 +22,7 @@ export default function RoleOTIncomeCard001() {
     }, []);
 
     return (
-        <div className="h-40 max-w-sm p-4 bg-blue-600 border border-gray-200 rounded-lg shadow w-72 dark:bg-blue-600 dark:border-gray-100 hover:bg-blue-700">
+        <div className="h-40 max-w-sm p-4 bg-green-600 border border-gray-200 rounded-lg shadow w-72 dark:bg-green-600 dark:border-gray-100 hover:bg-green-800">
             <div className='flex'>
                 
                 <svg className='' width="60px" height="60px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" strokeWidth="0.00024">

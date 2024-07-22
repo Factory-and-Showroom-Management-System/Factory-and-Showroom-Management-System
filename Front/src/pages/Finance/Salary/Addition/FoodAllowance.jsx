@@ -373,7 +373,7 @@ export default function FoodAllowance() {
                 </div>
 
                 <div className='p-5'>
-                    <h1 className="text-3xl text-blue-500">Food Allowance</h1>
+                    <h1 className="text-3xl text-green-700">Food Allowance</h1>
                     <div className='mb-2 mt-5 flex items-center'>
                         <Button onClick={handleAddFoodAlawnace} className='bg-green-600'>
                             <IoIosAddCircle className="mr-2 h-5 w-5" />
@@ -408,7 +408,7 @@ export default function FoodAllowance() {
 
                     <div className="relative overflow-x-auto sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500">
-                            <thead className="text-xs text-white uppercase bg-blue-600">
+                            <thead className="text-xs text-white uppercase bg-green-600">
                                 <tr>
                                     <th scope="col" className="px-6 py-7">ID</th>
                                     <th scope="col" className="px-6 py-3">Allowance Date</th>
@@ -418,7 +418,7 @@ export default function FoodAllowance() {
                             </thead>
                             <tbody>
                                 {currentRows.map((allowance) => (
-                                    <tr key={allowance.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                    <tr key={allowance.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                         <td className="px-6 py-4">{allowance.id}</td>
                                         <td className="px-6 py-4">{formatDate(allowance.allowanceDate)}</td>
                                         <td className="px-6 py-4">Rs. {allowance.allowance.toFixed(2)}</td>
@@ -429,11 +429,11 @@ export default function FoodAllowance() {
                                     </tr>
                                 ))}
 
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.) :</td>
                                     <td className="px-6 font-bold" colSpan="2">Rs. {totalAllowance.toFixed(2)}</td>
                                 </tr>
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 pb-3 text-right font-bold" colSpan="2">Total (Rs.) :</td>
                                     <td className="px-6 font-bold" colSpan="2">Rs. {totalAllowance.toFixed(4)}</td>
                                 </tr>
