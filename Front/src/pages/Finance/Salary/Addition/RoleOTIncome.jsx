@@ -381,7 +381,7 @@ export default function RoleOTIncome() {
 
                 <div className='p-5'>
 
-                    <h1 className="text-3xl text-blue-500 pl-1 pt-2">Role OT Income </h1>
+                    <h1 className="text-3xl text-green-700 pl-1 pt-2">Role OT Income </h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
 
@@ -427,7 +427,7 @@ export default function RoleOTIncome() {
 
                     <div className="relative overflow-x-auto sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500">
-                            <thead className="text-xs text-white uppercase bg-blue-600">
+                            <thead className="text-xs text-white uppercase bg-green-600">
                                 <tr>
                                     <th scope="col" className="px-6 py-7">ID</th>
                                     <th scope="col" className="px-6 py-3">Role</th>
@@ -437,7 +437,7 @@ export default function RoleOTIncome() {
                             </thead>
                             <tbody>
                                 {currentRows.map((income) => (
-                                    <tr key={income.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                    <tr key={income.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                         <td className="px-6 py-4">{income.id}</td>
                                         <td className="px-6 py-4">{income.role}</td>
                                         <td className="px-6 py-4">Rs. {income.timeIncome}</td>
@@ -447,12 +447,12 @@ export default function RoleOTIncome() {
                                         </td>
                                     </tr>
                                 ))}
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 py-2 text-right font-bold" colSpan="2">Sub Total (Rs.) :</td>
                                     <td className="px-6 font-bold" colSpan="2">Rs. {totalIncome.toFixed(2)}</td>
 
                                 </tr>
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 text-right font-bold" colSpan="2">Total (Rs.) :</td>
                                     <td className="px-6 py-2 font-bold" colSpan="2">Rs. {totalIncome.toFixed(4)}</td>
 
