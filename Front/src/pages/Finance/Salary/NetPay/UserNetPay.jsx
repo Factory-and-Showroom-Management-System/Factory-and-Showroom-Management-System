@@ -198,7 +198,7 @@ export default function UserNetPays() {
 
                 <div className=''>
 
-                    <h1 className="  text-3xl text-blue-500">User Net Pays Overview </h1>
+                    <h1 className="  text-3xl text-green-700">User Net Pays Overview </h1>
                     <div className="pt-2 pb-2 bg-white">
                         <div className="relative ">
 
@@ -230,7 +230,7 @@ export default function UserNetPays() {
 
                     <div className="relative overflow-x-auto sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-900 dark:text-white">
-                            <thead className="text-xs text-white uppercase bg-blue-600">
+                            <thead className="text-xs text-white uppercase bg-green-600">
                                 <tr>
                                     <th scope="col" className="px-6 py-7">ID</th>
                                     <th scope="col" className="px-6 py-3">User ID</th>
@@ -241,7 +241,7 @@ export default function UserNetPays() {
                             </thead>
                             <tbody>
                                 {currentRows.map((item) => (
-                                    <tr key={item.id} className="text-white bg-blue-500 border-b border-blue-400 hover:bg-blue-400">
+                                    <tr key={item.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                         <td className="px-6 py-4">{item.id}</td>
                                         <td className="px-6 py-4">{item.userId}</td>
                                         <td className="px-6 py-4">{item.name}</td>
@@ -252,13 +252,13 @@ export default function UserNetPays() {
                                         </td>
                                     </tr>
                                 ))}
-                                <tr className="text-white bg-blue-800">
+                                <tr className="text-white bg-green-800">
                                     <td className="px-20 py-2 font-bold text-right" colSpan="3">Sub Total (Rs.):</td>
                                     <td className="px-6 font-bold" colSpan="2">Rs. {totalNet.toFixed(2)}</td>
 
 
                                 </tr>
-                                <tr className="text-white bg-blue-800">
+                                <tr className="text-white bg-green-800">
                                     <td className="px-20 py-2 font-bold text-right" colSpan="3">Total (Rs.):</td>
                                     <td className="px-6 font-bold" colSpan="4">Rs. {totalNet.toFixed(4)}</td>
 
