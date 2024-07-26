@@ -175,7 +175,7 @@ export default function MonthFoodAllowance() {
                                 <th scope="col" className="px-6 py-3">Attendance Count</th>
                                 <th scope="col" className="px-6 py-3">Allowance</th>
                                 <th scope="col" className="px-6 py-3">Total Allowance</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
+                                {/* <th scope="col" className="px-6 py-3">Actions</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -187,10 +187,10 @@ export default function MonthFoodAllowance() {
                                     <td className="px-6 py-4">{item.attenCount}</td>
                                     <td className="px-6 py-4">Rs. {item.allowance.toFixed(2)}</td>
                                     <td className="px-6 py-4">Rs. {item.totalAllowance.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
+                                    {/* <td className="px-6 py-4">
                                         <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(income.id, income.role, income.dateIncome)}>Edit</a>
                                         <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(income.id)}>Remove</a>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))}
                             <tr className="bg-green-800 text-white">
