@@ -271,7 +271,7 @@ export default function Deductions() {
                                 <th scope="col" className="px-6 py-3">Month Loan</th>
                                 <th scope="col" className="px-6 py-3">EPF 8%</th>
                                 <th scope="col" className="px-6 py-3">Total Deduction</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
+                                {/* <th scope="col" className="px-6 py-3">Actions</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -283,10 +283,10 @@ export default function Deductions() {
                                     <td className="px-6 py-4">Rs. {item.monthLoan.toFixed(2)}</td>
                                     <td className="px-6 py-4">Rs. {item.epf8.toFixed(2)}</td>
                                     <td className="px-6 py-4">Rs. {item.totalDeduction.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
+                                    {/* <td className="px-6 py-4">
                                         <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(loan.id, loan)}>Edit</a>
                                         <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(loan.id)}>Remove</a>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))}
                             <tr className="bg-green-800 text-white">
