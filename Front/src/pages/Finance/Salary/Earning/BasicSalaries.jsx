@@ -297,7 +297,7 @@ export default function BasicSalaries() {
                                         <th scope="col" className="px-6 py-3">Attendance Count</th>
                                         <th scope="col" className="px-6 py-3">Date Income</th>
                                         <th scope="col" className="px-6 py-3">Basic Salary</th>
-                                        <th scope="col" className="px-6 py-3">Actions</th>
+                                        {/* <th scope="col" className="px-6 py-3">Actions</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -310,22 +310,22 @@ export default function BasicSalaries() {
                                             <td className="px-6 py-4">{salary.attenCount}</td>
                                             <td className="px-6 py-4">Rs. {salary.dateIncome}</td>
                                             <td className="px-6 py-4">Rs. {salary.basicSalary}</td>
-                                            <td className="px-6 py-4">
+                                            {/* <td className="px-6 py-4">
                                                 <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }}>Edit</a>
                                                 <a href="#" className="font-medium text-white hover:underline">Remove</a>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     ))}
                                     <tr className="bg-green-800 text-white">
                                         <td className="px-20 py-2 text-right font-bold" colSpan="5">Sub Total (Rs.):</td>
                                         <td className="px-6  font-bold">Rs. {totalDateIncome.toFixed(2)}</td>
                                         <td className="px-6  font-bold">Rs. {totalSalary.toFixed(2)}</td>
-                                        <td className="px-6  font-bold"></td>
+                                        {/* <td className="px-6  font-bold"></td> */}
                                     </tr>
                                     <tr className="bg-green-800 text-white">
                                         <td className="px-20 py-2 text-right font-bold" colSpan="5">Total (Rs.) :</td>
                                         <td className="px-6 font-bold">Rs. {totalSalary.toFixed(4)}</td>
-                                        <td className="px-6 font-bold"></td>
+                                        {/* <td className="px-6 font-bold"></td> */}
                                         <td className="px-6 font-bold"></td>
                                     </tr>
                                 </tbody>
