@@ -274,7 +274,7 @@ export default function MonthEpfEtfs() {
                                 <th scope="col" className="px-6 py-3">EPF 12%</th>
                                 <th scope="col" className="px-6 py-3">Total EPF(8% + 12%)</th>
                                 <th scope="col" className="px-6 py-3">ETF 3%</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
+                                {/* <th scope="col" className="px-6 py-3">Actions</th> */}
 
                             </tr>
                         </thead>
@@ -289,10 +289,10 @@ export default function MonthEpfEtfs() {
                                     <td className="px-6 py-4">Rs. {item.epf12.toFixed(2)}</td>
                                     <td className="px-6 py-4">Rs. {item.totalEpf8Epf12.toFixed(2)}</td>
                                     <td className="px-6 py-4">Rs. {item.etf3.toFixed(2)}</td>
-                                    <td className="px-6 py-4">
+                                    {/* <td className="px-6 py-4">
                                         <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(loan.id, loan)}>Edit</a>
                                         <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(loan.id)}>Remove</a>
-                                    </td>
+                                    </td> */}
 
                                 </tr>
                             ))}
