@@ -293,7 +293,7 @@ export default function UserMonthLoan() {
                                     <th scope="col" className="px-6 py-3">Name</th>
                                     <th scope="col" className="px-6 py-3">Date</th>
                                     <th scope="col" className="px-6 py-3">Month Loan (Rs.)</th>
-                                    <th scope="col" className="px-6 py-3">Actions</th>
+                                    {/* <th scope="col" className="px-6 py-3">Actions</th> */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -304,10 +304,10 @@ export default function UserMonthLoan() {
                                         <td className="px-6 py-4">{item.name}</td>
                                         <td className="px-6 py-4">{formatDate(item.currentDate)}</td>
                                         <td className="px-6 py-4">Rs. {item.monthLoan.toFixed(2)}</td>
-                                        <td className="px-6 py-4">
+                                        {/* <td className="px-6 py-4">
                                             <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }} onClick={() => handleEdit(loan.id, loan)}>Edit</a>
                                             <a href="#" className="font-medium text-white hover:underline" onClick={() => handleRemove(loan.id)}>Remove</a>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))}
                                 <tr className="bg-green-800 text-white">
