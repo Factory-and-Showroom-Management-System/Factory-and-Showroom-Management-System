@@ -255,7 +255,7 @@ export default function Addition() {
                                 <th scope="col" className="px-6 py-3">Total OT</th>
                                 <th scope="col" className="px-6 py-3">Total Food Allowance</th>
                                 <th scope="col" className="px-6 py-3">Total Addition</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
+                                {/* <th scope="col" className="px-6 py-3">Actions</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -267,10 +267,10 @@ export default function Addition() {
                                     <td className="px-6 py-4">Rs. {item.totalOT}</td>
                                     <td className="px-6 py-4">Rs. {item.totalAllowance}</td>
                                     <td className="px-6 py-4">Rs. {item.totalAddition}</td>
-                                    <td className="px-6 py-4">
+                                    {/* <td className="px-6 py-4">
                                         <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }}>Edit</a>
                                         <a href="#" className="font-medium text-white hover:underline">Remove</a>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))}
                             <tr className="bg-green-800 text-white">
@@ -278,12 +278,12 @@ export default function Addition() {
                                 <td className="px-6  font-bold">Rs. {totalOT.toFixed(2)}</td>
                                 <td className="px-6  font-bold">Rs. {totalAllowance.toFixed(2)}</td>
                                 <td className="px-6  font-bold">Rs. {totalAddition.toFixed(2)}</td>
-                                <td className="px-6  font-bold"></td>
+                                {/* <td className="px-6  font-bold"></td> */}
                             </tr>
                             <tr className="bg-green-800 text-white ">
                                 <td className="px-20 py-2 text-right font-bold " colSpan="3">Total (Rs.) :</td>
                                 <td className="px-6 font-bold">Rs. {totalAddition.toFixed(4)}</td>
-                                <td className="px-6 font-bold"></td>
+                                {/* <td className="px-6 font-bold"></td> */}
                                 <td className="px-6 font-bold"></td>
                                 <td className="px-6 font-bold"></td>
                             </tr>
