@@ -21,13 +21,13 @@ async function save(req, res) {
             status = 'Present';
         }
 
-        const attendance = await models.attendance.create({
+        const attendance = await models.Attendance.create({
             userId: req.body.userId,
             name: req.body.name,
             role: req.body.role,
             dateIn: moment(req.body.dateIn).format('YYYY-MM-DD'),
-            timeIn: req.body.timeIn ? moment(req.body.timeIn, 'hh:mm:ss A').format('hh:mm:ss A') : null,
-            timeOut: req.body.timeOut ? moment(req.body.timeOut, 'hh:mm:ss A').format('hh:mm:ss A') : null,
+            timeIn: req.body.timeIn ? moment(req.body.timeIn, 'hh:mm:ss ').format('hh:mm:ss ') : null,
+            timeOut: req.body.timeOut ? moment(req.body.timeOut, 'hh:mm:ss ').format('hh:mm:ss ') : null,
             status: status,
         });
 
@@ -40,7 +40,7 @@ async function save(req, res) {
 // Show all attendance records
 async function attendanceShow(req, res) {
     try {
-        const attendance = await models.attendance.findAll({
+        const attendance = await models.Attendance.findAll({
             include: [
                 {
                     model: models.BioData,
@@ -62,6 +62,9 @@ async function attendanceShow(req, res) {
     }
 }
 
+
+
+
 // Function to update or create Attendance record
 async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn = null, timeOut = null) {
     try {
@@ -70,14 +73,14 @@ async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn = nul
             status = 'Present';
         }
 
-        const [attendance, created] = await models.attendance.findOrCreate({
+        const [attendance, created] = await models.Attendance.findOrCreate({
             where: { userId: userId },
-            defaults: { role: roleName, name: nameWini, dateIn: new Date(), timeIn: timeIn ? moment(timeIn, 'hh:mm:ss A').format('hh:mm:ss A') : null, timeOut: timeOut ? moment(timeOut, 'hh:mm:ss A').format('hh:mm:ss A') : null, status: status }
+            defaults: { role: roleName, name: nameWini, dateIn: new Date(), timeIn: timeIn ? moment(timeIn, 'hh:mm:ss ').format('hh:mm:ss ') : null, timeOut: timeOut ? moment(timeOut, 'hh:mm:ss ').format('hh:mm:ss ') : null, status: status }
         });
 
         if (!created) {
             // Attendance record already exists, update roleName, name, timeIn, and timeOut
-            await attendance.update({ role: roleName, name: nameWini, timeIn: timeIn ? moment(timeIn, 'hh:mm:ss A').format('hh:mm:ss A') : attendance.timeIn, timeOut: timeOut ? moment(timeOut, 'hh:mm:ss A').format('hh:mm:ss A') : attendance.timeOut, status: status });
+            await attendance.update({ role: roleName, name: nameWini, timeIn: timeIn ? moment(timeIn, 'hh:mm:ss ').format('hh:mm:ss ') : attendance.timeIn, timeOut: timeOut ? moment(timeOut, 'hh:mm:ss ').format('hh:mm:ss ') : attendance.timeOut, status: status });
         }
     } catch (error) {
         console.error('Error updating or creating attendance:', error);
@@ -87,7 +90,7 @@ async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn = nul
 // Function to update timeIn and timeOut
 async function updateTimeInAndOut(req, res) {
     try {
-        const attendance = await models.attendance.findOne({
+        const attendance = await models.Attendance.findOne({
             where: {
                 userId: req.body.userId,
             },
@@ -103,8 +106,8 @@ async function updateTimeInAndOut(req, res) {
         }
 
         await attendance.update({
-            timeIn: req.body.timeIn ? moment(req.body.timeIn, 'hh:mm:ss A').format('hh:mm:ss A') : attendance.timeIn,
-            timeOut: req.body.timeOut ? moment(req.body.timeOut, 'hh:mm:ss A').format('hh:mm:ss A') : attendance.timeOut,
+            timeIn: req.body.timeIn ? moment(req.body.timeIn, 'hh:mm:ss ').format('hh:mm:ss ') : attendance.timeIn,
+            timeOut: req.body.timeOut ? moment(req.body.timeOut, 'hh:mm:ss ').format('hh:mm:ss ') : attendance.timeOut,
             status: status
         });
 
@@ -115,9 +118,11 @@ async function updateTimeInAndOut(req, res) {
     }
 }
 
+
+
 async function generateReport(req, res) {
     try {
-        const attendance = await models.attendance.findAll({
+        const attendance = await models.Attendance.findAll({
             include: [
                 {
                     model: models.BioData,
