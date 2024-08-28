@@ -1,0 +1,13 @@
+.swal2-input {
+    margin: 10px 0;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .swal-input-container label {
+    display: block;
+    margin: 5px 0;
+  }
+  

@@ -1,8 +1,9 @@
 import React from 'react'
-import Card001 from '../Salary/Cards/Card001'
-import AreaChart01 from '../Salary/Charts/AreaChart01'
-import UserNetPays from '../Salary/NetPay/UserNetPay'
-import SalaryCard001 from '../FinanceDashboard/Cards/SalaryCard001'
+import Addition from './Addition'
+import TotalOT from './Cards/TotalOTCard001'
+import TotalAddtionCard001 from './Cards/TotalAddtionCard001'
+import TotalFoodCard001 from './Cards/TotalFoodCard001'
+
 import { motion } from 'framer-motion';
 
 const container = {
@@ -22,7 +23,7 @@ const item = {
   visible: { opacity: 1, y: 0 },
 };
 
-const FinanceDashboard = () => {
+export default function AdditionDash() {
   return (
     <motion.div
       className='w-full'
@@ -31,29 +32,24 @@ const FinanceDashboard = () => {
       animate='visible'
       exit='hidden'
     >
-      <div className='flex gap-4'>
-        <div className='p-4 mt-3 '>
-          <SalaryCard001 />
-        </div>
-        <div className='pt-4 mt-3 '>
+      <div className='flex gap-4 '>
 
+        <div className='p-4 mt-3'>
+          <TotalAddtionCard001 />
         </div>
-        <div className='p-4 mt-3 '>
-
+        <div className='p-4 mt-3'>
+          <TotalOT />
         </div>
-        <div className='pt-4 mt-3 '>
-
+        <div className='p-4 mt-3'>
+          <TotalFoodCard001 />
         </div>
       </div>
-      <div>
-        {/* <AreaChart01 /> */}
-      </div>
-      <div className='w-full p-5'>
-        {/* xxxxxxxxxx */}
-    
-      </div>
-    </motion.div>
+
+      <motion.div className='p-4 mt-3'>
+        <Addition />
+      </motion.div>
+
+   </motion.div>
+
   )
 }
-
-export default FinanceDashboard

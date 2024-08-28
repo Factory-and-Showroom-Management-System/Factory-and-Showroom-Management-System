@@ -4,6 +4,15 @@ import { Admin_Sidebar } from "../../components/sidebar/admin_sidebar";
 import AdminDashboard from "../Admin/AdminDashboard/AdminDashboard";
 import AdminProduct from "../Admin/AdminProduct/AdminProduct";
 import AdminRowMaterial from "../Admin/RowMaterial/AdminRowMaterial";
+import SalaryDashboard from "../Admin/FinanceSalary/SalaryDashboard/SalaryDashboard"
+import Earning from "../Admin/FinanceSalary/Earning/Earning"
+import Deduction from "../Admin/FinanceSalary/Deduction/Deduction"
+import Addition from "../Admin/FinanceSalary/Addition/Addition";
+import EpfEtfDash from "../Admin/FinanceSalary/EpfEtf/EpfEtfDash"
+import NettPayDash from "../Admin/FinanceSalary/NetPay/NettPayDash"
+import Order from "../Admin/AdminSales/Order";
+import Wastage from "../Admin/AdminSales/Wastage"
+import Customer from "../Admin/AdminSales/Customer";
 
 
 
@@ -26,8 +35,20 @@ export function Admin() {
           {/* {tab === 'User' && <<BasicSalaries />/>}  */}
           {tab === "admindash" && <AdminDashboard/>}
           {tab === "adminproduct" && <AdminProduct/>}
-        
           {tab === "adminmaterial" && <AdminRowMaterial/>}
+        
+          
+          {tab === "adminsalarydashboard" && <SalaryDashboard/>}
+          {tab === "adminsalaryEarning" && <Earning/>}
+          {tab === "adminsalaryDeduction" && <Deduction/>}
+          {tab === "adminsalaryAddition" && <Addition/>}
+          {tab === "adminsalaryEPF" && <EpfEtfDash/>}
+          {tab === "adminsalaryNettpay" && <NettPayDash/>}
+          {tab === "adminsSalesorder" && <Order/>}
+          {tab === "adminsSaleswastage" && <Wastage/>}
+          {tab === "adminsSalescustomer" && <Customer/>}
+          
+          
           </div>
           </div>
       

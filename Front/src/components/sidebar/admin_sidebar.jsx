@@ -9,12 +9,88 @@ import { useDispatch } from "react-redux";
 export function Admin_Sidebar() {
   const [dashboardClicked, setDashboardClicked] = useState(false);
   const [productClicked, setProductClicked] = useState(false);
+  const [earningClicked, setEarningClicked] = useState(false);
+  const [additionClicked, setAdditionClicked] = useState(false);
+  const [nettPayClicked, setNettPayClicked] = useState(false);
+  const [deductionClicked, setDeductionClicked] = useState(false);
+  const [ePFETFClicked, setEPFETFClicked] = useState(false);
+  const [salaryDashboarlClicked, setSalaryDashboarClicked] = useState(false);
   const [materialClicked, setMaterialClicked] = useState(false);
+  const [OrderClicked, setOrderClicked] = useState(false);
+  const [CustomerClicked, setCustomerClicked] = useState(false);
+  const [SalesClicked, setSalesClicked] = useState(false);
+  const [WastageClicked, setWastageClicked] = useState(false);
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const [logoutClicked, setLogoutClicked] = useState(false);
   const [InventoryClicked, setInventoryClicked] = useState(false);
+  const [financeClicked, setFinanceClicked] = useState(false);
+  const [financeSalseClicked, setFinanceSalseClicked] = useState(false);
   const dispatch = useDispatch();
   const [token, setToken] = useState(localStorage.getItem("token"));
+
+ 
+
+  const handleWastageClicked = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(true);
+    setOrderClicked(false);
+    setSalesClicked(false);
+  };
+
+  const handleCustomerClicked = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(true);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
+  };
+
+ 
+
+  const handleOrderClicked = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(true);
+    setSalesClicked(false);
+  };
 
   const handleDashboardClick = () => {
     setDashboardClicked(true);
@@ -22,31 +98,182 @@ export function Admin_Sidebar() {
     setMaterialClicked(false);
     setLogoutClicked(false);
     setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
   };
 
   const handleProductClick = () => {
-    setProductClicked(true);
     setDashboardClicked(false);
+    setProductClicked(true);
     setMaterialClicked(false);
     setLogoutClicked(false);
     setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
   };
 
   const handleMaterialClick = () => {
-    setProductClicked(false);
     setDashboardClicked(false);
+    setProductClicked(false);
     setMaterialClicked(true);
     setLogoutClicked(false);
     setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
   };
 
   const handleSignoutClick = () => {
     setShowModal(true);
-    setProductClicked(false);
+  };
+
+  const handleNettPayClick = () => {
     setDashboardClicked(false);
+    setProductClicked(false);
     setMaterialClicked(false);
-    setLogoutClicked(true);
+    setLogoutClicked(false);
     setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(true);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
+  };
+
+  const handleAdditionClick = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(true);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
+  };
+
+  const handleEarningClick = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(true);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
+  };
+
+  const handleDeductionClick = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(true);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
+  };
+
+  const handleEPFETFClick = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(true);
+    setSalaryDashboarClicked(false);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
+  };
+
+  const handleSalaryDashboardClick = () => {
+    setDashboardClicked(false);
+    setProductClicked(false);
+    setMaterialClicked(false);
+    setLogoutClicked(false);
+    setInventoryClicked(false);
+    setEarningClicked(false);
+    setAdditionClicked(false);
+    setNettPayClicked(false);
+    setDeductionClicked(false);
+    setEPFETFClicked(false);
+    setSalaryDashboarClicked(true);
+    setFinanceClicked(false);
+    setFinanceSalseClicked(false);
+    setCustomerClicked(false);
+    setWastageClicked(false);
+    setOrderClicked(false);
+    setSalesClicked(false);
   };
 
   const handleSignoutConfirm = async () => {
@@ -113,13 +340,167 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminmaterial">
                   <Sidebar.Item
-                   icon={GoPackage}
+                    icon={GoPackage}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       materialClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
                     onClick={handleMaterialClick}
                   >
                     Raw Material
+                  </Sidebar.Item>
+                </Link>
+              </div>
+            </Sidebar.Collapse>
+
+            {/* finance */}
+
+            <Sidebar.Collapse
+              icon={HiShoppingBag}
+              className={`rounded-full hover:bg-[#cdf8da] ${
+                financeClicked ? "bg-[#cdf8da] text-black" : ""
+              }`}
+              label="Finance"
+            >
+              <Sidebar.Collapse
+                icon={HiShoppingBag}
+                className={`pl-5 rounded-full hover:bg-[#cdf8da] ${
+                  financeSalseClicked ? "bg-[#cdf8da] text-black" : ""
+                }`}
+                label="Salary"
+              ></Sidebar.Collapse>
+              <div className="w-full">
+                <Link to="/admin?tab=adminsalarydashboard">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      salaryDashboarlClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleSalaryDashboardClick}
+                  >
+                    Dashboard
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminsalaryEarning">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      earningClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleEarningClick}
+                  >
+                    Earning
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminsalaryDeduction">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      deductionClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleDeductionClick}
+                  >
+                    Deduction
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminsalaryAddition">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      additionClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleAdditionClick}
+                  >
+                    Addition
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminsalaryEPF">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      ePFETFClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleEPFETFClick}
+                  >
+                    EPF/ETF
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminsalaryNettpay">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      nettPayClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleNettPayClick}
+                  >
+                    NettPay
+                  </Sidebar.Item>
+                </Link>
+              </div>
+            </Sidebar.Collapse>
+
+            {/* sales */}
+
+            <Sidebar.Collapse
+              icon={HiShoppingBag}
+              className={`rounded-full hover:bg-[#cdf8da] ${
+                SalesClicked ? "bg-[#cdf8da] text-black" : ""
+              }`}
+              label="Sales"
+              
+            >
+              <div className="w-full">
+                <Link to="/admin?tab=adminsSalesorder">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      OrderClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleOrderClicked}
+                  >
+                    Order
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminsSalescustomer">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      CustomerClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleCustomerClicked}
+                  >
+                   Customer
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminsSaleswastage">
+                  <Sidebar.Item
+                    icon={GoPackage}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      WastageClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={handleWastageClicked}
+                  >
+                  Wastage
                   </Sidebar.Item>
                 </Link>
               </div>

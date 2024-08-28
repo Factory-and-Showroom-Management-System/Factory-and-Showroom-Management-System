@@ -1,9 +1,12 @@
 import React from 'react'
-import Card001 from '../Salary/Cards/Card001'
-import AreaChart01 from '../Salary/Charts/AreaChart01'
-import UserNetPays from '../Salary/NetPay/UserNetPay'
-import SalaryCard001 from '../FinanceDashboard/Cards/SalaryCard001'
+import EarningCard001 from './Cards/EarningCard001'
+import DeductionCard001 from './Cards/DeductionCard001'
+import AddictionCard001 from './Cards/AddictionCard001'
+import NettPayCard001 from './Cards/NettPayCard001'
+
+
 import { motion } from 'framer-motion';
+import MonthSalarySheet from './MonthSalarySheet'
 
 const container = {
   hidden: { opacity: 0 },
@@ -22,8 +25,11 @@ const item = {
   visible: { opacity: 1, y: 0 },
 };
 
-const FinanceDashboard = () => {
+
+
+export default function SalaryDashboard() {
   return (
+
     <motion.div
       className='w-full'
       variants={container}
@@ -31,29 +37,32 @@ const FinanceDashboard = () => {
       animate='visible'
       exit='hidden'
     >
-      <div className='flex gap-4'>
+      <div className='flex gap-1'>
+
         <div className='p-4 mt-3 '>
-          <SalaryCard001 />
+          <EarningCard001 />
         </div>
-        <div className='pt-4 mt-3 '>
 
+        <div className='p-4 mt-3'>
+          <DeductionCard001 />
         </div>
-        <div className='p-4 mt-3 '>
 
+        <div className='p-4 mt-3'>
+          <AddictionCard001 />
         </div>
-        <div className='pt-4 mt-3 '>
 
+        <div className='p-4 mt-3'>
+          <NettPayCard001 />
+        </div>
+
+      </div>
+      <div className='flex gap-1'>
+        <div className='p-4 mt-3 w-full'>
+          <MonthSalarySheet />
         </div>
       </div>
-      <div>
-        {/* <AreaChart01 /> */}
-      </div>
-      <div className='w-full p-5'>
-        {/* xxxxxxxxxx */}
-    
-      </div>
+
+
     </motion.div>
   )
 }
-
-export default FinanceDashboard
