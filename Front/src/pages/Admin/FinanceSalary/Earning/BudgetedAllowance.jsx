@@ -57,11 +57,11 @@ export default function BudgetedAllowance() {
 
 
     const handleEarning = () => {
-        navigate('/finance?tab=erningdash');
+        navigate('/admin?tab=adminsEarning');
     }
     //handleDashboard
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
 

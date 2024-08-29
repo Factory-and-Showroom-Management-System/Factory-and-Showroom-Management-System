@@ -20,16 +20,16 @@ export default function Deductions() {
 
     //dashboard
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
 
     const handleUserMonthLoan = () => {
-        navigate('/finance?tab=usermonthloan');
+        navigate('/admin?tab=adminsUserMonrhLoan');
     }
     //User Total Loan
     const handleUserTotalLoane = () => {
-        navigate('/finance?tab=usertotalloane');
+        navigate('/admin?tab=adminsUserTotalLoane');
     }
 
 

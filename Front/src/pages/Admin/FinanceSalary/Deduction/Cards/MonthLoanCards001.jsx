@@ -35,7 +35,7 @@ export default function MonthLoanCards001() {
             </div>
 
             <p className="mb-2 ml-3 text-2xl font-normal text-white dark:text-white">Rs: {totalMonthLoan.toFixed(2)}</p>
-            <Link to='/finance?tab=usermonthloan' className="inline-flex items-center ml-3 font-medium text-white hover:underline hover:text-slate-100">
+            <Link to='' className="inline-flex items-center ml-3 font-medium text-white hover:underline hover:text-slate-100">
                 See Tables
                 <svg className="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                     {/* SVG content */}

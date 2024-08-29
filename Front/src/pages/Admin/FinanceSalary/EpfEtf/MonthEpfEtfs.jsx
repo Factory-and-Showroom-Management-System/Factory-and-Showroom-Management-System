@@ -20,12 +20,12 @@ export default function MonthEpfEtfs() {
 
     //dashboard
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
     //User Total Loan
     const handleBasicSalary = () => {
-        navigate('/finance?tab=basicsalarytb');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
 

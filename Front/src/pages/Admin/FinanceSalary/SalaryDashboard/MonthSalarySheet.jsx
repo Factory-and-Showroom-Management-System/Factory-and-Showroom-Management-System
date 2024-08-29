@@ -22,14 +22,14 @@ export default function MonthSalarySheet() {
     const navigate = useNavigate();
 
 
-    //dashboard
-    const handleDashboard = () => {
-        navigate('/finance?tab=financedash');
-    }
+    // //dashboard
+    // const handleDashboard = () => {
+    //     navigate('/finance?tab=financedash');
+    // }
 
     //User Total Loan
     const handleAllMonthSalarySheets = () => {
-        navigate('/finance?tab=allmonthsalrysheet');
+        navigate('/admin?tab=adminsAllMonthSalarySheet');
     }
 
 
@@ -266,10 +266,10 @@ export default function MonthSalarySheet() {
                         />
 
                         <Button.Group outline className='ml-2'>
-                            <Button color="gray" onClick={handleDashboard} >
+                            {/* <Button color="gray" onClick={handleDashboard} >
                                 <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
                                 Main Dashboard
-                            </Button>
+                            </Button> */}
                             <Button color="gray" onClick={handleAllMonthSalarySheets}>
                                 <TbHandClick className="mr-3 h-4 w-4 mt-1" />
                                 All Month Salary Sheets
@@ -277,7 +277,7 @@ export default function MonthSalarySheet() {
                         </Button.Group>
 
                         <div className='flex' >
-                            <div style={{ paddingLeft: '410px' }}>
+                            <div style={{ paddingLeft: '540px' }}>
                                 <Button color="gray" onClick={handleViewCard} >
                                     <FaEye className="mr-2 h-5 w-5 " />
                                     View ALL

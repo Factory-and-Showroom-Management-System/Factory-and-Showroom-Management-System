@@ -54,12 +54,12 @@ export default function RoleOTIncome() {
 
 
     const handleMonthOT = () => {
-        navigate('/finance?tab=monthot');
+        navigate('/admin?tab=adminsMonthOT');
 
     }
     //dashboard
     const handleDashboard = () => {
-        navigate('/finance?tab=additiondash');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
 

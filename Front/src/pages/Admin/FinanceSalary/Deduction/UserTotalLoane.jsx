@@ -52,11 +52,11 @@ export default function UserTotalLoans() {
     const navigate = useNavigate();
 
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     };
 
     const handleDeduction = () => {
-        navigate('/finance?tab=deductiondash');
+        navigate('/admin?tab=adminsDeduction');
     };
 
 

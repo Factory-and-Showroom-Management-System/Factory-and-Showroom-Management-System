@@ -49,13 +49,13 @@ export default function AllMonthSalarySheet() {
 
     //dashboard
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
     //User Total Loan
-    const handleMianDashboard = () => {
-        navigate('/finance?tab=financedash');
-    }
+    // const handleMianDashboard = () => {
+    //     navigate('/admin?tab=');
+    // }
 
 
     const handleMonthCount = async (event) => {
@@ -308,10 +308,10 @@ export default function AllMonthSalarySheet() {
                                     <TiArrowBackOutline className="mr-3 h-4 w-4 mt-0.5" />
                                     Back
                                 </Button>
-                                <Button color="gray" onClick={handleMianDashboard}>
+                                {/* <Button color="gray" onClick={handleMianDashboard}>
                                     <TbHandClick className="mr-3 h-4 w-4 mt-1" />
                                     Main Dashboard
-                                </Button>
+                                </Button> */}
                             </Button.Group>
 
                         </div>
