@@ -41,11 +41,11 @@ export default function BasicSalaries() {
     const navigate = useNavigate();
 
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     };
 
     const handleEaning = () => {
-        navigate('/finance?tab=erningdash');
+        navigate('/admin?tab=adminsEarning');
     };
 
     const handleMonthCount = async (event) => {

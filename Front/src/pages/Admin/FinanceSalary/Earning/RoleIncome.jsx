@@ -59,12 +59,12 @@ export default function RoleIncome() {
 
 
     const handleBasicSalary = () => {
-        navigate('/finance?tab=basicsalarytb');
+        navigate('/admin?tab=adminsBasicSalary');
 
     }
     //dashboard
     const handleEarning = () => {
-        navigate('/finance?tab=erningdash');
+        navigate('/admin?tab=adminsEarning');
     }
         ;
 

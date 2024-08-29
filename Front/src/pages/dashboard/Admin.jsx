@@ -13,6 +13,23 @@ import NettPayDash from "../Admin/FinanceSalary/NetPay/NettPayDash"
 import Order from "../Admin/AdminSales/Order";
 import Wastage from "../Admin/AdminSales/Wastage"
 import Customer from "../Admin/AdminSales/Customer";
+import AllMonthSalarySheet from "../Admin/FinanceSalary/SalaryDashboard/AllMonthSalarySheet ";
+import BasicSalaries from "../Admin/FinanceSalary/Earning/BasicSalaries";
+import Earnings from "../Admin/FinanceSalary/Earning/Earning";
+import RoleIncome from "../Admin/FinanceSalary/Earning/RoleIncome";
+import BudgetedAllowance from "../Admin/FinanceSalary/Earning/BudgetedAllowance";
+import Deductions from "../Admin/FinanceSalary/Deduction/Deduction";
+import UserMonthLoan from "../Admin/FinanceSalary/Deduction/UserMonrhLoan";
+import UserTotalLoans from "../Admin/FinanceSalary/Deduction/UserTotalLoane";
+
+import FoodAllowance from "../Admin/FinanceSalary/Addition/FoodAllowance";
+import MonthFoodAllowance from "../Admin/FinanceSalary/Addition/MonthFoodAllowance";
+import MonthOT from "../Admin/FinanceSalary/Addition/MonthOT";
+import RoleOTIncome from "../Admin/FinanceSalary/Addition/RoleOTIncome";
+import MonthEpfEtfs from "../Admin/FinanceSalary/EpfEtf/MonthEpfEtfs";
+
+
+
 
 
 
@@ -38,7 +55,7 @@ export function Admin() {
           {tab === "adminmaterial" && <AdminRowMaterial/>}
         
           
-          {tab === "adminsalarydashboard" && <SalaryDashboard/>}
+          
           {tab === "adminsalaryEarning" && <Earning/>}
           {tab === "adminsalaryDeduction" && <Deduction/>}
           {tab === "adminsalaryAddition" && <Addition/>}
@@ -47,8 +64,26 @@ export function Admin() {
           {tab === "adminsSalesorder" && <Order/>}
           {tab === "adminsSaleswastage" && <Wastage/>}
           {tab === "adminsSalescustomer" && <Customer/>}
-          
-          
+
+          {tab === "adminsalarydashboard" && <SalaryDashboard/>}
+          {tab === "adminsAllMonthSalarySheet" && <AllMonthSalarySheet/>}
+          {tab === "adminsBasicSalary" && <BasicSalaries/>}
+          {tab === "adminsEarning" && <Earnings/>}
+          {tab === "adminsRoleIncome" && <RoleIncome/>}
+          {tab === "adminsBudgetedAllowance" && <BudgetedAllowance/>}
+          {tab === "adminsDeduction" && <Deductions/>}
+          {tab === "adminsUserMonrhLoan" && <UserMonthLoan/>}
+          {tab === "adminsUserTotalLoane" && <UserTotalLoans/>}
+          {tab === "adminsAddition" && <Addition/>}
+          {tab === "adminsFoodAllowance" && <FoodAllowance/>}
+          {tab === "adminsMonthFoodAllowance" && <MonthFoodAllowance/>}
+          {tab === "adminsMonthOT" && <MonthOT/>}
+          {tab === "adminsRoleOTIncome" && <RoleOTIncome/>}
+          {tab === "adminsMonthEpfEtfs" && <MonthEpfEtfs/>}
+
+
+         
+
           </div>
           </div>
       

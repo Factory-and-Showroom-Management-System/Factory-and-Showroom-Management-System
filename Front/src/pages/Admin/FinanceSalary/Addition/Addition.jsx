@@ -18,17 +18,17 @@ export default function Addition() {
 
     //dashboard
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
     //monthfoodAllowance
     const handleMonthFoodAllowance = () => {
-        navigate('/finance?tab=monthfoodAllwance');
+        navigate('/admin?tab=adminsFoodAllowance');
     }
 
     //monthOT
     const hadelMonthOT = () => {
-        navigate('/finance?tab=monthot');
+        navigate('/admin?tab=adminsMonthOT');
     }
 
     

@@ -37,15 +37,15 @@ export default function MonthOT() {
     const navigate = useNavigate();
 
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     };
 
     const handleAddition = () => {
-        navigate('/finance?tab=additiondash');
+        navigate('/admin?tab=adminsAddition');
     };
 
     const handleRoleOTIncome = () => {
-        navigate('/finance?tab=roleotincome');
+        navigate('/admin?tab=adminsRoleOTIncome');
     };
 
 

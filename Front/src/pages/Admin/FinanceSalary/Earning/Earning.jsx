@@ -21,22 +21,22 @@ export default function Earnings() {
 
 
     const handleBasicSalary = () => {
-        navigate('/finance?tab=basicsalarytb');
+        navigate('/admin?tab=adminsBasicSalary');
 
     }
     //dashboard
     const handleDashboard = () => {
-        navigate('/finance?tab=salarydash');
+        navigate('/admin?tab=adminsalarydashboard');
     }
 
     //Role Income
     const handleRoleIncome = () => {
-        navigate('/finance?tab=handleRoleIncome');
+        navigate('/admin?tab=adminsRoleIncome');
     }
 
     //Bugeted Allowance
     const handleBugetedAllovance = () => {
-        navigate('/finance?tab=hadelBugetAllowance');
+        navigate('/admin?tab=adminsBudgetedAllowance');
     }
 
 

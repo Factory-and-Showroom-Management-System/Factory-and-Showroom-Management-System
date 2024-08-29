@@ -236,7 +236,7 @@ export default function UserNetPays() {
                                     <th scope="col" className="px-6 py-3">User ID</th>
                                     <th scope="col" className="px-6 py-3">Name</th>
                                     <th scope="col" className="px-6 py-3">Net Total (Rs.)</th>
-                                    <th scope="col" className="px-6 py-3">Actions</th>
+                                    {/* <th scope="col" className="px-6 py-3">Actions</th> */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -246,10 +246,10 @@ export default function UserNetPays() {
                                         <td className="px-6 py-4">{item.userId}</td>
                                         <td className="px-6 py-4">{item.name}</td>
                                         <td className="px-6 py-4">Rs. {item.netTotal.toFixed(2)}</td>
-                                        <td className="px-6 py-4">
+                                        {/* <td className="px-6 py-4">
                                             <a href="#" className="font-medium text-white hover:underline">Edit</a>
                                             <a href="#" className="font-medium text-white hover:underline" style={{ marginLeft: '10px' }}>Remove</a>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))}
                                 <tr className="text-white bg-green-800">

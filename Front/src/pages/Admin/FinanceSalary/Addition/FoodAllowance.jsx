@@ -49,11 +49,11 @@ export default function FoodAllowance() {
     const navigate = useNavigate();
 
     const handleMonthFoodAllowance = () => {
-        navigate('/finance?tab=monthfoodAllwance');
+        navigate('/admin?tab=adminsAddition');
     };
 
     const handleAddtion = () => {
-        navigate('/finance?tab=additiondash');
+        navigate('/admin?tab=adminsalarydashboard');
     };
 
     useEffect(() => {
