@@ -208,7 +208,7 @@ export default function Earnings() {
 
                 <div className=''>
 
-                    <h1 className="  text-3xl text-green-700">Earnings Table</h1>
+                    <h1 className="  text-3xl text-green-700">Earningsvxfgbd Table</h1>
                     <div className="pt-2 pb-2 bg-white">
                         <div className="relative ">
 
