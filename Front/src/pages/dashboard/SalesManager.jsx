@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Sales_Sidebar } from '../../components/sidebar/Sales_Sidebar';
-import SalesDashboard from '../Sales/SalesDashboard/SalesDashboard';
+import SalesDashboard from '../Sales/Order';
 import Order from '../Sales/Order';
 import Customer from '../Sales/Customer';
 import Product from '../Sales/Product';

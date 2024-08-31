@@ -67,6 +67,11 @@ export default function Customer() {
           return;
         }
 
+        if (numberOf < 0) {
+          MySwal.showValidationMessage("Number of orders must be positive");
+          return;
+        }
+
         return [customerId, name, address, phone, numberOf];
       },
     });
@@ -239,7 +244,7 @@ export default function Customer() {
     setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
 
   return (
-    <div className="shadow-lg p-20 bg-white rounded-lg">
+    <div className="shadow-lg p-6 bg-white rounded-lg">
       <div className="relative overflow-x-auto l:rounded-lg">
         <h2 className="text-3xl text-black pl-1 pt-2">Customers Detail</h2>
         <div className="mb-2 mt-5 flex items-center">
@@ -275,8 +280,10 @@ export default function Customer() {
             />
           </div>
         </div>
-        <table className="w-full text-sm text-left text-gray-500">
-          <thead className="text-xs text-black uppercase bg-[#54db93]">
+        
+        <div className="relative overflow-x-auto sm:rounded-lg">
+        <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+          <thead className="text-xs text-white uppercase bg-green-600 border-b border-blue-400">
             <tr>
               <th scope="col" className="px-6 py-5">
                 Customer ID
@@ -327,6 +334,7 @@ export default function Customer() {
             ))}
           </tbody>
         </table>
+        </div>
         <nav
           className="flex items-center justify-between pt-2"
           aria-label="Table navigation"

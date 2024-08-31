@@ -267,19 +267,14 @@ export default function Machine() {
     setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
 
   return (
-    <div className="shadow-lg p-20 bg-white rounded-lg">
+    <div className="shadow-lg p-6 bg-white rounded-lg">
       <div className="relative overflow-x-auto l:rounded-lg">
         <h2 className="text-3xl text-black pl-1 pt-2">
           {" "}
           Machines and Wastage Details
         </h2>
         <div className="mb-2 mt-5 flex items-center">
-          <button
-            onClick={handleAdd}
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Add Machine
-          </button>
+        
           <div className="relative ml-4">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -307,8 +302,9 @@ export default function Machine() {
           </div>
         </div>
 
-        <table className="w-full text-sm text-left text-gray-500">
-          <thead className="text-xs text-black uppercase bg-[#54db93]">
+        <div className="relative overflow-x-auto sm:rounded-lg">
+        <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+        <thead className="text-xs text-white uppercase bg-green-600 border-b border-blue-400">
             <tr>
               <th scope="col" className="px-6 py-5">
                 Machine ID
@@ -333,9 +329,6 @@ export default function Machine() {
               </th>
               <th scope="col" className="px-6 py-3">
                 Machine Performance
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Actions
               </th>
             </tr>
           </thead>
@@ -367,24 +360,11 @@ export default function Machine() {
                   )}
                   {machine.machinePerformance}
                 </td>
-                <td className="px-6 py-3">
-                  <button
-                    className="font-medium text-sm text-white bg-yellow-500 hover:bg-yellow-600 py-1 px-2 rounded mr-2"
-                    onClick={() => handleEdit(machine.id, machine)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="font-medium text-sm text-white bg-red-500 hover:bg-red-600 py-1 px-2 rounded"
-                    onClick={() => handleRemove(machine.id)}
-                  >
-                    Remove
-                  </button>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
 
         <nav
           className="flex items-center justify-between pt-2"

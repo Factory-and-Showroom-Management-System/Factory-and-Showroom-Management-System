@@ -245,7 +245,7 @@ export default function MonthSalarySheet() {
     return (
         <>
             <h1 className="  text-3xl text-green-700">Month Salary Sheet </h1>
-            <div className="pt-2 pb-2 bg-white">
+            <div className="">
                 <div className="relative ">
 
                     <div className='flex'>

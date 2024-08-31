@@ -37,7 +37,7 @@ export default function SalaryDashboard() {
       animate='visible'
       exit='hidden'
     >
-      <div className='flex gap-1'>
+      <div className='flex gap-2'>
 
         <div className='p-4 mt-3 '>
           <EarningCard001 />
