@@ -5,9 +5,9 @@ import AdminDashboard from "../Admin/AdminDashboard/AdminDashboard";
 import AdminProduct from "../Admin/AdminProduct/AdminProduct";
 import AdminRowMaterial from "../Admin/RowMaterial/AdminRowMaterial";
 import SalaryDashboard from "../Admin/FinanceSalary/SalaryDashboard/SalaryDashboard"
-import Earning from "../Admin/FinanceSalary/Earning/Earning"
-import Deduction from "../Admin/FinanceSalary/Deduction/Deduction"
-import Addition from "../Admin/FinanceSalary/Addition/Addition";
+import Earning from "../Admin/FinanceSalary/Earning/EaringDash"
+import Deduction from "../Admin/FinanceSalary/Deduction/DeductionDash"
+import Addition from "../Admin/FinanceSalary/Addition/AdditionDash";
 import EpfEtfDash from "../Admin/FinanceSalary/EpfEtf/EpfEtfDash"
 import NettPayDash from "../Admin/FinanceSalary/NetPay/NettPayDash"
 import Order from "../Admin/AdminSales/Order";

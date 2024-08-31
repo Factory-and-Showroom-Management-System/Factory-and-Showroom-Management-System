@@ -56,6 +56,7 @@ export default function SalaryDashboard() {
         </div>
 
       </div>
+      
       <div className='flex gap-1'>
         <div className='p-4 mt-3 w-full'>
           <MonthSalarySheet />
