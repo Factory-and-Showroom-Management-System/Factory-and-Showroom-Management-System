@@ -15,7 +15,7 @@ import Wastage from "../Admin/AdminSales/Wastage"
 import Customer from "../Admin/AdminSales/Customer";
 import AllMonthSalarySheet from "../Admin/FinanceSalary/SalaryDashboard/AllMonthSalarySheet ";
 import BasicSalaries from "../Admin/FinanceSalary/Earning/BasicSalaries";
-import Earnings from "../Admin/FinanceSalary/Earning/Earning";
+
 import RoleIncome from "../Admin/FinanceSalary/Earning/RoleIncome";
 import BudgetedAllowance from "../Admin/FinanceSalary/Earning/BudgetedAllowance";
 import Deductions from "../Admin/FinanceSalary/Deduction/Deduction";
@@ -27,6 +27,8 @@ import MonthFoodAllowance from "../Admin/FinanceSalary/Addition/MonthFoodAllowan
 import MonthOT from "../Admin/FinanceSalary/Addition/MonthOT";
 import RoleOTIncome from "../Admin/FinanceSalary/Addition/RoleOTIncome";
 import MonthEpfEtfs from "../Admin/FinanceSalary/EpfEtf/MonthEpfEtfs";
+import EaringDash from "../Admin/FinanceSalary/Earning/EaringDash";
+import DeductionDash from "../Admin/FinanceSalary/Deduction/DeductionDash";
 
 
 
@@ -68,10 +70,10 @@ export function Admin() {
           {tab === "adminsalarydashboard" && <SalaryDashboard/>}
           {tab === "adminsAllMonthSalarySheet" && <AllMonthSalarySheet/>}
           {tab === "adminsBasicSalary" && <BasicSalaries/>}
-          {tab === "adminsEarning" && <Earnings/>}
+          {tab === "adminsEarning" && <EaringDash/>}
           {tab === "adminsRoleIncome" && <RoleIncome/>}
           {tab === "adminsBudgetedAllowance" && <BudgetedAllowance/>}
-          {tab === "adminsDeduction" && <Deductions/>}
+          {tab === "adminsDeduction" && <DeductionDash/>}
           {tab === "adminsUserMonrhLoan" && <UserMonthLoan/>}
           {tab === "adminsUserTotalLoane" && <UserTotalLoans/>}
           {tab === "adminsAddition" && <Addition/>}
