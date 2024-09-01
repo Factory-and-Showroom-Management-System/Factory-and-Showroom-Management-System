@@ -10,7 +10,7 @@ export default function Order() {
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     fetchOrders();
@@ -327,7 +327,7 @@ export default function Order() {
     setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
 
   return (
-    <div className="shadow-lg p-6 bg-white rounded-lg">
+    <div className="shadow-lg p-4 bg-white rounded-lg">
       <div className="relative overflow-x-auto l:rounded-lg">
         <h2 className="text-3xl text-black pl-1 pt-2 ">Orders Detail</h2>
 

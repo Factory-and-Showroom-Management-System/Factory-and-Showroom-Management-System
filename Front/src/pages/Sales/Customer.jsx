@@ -9,7 +9,7 @@ export default function Customer() {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     fetchCustomers();
@@ -244,7 +244,7 @@ export default function Customer() {
     setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
 
   return (
-    <div className="shadow-lg p-6 bg-white rounded-lg">
+    <div className="shadow-lg p-4 bg-white rounded-lg">
       <div className="relative overflow-x-auto l:rounded-lg">
         <h2 className="text-3xl text-black pl-1 pt-2">Customers Detail</h2>
         <div className="mb-2 mt-5 flex items-center">

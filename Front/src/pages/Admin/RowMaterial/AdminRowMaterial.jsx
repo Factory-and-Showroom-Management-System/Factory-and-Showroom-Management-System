@@ -227,8 +227,9 @@ export default function AdminRowMaterial() {
             </div>
           </div>
 
-          <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-white uppercase bg-[#54db93]">
+          <div className="relative overflow-x-auto sm:rounded-lg">
+        <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+          <thead className="text-xs text-white uppercase bg-green-600 border-b border-blue-400">
               <tr>
                 <th scope="col" className="px-6 py-5">
                   Material ID
@@ -275,6 +276,7 @@ export default function AdminRowMaterial() {
               ))}
             </tbody>
           </table>
+          </div>
 
           <nav
             className="flex items-center justify-between pt-2"

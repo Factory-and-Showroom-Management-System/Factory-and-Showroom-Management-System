@@ -5,6 +5,22 @@ import { GoDatabase, GoBook, GoSignOut, GoPackage } from "react-icons/go";
 import { useState } from "react";
 import { signOutSuccess } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { FaUsersBetweenLines } from "react-icons/fa6";
+import { LiaJediOrder } from "react-icons/lia";
+import { GiNuclearWaste } from "react-icons/gi";
+import { BiSolidDashboard } from "react-icons/bi";
+import { CgBox } from "react-icons/cg";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { GiReceiveMoney } from "react-icons/gi";
+import { GiPayMoney } from "react-icons/gi";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { GiTakeMyMoney } from "react-icons/gi";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+import { GiMoneyStack } from "react-icons/gi";
+import { TbMoneybag } from "react-icons/tb";
+import { AiFillTags } from "react-icons/ai";
+
+
 
 export function Admin_Sidebar() {
   const [dashboardClicked, setDashboardClicked] = useState(false);
@@ -317,7 +333,7 @@ export function Admin_Sidebar() {
             </div>
 
             <Sidebar.Collapse
-              icon={HiShoppingBag}
+              icon={AiFillTags}
               className={`rounded-full hover:bg-[#cdf8da] ${
                 InventoryClicked ? "bg-[#cdf8da] text-black" : ""
               }`}
@@ -326,7 +342,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminproduct">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={HiShoppingBag}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       productClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -340,7 +356,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminmaterial">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={GoDatabase}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       materialClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -355,14 +371,14 @@ export function Admin_Sidebar() {
             {/* finance */}
 
             <Sidebar.Collapse
-              icon={HiShoppingBag}
+              icon={RiMoneyDollarCircleFill}
               className={`rounded-full hover:bg-[#cdf8da] ${
                 financeClicked ? "bg-[#cdf8da] text-black" : ""
               }`}
               label="Finance"
             >
               <Sidebar.Collapse
-                icon={HiShoppingBag}
+                icon={FaMoneyCheckAlt}
                 className={`pl-5 rounded-full hover:bg-[#cdf8da] ${
                   financeSalseClicked ? "bg-[#cdf8da] text-black" : ""
                 }`}
@@ -371,7 +387,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsalarydashboard">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={FaMoneyBillTrendUp}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       salaryDashboarlClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -385,7 +401,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsalaryEarning">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={GiPayMoney}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       earningClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -399,7 +415,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsalaryDeduction">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={GiMoneyStack}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       deductionClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -413,7 +429,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsalaryAddition">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={GiTakeMyMoney}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       additionClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -427,7 +443,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsalaryEPF">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={CgBox}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       ePFETFClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -441,7 +457,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsalaryNettpay">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={GiReceiveMoney}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       nettPayClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -456,7 +472,7 @@ export function Admin_Sidebar() {
             {/* sales */}
 
             <Sidebar.Collapse
-              icon={HiShoppingBag}
+              icon={TbMoneybag}
               className={`rounded-full hover:bg-[#cdf8da] ${
                 SalesClicked ? "bg-[#cdf8da] text-black" : ""
               }`}
@@ -466,7 +482,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsSalesorder">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={LiaJediOrder}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       OrderClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -480,7 +496,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsSalescustomer">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={FaUsersBetweenLines}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       CustomerClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
@@ -494,7 +510,7 @@ export function Admin_Sidebar() {
               <div className="w-full">
                 <Link to="/admin?tab=adminsSaleswastage">
                   <Sidebar.Item
-                    icon={GoPackage}
+                    icon={GiNuclearWaste}
                     className={`rounded-full hover:bg-[#cdf8da] ${
                       WastageClicked ? "bg-[#cdf8da] text-black" : ""
                     }`}
