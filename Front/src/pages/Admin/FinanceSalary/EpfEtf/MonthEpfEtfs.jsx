@@ -25,7 +25,7 @@ export default function MonthEpfEtfs() {
 
     //User Total Loan
     const handleBasicSalary = () => {
-        navigate('/admin?tab=adminsalarydashboard');
+        navigate('/admin?tab=adminsBasicSalary');
     }
 
 

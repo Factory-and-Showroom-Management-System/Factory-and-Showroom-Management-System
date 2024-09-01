@@ -82,15 +82,57 @@ export function Admin_Sidebar() {
       case 'adminsalarydashboard':
         setSalaryDashboardClicked(true);
         break;
+      case 'adminsAllMonthSalarySheet':
+          setSalaryDashboardClicked(true);
+          break;
+
       case 'adminsalaryEarning':
+        setEarningClicked(true);
+        break;
+      case 'adminsBasicSalary':
+        setEarningClicked(true);
+        break;
+      case 'adminsRoleIncome':
+        setEarningClicked(true);
+        break;
+      case 'adminsBudgetedAllowance':
+        setEarningClicked(true);
+        break;
+      case 'adminsEarning':
         setEarningClicked(true);
         break;
       case 'adminsalaryDeduction':
         setDeductionClicked(true);
         break;
+      case 'adminsUserMonrhLoan':
+        setDeductionClicked(true);
+        break;
+      case 'adminsUserMonrhLoan':
+          setDeductionClicked(true);
+          break;
+      case 'adminsDeduction':
+            setDeductionClicked(true);
+            break;
+      case 'adminsUserTotalLoane':
+              setDeductionClicked(true);
+              break;
+
       case 'adminsalaryAddition':
         setAdditionClicked(true);
         break;
+      case 'adminsFoodAllowance':
+          setAdditionClicked(true);
+          break;
+      case 'adminsMonthOT':
+            setAdditionClicked(true);
+            break;
+      case 'adminsAddition':
+              setAdditionClicked(true);
+              break;
+      case 'adminsRoleOTIncome':
+            setAdditionClicked(true);
+            break;
+
       case 'adminsalaryEPF':
         setEPFETFClicked(true);
         break;
@@ -106,6 +148,11 @@ export function Admin_Sidebar() {
       case 'adminsSaleswastage':
         setWastageClicked(true);
         break;
+
+          
+
+
+
       default:
         break;
     }
