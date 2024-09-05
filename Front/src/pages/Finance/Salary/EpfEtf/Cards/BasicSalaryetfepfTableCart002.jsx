@@ -22,7 +22,7 @@ export default function BasicSalaryetfepfTableCart002() {
     const totalBasicSalary = basicSalaries.reduce((total, salary) => total + salary.basicSalary, 0);
 
     return (
-        <div className="h-40 max-w-sm p-4 bg-blue-700 border border-gray-200 rounded-lg shadow w-72 dark:bg-blue-600 dark:border-gray-100 hover:bg-blue-600 dark:hover:bg-blue-70 transition duration-300 ease-in-out transform hover:scale-105">
+        <div className="h-40 max-w-sm p-4 bg-green-700 border border-gray-200 rounded-lg shadow w-72 dark:bg-blue-600 dark:border-gray-100 hover:bg-green-800 dark:hover:bg-blue-70 transition duration-300 ease-in-out transform hover:scale-105">
             <div className='flex'>
                 <svg className='' width="60px" height="60px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" strokeWidth="0.00024">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0" transform="translate(0,0), scale(1)"></g>

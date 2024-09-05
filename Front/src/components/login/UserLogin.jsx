@@ -53,7 +53,7 @@ export default function UserLogin() {
         } else if (data.role === "finance_manager") {
           navigate("/finance?tab=financedash");
         } else if (data.role === "inventory_manager") {
-          navigate("/inventory?tab=inventorydash");
+          navigate("/inventory?tab=inventoryproduct");
         } else if (data.role === "hr_manager") {
           navigate("/hr?tab=hrdash");
         }

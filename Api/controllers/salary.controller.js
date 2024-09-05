@@ -184,162 +184,56 @@ function rdestroy(req, res) {
 
 
 //current month calutae basicSalary------------------------------------------------------------------------------------------
-// async function bssalaryAll(req, res) {
-//     try {
-//         // Get the start and end dates of the current month
-//         const startDate = moment().startOf('month');
-//         const endDate = moment().endOf('month');
-
-//         // Fetch attendance records for the current month
-//         const attendanceRecords = await models.Attendance.findAll({
-//             where: {
-//                 dateIn: {
-//                     [models.Sequelize.Op.between]: [startDate, endDate]
-//                 }
-//             }
-//         });
-
-//         if (!attendanceRecords || attendanceRecords.length === 0) {
-//             return res.status(404).json({ message: "No attendance records found for the current month" });
-//         }
-
-//         // Iterate through attendance records to calculate attenCount for each userId
-//         const attenCountMap = {};
-//         for (const attendanceRecord of attendanceRecords) {
-//             if (!attenCountMap[attendanceRecord.userId]) {
-//                 attenCountMap[attendanceRecord.userId] = 1;
-//             } else {
-//                 attenCountMap[attendanceRecord.userId]++;
-//             }
-//         }
-
-//         // Iterate through attenCountMap to update or create basic salary records
-//         const basicSalaries = [];
-//         for (const userId in attenCountMap) {
-//             if (attenCountMap.hasOwnProperty(userId)) {
-//                 const attenCount = attenCountMap[userId];
-
-                
-
-//                 // Fetch existing basic salary record for the userId
-//                 let basicSalary = await models.BasicSalary.findOne({ where: { userId: userId } });
-                
-//                 // Fetch role income record which includes dateIncome
-//                 const bioData = await models.BioData.findOne({ where: { userId: userId } });
-                
-
-//                 if (!bioData) {
-//                     continue; // Skip if bioData not found
-//                 }
-//                 const nameWini = bioData.nameWini;
-//                 const roleId = bioData.roleId;
-//                 const roleIncome = await models.RoleIncome.findOne({ where: { id: roleId } });
-//                 if (!roleIncome) {
-//                     continue; // Skip if role not found
-//                 }
-
-//                 if (!basicSalary) {
-//                     // If no existing record found, create a new one
-//                     basicSalary = await models.BasicSalary.create({
-//                         userId: userId,
-//                         name: nameWini, // Use nameWini from BioData table
-//                         roleId: roleId,
-//                         attenCount: attenCount,
-//                         dateIncome: roleIncome.dateIncome,
-//                         basicSalary: attenCount * roleIncome.dateIncome
-//                     });
-//                 } else {
-//                     // If existing record found, update it
-//                     basicSalary.attenCount = attenCount;
-//                     basicSalary.dateIncome = roleIncome.dateIncome;  // Update dateIncome to the latest value
-//                     basicSalary.basicSalary = attenCount * roleIncome.dateIncome;  // Recalculate basicSalary using latest dateIncome
-//                     basicSalary.name = nameWini; // Update name field with nameWini from BioData table
-//                     await basicSalary.save();
-//                 }
-
-//                 basicSalaries.push(basicSalary);
-//             }
-//         }
-
-//         res.status(200).json({
-//             message: "BasicSalaries updated/created successfully",
-//             salaries: basicSalaries
-//         });
-//     } catch (error) {
-//         console.error("Error in bssalaryAll:", error);
-//         res.status(500).json({
-//             message: "Something went wrong",
-//             error: error.message
-//         });
-//     }
-// }
-
 async function bssalaryAll(req, res) {
     try {
-        const startDate = moment().startOf('month');
-        const endDate = moment().endOf('month');
-
-        const attendanceRecords = await models.Attendance.findAll({
-            where: {
-                dateIn: {
-                    [models.Sequelize.Op.between]: [startDate, endDate]
-                }
-            }
-        });
-
         // Fetch all unique userIds from BioData
         const allBioData = await models.BioData.findAll();
         const allUserIds = allBioData.map(bioData => bioData.userId);
 
-        const attenCountMap = {};
-        for (const userId of allUserIds) {
-            attenCountMap[userId] = 0; // Initialize with 0
-        }
-
-        for (const attendanceRecord of attendanceRecords) {
-            if (attenCountMap.hasOwnProperty(attendanceRecord.userId)) {
-                attenCountMap[attendanceRecord.userId]++;
-            }
-        }
-
         const basicSalaries = [];
-        for (const userId in attenCountMap) {
-            if (attenCountMap.hasOwnProperty(userId)) {
-                const attenCount = attenCountMap[userId];
 
-                let basicSalary = await models.BasicSalary.findOne({ where: { userId: userId } });
+        for (const userId of allUserIds) {
+            // Fetch attendance count from MonthAttempCount
+            const monthAttempCount = await models.MonthAttempCount.findOne({ where: { userId: userId } });
 
-                const bioData = await models.BioData.findOne({ where: { userId: userId } });
-
-                if (!bioData) {
-                    continue;
-                }
-                const nameWini = bioData.nameWini;
-                const roleId = bioData.roleId;
-                const roleIncome = await models.RoleIncome.findOne({ where: { id: roleId } });
-                if (!roleIncome) {
-                    continue;
-                }
-
-                if (!basicSalary) {
-                    basicSalary = await models.BasicSalary.create({
-                        userId: userId,
-                        name: nameWini,
-                        roleId: roleId,
-                        attenCount: attenCount,
-                        dateIncome: roleIncome.dateIncome,
-                        basicSalary: attenCount * roleIncome.dateIncome
-                    });
-                } else {
-                    basicSalary.attenCount = attenCount;
-                    basicSalary.dateIncome = roleIncome.dateIncome;
-                    basicSalary.basicSalary = attenCount * roleIncome.dateIncome;
-                    basicSalary.name = nameWini;
-                    await basicSalary.save();
-                }
-
-                basicSalaries.push(basicSalary);
+            if (!monthAttempCount) {
+                continue;
             }
+
+            const attenCount = monthAttempCount.attempCount;
+
+            let basicSalary = await models.BasicSalary.findOne({ where: { userId: userId } });
+
+            const bioData = await models.BioData.findOne({ where: { userId: userId } });
+
+            if (!bioData) {
+                continue;
+            }
+            const nameWini = bioData.nameWini;
+            const roleId = bioData.roleId;
+            const roleIncome = await models.RoleIncome.findOne({ where: { id: roleId } });
+            if (!roleIncome) {
+                continue;
+            }
+
+            if (!basicSalary) {
+                basicSalary = await models.BasicSalary.create({
+                    userId: userId,
+                    name: nameWini,
+                    roleId: roleId,
+                    attenCount: attenCount,
+                    dateIncome: roleIncome.dateIncome,
+                    basicSalary: attenCount * roleIncome.dateIncome
+                });
+            } else {
+                basicSalary.attenCount = attenCount;
+                basicSalary.dateIncome = roleIncome.dateIncome;
+                basicSalary.basicSalary = attenCount * roleIncome.dateIncome;
+                basicSalary.name = nameWini;
+                await basicSalary.save();
+            }
+
+            basicSalaries.push(basicSalary);
         }
 
         res.status(200).json({
@@ -354,14 +248,6 @@ async function bssalaryAll(req, res) {
         });
     }
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -879,6 +765,7 @@ function DeleteUserTotalLoan(req, res) {
 const { Op } = require('sequelize');
 const usermonrhloan = require('../models/usermonrhloan');
 const roleotincome = require('../models/roleotincome');
+const attendance = require('../models/attendance');
 async function UserMonthLoan(req, res) {
     try {
         // Get the current date
@@ -2427,57 +2314,6 @@ function AllMonthSalarySheetIdShow(req, res) {
 }
 
 
-
-
-
-
-// //Creat function (userId:iniger,nameWini:string,nameWFull:string,birthdate:date,age:integer,roleId:intiger,gender:string,address:string,email:string,bankNumber:integer,phoneNumber:string,imgSrc:sring) save BioDataSave and validation data
-// function BioDataSave(req, res) {
-//     const { userId, nameWini, nameWFull, birthdate, age, roleId, gender, address, email, bankNumber, phoneNumber, imgSrc } = req.body;
-
-//     if (!userId || !nameWini || !nameWFull || !birthdate || !age || !roleId || !gender || !address || !email || !bankNumber || !phoneNumber || !imgSrc) {
-//         return res.status(400).json({ message: "All fields are required" });
-//     }
-
-//     models.BioData.create({
-//         userId: userId,
-//         nameWini: nameWini,
-//         nameWFull: nameWFull,
-//         birthdate: birthdate,
-//         age: age,
-//         roleId: roleId,
-//         gender: gender,
-//         address: address,
-//         email: email,
-//         bankNumber: bankNumber,
-//         phoneNumber: phoneNumber,
-//         imgSrc: imgSrc
-//     }).then(result => {
-//         res.status(201).json({
-//             message: "BioData saved successfully",
-//             bioData: result
-//         });
-//     }
-//     ).catch(error => {
-//         res.status(500).json({
-//             message: "Something went wrong",
-//             error: error
-//         });
-//     });
-// }
-
-// //Creat Function Show BioDataSave
-// function BioDataShow(req, res) {
-//     models.BioData.findAll().then(result => {
-//         res.status(200).json(result);
-//     }).catch(error => {
-//         res.status(500).json({
-//             message: "Something went wrong",
-//             error: error
-//         });
-//     });
-// }
-
 // //Creat Function Show BioDataSave id
 function BioDataShowId(req, res) {
     const tableId = req.params.tableId;
@@ -2517,83 +2353,6 @@ function BioDataShowUserId(req, res) {
 }
 
 
-
-
-// //creat function to destroy BioData table id
-// function BioDataDelete(req, res) {
-//     const tableId = req.params.tableId;
-
-//     models.BioData.findByPk(tableId).then(result => {
-//         if (!result) {
-//             return res.status(404).json({
-//                 message: "BioData not found"
-//             });
-//         }
-//         result.destroy().then(() => {
-//             res.status(200).json({
-//                 message: "BioData deleted successfully"
-//             });
-//         }).catch(error => {
-//             res.status(500).json({
-//                 message: "Something went wrong",
-//                 error: error
-//             });
-//         });
-//     }).catch(error => {
-//         res.status(500).json({
-//             message: "Something went wrong",
-//             error: error
-//         });
-//     });
-// }
-
-// //creat function to Update BioData table
-// function BioDataUpdate(req, res) {
-//     const tableId = req.params.tableId;
-//     const { userId, nameWini, nameWFull, birthdate, age, roleId, gender, address, email, bankNumber, phoneNumber, imgSrc } = req.body;
-
-//     models.BioData.findByPk(tableId).then(result => {
-//         if (!result) {
-//             return res.status(404).json({
-//                 message: "BioData not found"
-//             });
-//         }
-
-//         result.userId = userId;
-//         result.nameWini = nameWini;
-//         result.nameWFull = nameWFull;
-//         result.birthdate = birthdate;
-//         result.age = age;
-//         result.roleId = roleId;
-//         result.gender = gender;
-//         result.address = address;
-//         result.email = email;
-//         result.bankNumber = bankNumber;
-//         result.phoneNumber = phoneNumber;
-//         result.imgSrc = imgSrc;
-
-//         result.save().then(() => {
-//             res.status(200).json({
-//                 message: "BioData updated successfully",
-//                 bioData: result
-//             });
-//         }
-//         ).catch(error => {
-//             res.status(500).json({
-//                 message: "Something went wrong",
-//                 error: error
-//             });
-//         });
-//     }
-//     ).catch(error => {
-//         res.status(500).json({
-//             message: "Something went wrong",
-//             error: error
-//         });
-//     });
-// }
-
-
 //creat function to fetch Roles table
 function showAllrole(req, res) {
     models.Role.findAll().then(result => {
@@ -2609,6 +2368,108 @@ function showAllrole(req, res) {
 
 
 
+//MonthAttempCount: create function auto add to data MonthAttempCount table for fetch data Attendance(userId,name, role(role name ex Admin) currentDate : fetch attendances tables fetch dateIn  attempCount: Calculate the number of days that userId should be "present" and "timeOut" for that month. There, the relevant value starting from 1 should be added to the count related to that month, but when received in another month, their number of days should be counted again from 1 i.e. from the beginning and deposited to "attemptCount 
+async function MonthAttempCount(req, res) {
+    try {
+        // Fetch data from Attendance table
+        const attendances = await models.Attendance.findAll();
+        if (!attendances || attendances.length === 0) {
+            return res.status(404).json({ message: "No attendance records found" });
+        }
+
+        // Iterate through attendances to update or create month attempt count records
+        const monthAttempCounts = [];
+        for (const attendance of attendances) {
+            // Check if the attendance status is "Present"
+            if (attendance.status !== "Present") {
+                continue; // Skip this iteration if the status is not "Present"
+            }
+
+            let monthAttempCount = await models.MonthAttempCount.findOne({ where: { userId: attendance.userId } });
+
+            const month = moment(attendance.dateIn).format('YYYY-MM');
+            const currentMonth = moment().format('YYYY-MM');
+            const attendanceDay = moment(attendance.dateIn).date();
+
+            if (!monthAttempCount) {
+                // If no existing record found, create a new one
+                monthAttempCount = await models.MonthAttempCount.create({
+                    userId: attendance.userId,
+                    name: attendance.name,
+                    role: attendance.role,
+                    currentDate: attendance.dateIn,
+                    attempCount: 1
+                });
+            } else {
+                // If an existing record is found, update it
+                const monthAttempCountDay = moment(monthAttempCount.currentDate).date();
+                const monthAttempCountMonth = moment(monthAttempCount.currentDate).format('YYYY-MM');
+               
+                // Check if the month has changed or the attendance day is greater than the stored day
+                if (month !== monthAttempCountMonth) {
+                    monthAttempCount.attempCount = 1; // Reset to 1 if month changed
+                } else if (attendanceDay > monthAttempCountDay) {
+                    monthAttempCount.attempCount += 1; // Increment if same month and day is greater
+                }
+
+                // Always update the currentDate to the new dateIn
+                monthAttempCount.currentDate = attendance.dateIn;
+                await monthAttempCount.save(); // Save the changes
+            }
+
+            monthAttempCounts.push(monthAttempCount);
+        }
+
+        res.status(200).json({
+            message: "MonthAttempCounts updated/created successfully",
+            monthAttempCounts: monthAttempCounts
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
+        });
+    }
+}
+
+
+
+
+
+//show MonthAttempCount
+function MonthAttempCountShow(req, res) {
+    models.MonthAttempCount.findAll().then(result => {
+        res.status(200).json(result);
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error
+        });
+
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 module.exports = {
@@ -2618,6 +2479,12 @@ module.exports = {
     rupdate: rupdate,
     rdestroy: rdestroy,
     bssalaryAll: bssalaryAll,
+
+
+    MonthAttempCount: MonthAttempCount,
+    MonthAttempCountShow: MonthAttempCountShow,
+
+
     bsshow: bsshow,
     baIdshow: baIdshow,
     basave: basave,

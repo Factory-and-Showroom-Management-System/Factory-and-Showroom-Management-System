@@ -34,6 +34,12 @@ export default function MonthSalarySheet() {
 
 
 
+    const handleMonthCount = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addmonthattempcount
+        const response = await axios.post('http://localhost:3000/salary/addmonthattempcount', {
+        });
+        console.log(response);
+    };
 
     const handleSubmit = async (event) => {
         //Fetch the data from the API  run to post: http://localhost:3000/salary/addsalary
@@ -154,6 +160,7 @@ export default function MonthSalarySheet() {
             }
         };
         fetchData();
+        handleMonthCount();
         handleSubmit();
         handleSubmitEarning();
         handleSubmitUserLoan();
@@ -237,7 +244,7 @@ export default function MonthSalarySheet() {
 
     return (
         <>
-            <h1 className="  text-3xl text-blue-500">Month Salary Sheet </h1>
+            <h1 className="  text-3xl text-green-700">Month Salary Sheet </h1>
             <div className="pt-2 pb-2 bg-white">
                 <div className="relative ">
 
@@ -290,7 +297,7 @@ export default function MonthSalarySheet() {
 
                         <div className=''  >
                             <table className="w-full text-sm text-left text-gray-900 dark:text-white">
-                                <thead className="text-xs text-white uppercase bg-blue-600">
+                                <thead className="text-xs text-white uppercase bg-green-600">
                                     <tr>
                                         <th scope="col" className="px-4 py-7">ID</th>
                                         <th scope="col" className="px-4 py-3">Date</th>
@@ -315,7 +322,7 @@ export default function MonthSalarySheet() {
                                 </thead>
                                 <tbody>
                                     {currentRows.map((sheet) => (
-                                        <tr key={sheet.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                        <tr key={sheet.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                             <td className="px-4 py-3">{sheet.id}</td>
                                             <td className="px-4 py-1">{new Date(sheet.currentDate).toLocaleDateString()}</td>
                                             <td className="px-1 py-1">{sheet.userId}</td>
@@ -348,7 +355,7 @@ export default function MonthSalarySheet() {
                                             </td>
                                         </tr>
                                     ))}
-                                    <tr className="bg-blue-800 text-white">
+                                    <tr className="bg-green-600 text-white">
                                         <td className="px-20 py-7 text-right font-bold" colSpan="5">Sub Total ( Rs. ) :</td>
                                         <td className="px-10 font-bold" >Rs.{basicSalary.toFixed(2)}</td>
                                         <td className="px-10 font-bold" >Rs.{baValue.toFixed(2)}</td>

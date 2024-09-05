@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import image from "../../assets/login/mainLogo.png";
 import axios from 'axios';
 import userImage from "../Profile/user.png";
-import ProfileModal from '../Profile/ProfileModal'; 
+import ProfileModal from '../Profile/ProfileModal';
 
 const Navbar = () => {
   const [currentDateTime, setCurrentDateTime] = useState('');
@@ -73,15 +73,14 @@ const Navbar = () => {
           </div>
         </span>
       </div>
-      {user && !isLoginPage && !isHomepage &&(
-      <div className="flex items-center gap-2"><div className="font-semibold">User Profile </div>
-      
+      {user && !isLoginPage && !isHomepage && (
+        <div className="flex items-center gap-2">
+          <div className="font-semibold">User Profile</div>
           <div className="flex items-center justify-center w-8 h-8 mr-4 overflow-hidden bg-gray-200 rounded-full cursor-pointer" onClick={handleProfileClick}>
             <img src={user.profileImageUrl || userImage} alt="Profile" className="object-cover w-full h-full" />
           </div>
-          </div>
-        )}
-     
+        </div>
+      )}
       {isProfileModalOpen && user && ( // Only render profile modal if user is logged in
         <ProfileModal user={user} onClose={handleCloseModal} />
       )}
@@ -90,4 +89,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
- 

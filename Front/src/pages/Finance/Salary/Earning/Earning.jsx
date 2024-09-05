@@ -40,6 +40,12 @@ export default function Earnings() {
     }
 
 
+    const handleMonthCount = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addmonthattempcount
+        const response = await axios.post('http://localhost:3000/salary/addmonthattempcount', {
+        });
+        console.log(response);
+    };
 
 
     const handleSubmit = async (event) => {
@@ -159,6 +165,7 @@ export default function Earnings() {
             }
         };
         fetchEarnings();
+        handleMonthCount();
         handleSubmit();
         handleSubmitEarning();
         handleSubmitUserLoan();
@@ -201,7 +208,7 @@ export default function Earnings() {
 
                 <div className=''>
 
-                    <h1 className="  text-3xl text-blue-500">Earnings Table</h1>
+                    <h1 className="  text-3xl text-green-700">Earnings Table</h1>
                     <div className="pt-2 pb-2 bg-white">
                         <div className="relative ">
 
@@ -253,7 +260,7 @@ export default function Earnings() {
                     <div className="relative overflow-x-auto sm:rounded-lg">
 
                         <table className="w-full text-sm text-left text-gray-900 dark:text-white">
-                            <thead className="text-xs text-white uppercase bg-blue-600">
+                            <thead className="text-xs text-white uppercase bg-green-600">
                                 <tr>
                                     <th scope="col" className="px-6 py-7">ID</th>
                                     <th scope="col" className="px-6 py-3">User ID</th>
@@ -261,35 +268,35 @@ export default function Earnings() {
                                     <th scope="col" className="px-6 py-3">Basic Salary</th>
                                     <th scope="col" className="px-6 py-3">Budgeted Allowance Value</th>
                                     <th scope="col" className="px-6 py-3">Total Earning</th>
-                                    <th scope="col" className="px-6 py-3">Actions</th>
+                                    {/* <th scope="col" className="px-6 py-3">Actions</th> */}
                                 </tr>
                             </thead>
                             <tbody>
                                 {currentRows.map((item) => (
-                                    <tr key={item.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                    <tr key={item.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                         <td className="px-6 py-4">{item.id}</td>
                                         <td className="px-6 py-4">{item.userId}</td>
                                         <td className="px-6 py-4">{item.name}</td>
                                         <td className="px-6 py-4">Rs. {item.basicSalary.toFixed(2)}</td>
                                         <td className="px-6 py-4">Rs. {item.baValue.toFixed(2)}</td>
                                         <td className="px-6 py-4">Rs. {item.totalEarning.toFixed(2)}</td>
-                                        <td className="px-6 py-4">
+                                        {/* <td className="px-6 py-4">
                                             <a href="#" className="font-medium text-white hover:underline" style={{ marginRight: '10px' }}>Edit</a>
                                             <a href="#" className="font-medium text-white hover:underline">Remove</a>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))}
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 py-2 text-right font-bold" colSpan="3">Sub Total (Rs.):</td>
                                     <td className="px-6 font-bold">Rs. {totalBasicSalary.toFixed(2)}</td>
                                     <td className="px-6 font-bold">Rs. {totalBAValue.toFixed(2)}</td>
                                     <td className="px-6 font-bold">Rs. {totalEarning.toFixed(2)}</td>
-                                    <td className="px-6 font-bold"></td>
+                                    {/* <td className="px-6 font-bold"></td> */}
                                 </tr>
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 py-2 text-right font-bold" colSpan="3">Total (Rs.):</td>
                                     <td className="px-6 font-bold">Rs. {totalEarning.toFixed(4)}</td>
-                                    <td className="px-6 font-bold"></td>
+                                    {/* <td className="px-6 font-bold"></td> */}
                                     <td className="px-6 font-bold"></td>
                                     <td className="px-6 font-bold"></td>
                                 </tr>

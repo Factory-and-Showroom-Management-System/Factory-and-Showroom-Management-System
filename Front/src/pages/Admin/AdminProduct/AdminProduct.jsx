@@ -24,68 +24,90 @@ export default function AdminProduct() {
     }
   };
 
-  const handleAdd = async () => {
-    const { value: formValues } = await MySwal.fire({
-      title: "Add New Product",
-      html: `
-                <input id="swal-input1" class="swal2-input" placeholder="Product ID">
-                <input id="swal-input2" class="swal2-input" placeholder="Product Name">
-                <input id="swal-input3" class="swal2-input" placeholder="Available" type="number">
-                <input id="swal-input4" class="swal2-input" placeholder="Unit Price" type="number">`,
-      focusConfirm: false,
-      showCancelButton: true,
-      confirmButtonColor: "#008000",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Add",
-      preConfirm: () => {
-        return [
-          document.getElementById("swal-input1").value,
-          document.getElementById("swal-input2").value,
-          document.getElementById("swal-input3").value,
-          document.getElementById("swal-input4").value,
-        ];
-      },
-    });
+  let productCount = 0; // Keep track of the number of products added
 
-    if (formValues) {
-      try {
-        await fetch(`http://localhost:3000/adminproduct/save`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            productId: formValues[0],
-            p_name: formValues[1],
-            available: parseFloat(formValues[2]),
-            unitPrice: parseFloat(formValues[3]),
-          }),
-        });
-        MySwal.fire({
-          icon: "success",
-          title: "Added!",
-          text: "New product has been added.",
-        });
-        fetchProducts();
-      } catch (error) {
-        console.error("Failed to add product:", error);
-        MySwal.fire({
-          icon: "error",
-          title: "Failed to add!",
-          text: "Adding new product failed.",
-        });
-      }
+const handleAdd = async () => {
+  productCount++; // Increment the product count
+
+  const { value: formValues } = await MySwal.fire({
+    title: "Add New Product",
+    html: `
+      <input id="swal-input2" class="swal2-input" placeholder="Product Name">
+      <input id="swal-input3" class="swal2-input" placeholder="Available (kg)" type="number">
+      <input id="swal-input4" class="swal2-input" placeholder="Unit Price (Rs)" type="number">`,
+    focusConfirm: false,
+    showCancelButton: true,
+    confirmButtonColor: "#008000",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Add",
+    preConfirm: () => {
+      return [
+        document.getElementById("swal-input2").value,
+        document.getElementById("swal-input3").value,
+        document.getElementById("swal-input4").value,
+      ];
+    },
+  });
+
+  if (formValues) {
+    const productId = `Product${productCount}`;
+    const productName = formValues[0];
+    const available = parseFloat(formValues[1]);
+    const unitPrice = parseFloat(formValues[2]);
+
+    // Validate available and unit price
+    if (available < 0 || unitPrice < 0) {
+      MySwal.fire({
+        icon: "error",
+        title: "Invalid Input!",
+        text: "Available (kg) and Unit Price (Rs) must be non-negative.",
+      });
+      return;
     }
-  };
+
+    try {
+      await fetch(`http://localhost:3000/adminproduct/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: productId,
+          p_name: productName,
+          available: available,
+          unitPrice: unitPrice,
+        }),
+      });
+      MySwal.fire({
+        icon: "success",
+        title: "Added!",
+        text: "New product has been added.",
+      });
+      fetchProducts();
+    } catch (error) {
+      console.error("Failed to add product:", error);
+      MySwal.fire({
+        icon: "error",
+        title: "Failed to add!",
+        text: "Adding new product failed.",
+      });
+    }
+  }
+};
+
 
   const handleEdit = async (id, currentData) => {
     const { value: formValues } = await MySwal.fire({
       title: "Edit Product",
       html: `
-                <input id="swal-input1" class="swal2-input" value="${currentData.productId}">
+                <label for="swal-input1">Product ID:</label>
+                <input id="swal-input1" class="swal2-input" value="${currentData.productId}" readonly>
+                <label for="swal-input2">Product Name:</label>
                 <input id="swal-input2" class="swal2-input" value="${currentData.p_name}">
-                <input id="swal-input3" class="swal2-input" value="${currentData.available}" type="number">
-                <input id="swal-input4" class="swal2-input" value="${currentData.unitPrice}" type="number">`,
+                <label for="swal-input3">Quantity (kg):</label>
+                <input id="swal-input3" class="swal2-input" value="${currentData.available}" type="number" min="0">
+                <label for="swal-input4">Price (Rs):</label>
+                <input id="swal-input4" class="swal2-input" value="${currentData.unitPrice}" type="number" min="0">`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#008000",
@@ -100,8 +122,20 @@ export default function AdminProduct() {
         ];
       },
     });
-
+  
     if (formValues) {
+      const available = parseFloat(formValues[2]);
+      const unitPrice = parseFloat(formValues[3]);
+  
+      if (available < 0 || unitPrice < 0) {
+        MySwal.fire({
+          icon: "error",
+          title: "Invalid Input!",
+          text: "Quantity and Price cannot be negative.",
+        });
+        return;
+      }
+  
       try {
         await fetch(`http://localhost:3000/adminproduct/update/${id}`, {
           method: "PUT",
@@ -111,8 +145,8 @@ export default function AdminProduct() {
           body: JSON.stringify({
             productId: formValues[0],
             p_name: formValues[1],
-            available: parseFloat(formValues[2]),
-            unitPrice: parseFloat(formValues[3]),
+            available: available,
+            unitPrice: unitPrice,
           }),
         });
         MySwal.fire({
@@ -131,6 +165,81 @@ export default function AdminProduct() {
       }
     }
   };
+  
+  // Function to add a new product with automatic product ID generation
+  const handleAddProduct = async () => {
+    const products = await fetchProducts(); // Assume this function fetches the current list of products
+    const newProductId = `Product${products.length + 1}`;
+  
+    const { value: formValues } = await MySwal.fire({
+      title: "Add Product",
+      html: `
+                <label for="swal-input1">Product ID:</label>
+                <input id="swal-input1" class="swal2-input" value="${newProductId}" readonly>
+                <label for="swal-input2">Product Name:</label>
+                <input id="swal-input2" class="swal2-input">
+                <label for="swal-input3">Quantity (kg):</label>
+                <input id="swal-input3" class="swal2-input" type="number" min="0">
+                <label for="swal-input4">Price (Rs):</label>
+                <input id="swal-input4" class="swal2-input" type="number" min="0">`,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Add Product",
+      preConfirm: () => {
+        return [
+          document.getElementById("swal-input1").value,
+          document.getElementById("swal-input2").value,
+          document.getElementById("swal-input3").value,
+          document.getElementById("swal-input4").value,
+        ];
+      },
+    });
+  
+    if (formValues) {
+      const available = parseFloat(formValues[2]);
+      const unitPrice = parseFloat(formValues[3]);
+  
+      if (available < 0 || unitPrice < 0) {
+        MySwal.fire({
+          icon: "error",
+          title: "Invalid Input!",
+          text: "Quantity and Price cannot be negative.",
+        });
+        return;
+      }
+  
+      try {
+        await fetch('http://localhost:3000/adminproduct/add', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            productId: formValues[0],
+            p_name: formValues[1],
+            available: available,
+            unitPrice: unitPrice,
+          }),
+        });
+        MySwal.fire({
+          icon: "success",
+          title: "Added!",
+          text: "Product has been added.",
+        });
+        fetchProducts();
+      } catch (error) {
+        console.error("Failed to add product:", error);
+        MySwal.fire({
+          icon: "error",
+          title: "Failed to add!",
+          text: "Product addition failed.",
+        });
+      }
+    }
+  };
+  
 
   const handleRemove = async (id) => {
     const result = await MySwal.fire({
@@ -221,8 +330,9 @@ export default function AdminProduct() {
             </div>
           </div>
 
-          <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-white uppercase bg-[#54db93]">
+          <div className="relative overflow-x-auto sm:rounded-lg">
+        <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+          <thead className="text-xs text-white uppercase bg-green-600 border-b border-blue-400">
               <tr>
                 <th scope="col" className="px-6 py-5">
                   Product ID
@@ -231,10 +341,10 @@ export default function AdminProduct() {
                   Product Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Available
+                Available Quantity (Kg)
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Unit Price
+                Unit Price (Rs) 
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Actions
@@ -269,6 +379,7 @@ export default function AdminProduct() {
               ))}
             </tbody>
           </table>
+          </div>
 
           <nav
             className="flex items-center justify-between pt-2"

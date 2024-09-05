@@ -97,9 +97,85 @@ const getProfile = (req, res) => {
     });
 };
 
+
+const getUsers = (req, res) => {
+  models.Users.findAll({ attributes: ['name', 'role'] })
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Something went wrong" });
+    });
+};
+
+// Create a new user
+const createUserp = (req, res) => {
+  const { name, username, password, role } = req.body;
+
+  models.Users.findOne({ where: { username } })
+    .then(existingUser => {
+      if (existingUser) {
+        return res.status(409).json({ message: "User already exists" });
+      }
+
+      bcryptjs.genSalt(10, function(err, salt) {
+        bcryptjs.hash(password, salt, function(err, hash) {
+          const newUser = {
+            name,
+            username,
+            password: hash,
+            role
+          };
+
+          models.Users.create(newUser)
+            .then(result => {
+              res.status(201).json({ message: "User created successfully" });
+            })
+            .catch(error => {
+              res.status(500).json({ message: "Something went wrong" });
+            });
+        });
+      });
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Something went wrong" });
+    });
+};
+
+// Delete a user
+const deleteUser = (req, res) => {
+  const { id } = req.params;
+
+  models.Users.findByPk(id)
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Check if the requester has admin role or is deleting their own account
+      if (req.user.role !== 'admin' && req.user.userId !== user.id) {
+        return res.status(403).json({ message: "Unauthorized to delete this user" });
+      }
+
+      user.destroy()
+        .then(() => {
+          res.status(200).json({ message: "User deleted successfully" });
+        })
+        .catch(error => {
+          res.status(500).json({ message: "Something went wrong" });
+        });
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Something went wrong" });
+    });
+};
+
 module.exports = {
     createUser : createUser,
     login: login,
     signout: signout,
-    getProfile: getProfile
+    getProfile: getProfile,
+    getUsers,
+  createUserp,
+  deleteUser
 }

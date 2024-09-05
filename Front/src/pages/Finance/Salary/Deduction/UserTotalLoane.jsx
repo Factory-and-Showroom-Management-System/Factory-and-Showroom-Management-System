@@ -60,6 +60,12 @@ export default function UserTotalLoans() {
     };
 
 
+    const handleMonthCount = async (event) => {
+        //Fetch the data from the API  run to post: http://localhost:3000/salary/addmonthattempcount
+        const response = await axios.post('http://localhost:3000/salary/addmonthattempcount', {
+        });
+        console.log(response);
+    };
 
 
     const handleSubmit = async (event) => {
@@ -176,6 +182,7 @@ export default function UserTotalLoans() {
 
     useEffect(() => {
         fetchLoans();
+        handleMonthCount();
         handleSubmit();
         handleSubmitEarning();
         handleSubmitUserLoan();
@@ -394,7 +401,7 @@ export default function UserTotalLoans() {
 
                 <div className='p-5'>
 
-                    <h1 className="  text-3xl text-blue-500">User Total Loans</h1>
+                    <h1 className="  text-3xl text-green-700">User Total Loans</h1>
 
                     <div className='mb-2 mt-5 flex items-center'>
 
@@ -437,7 +444,7 @@ export default function UserTotalLoans() {
                     <div className="relative overflow-x-auto sm:rounded-lg">
 
                         <table className="w-full text-sm text-left text-gray-500">
-                            <thead className="text-xs text-white uppercase bg-blue-600">
+                            <thead className="text-xs text-white uppercase bg-green-700">
                                 <tr>
                                     <th scope="col" className="px-6 py-7">ID</th>
                                     <th scope="col" className="px-6 py-3">User ID</th>
@@ -452,7 +459,7 @@ export default function UserTotalLoans() {
                             </thead>
                             <tbody>
                                 {currentRows.map((loan) => (
-                                    <tr key={loan.id} className="bg-blue-500 text-white border-b border-blue-400 hover:bg-blue-400">
+                                    <tr key={loan.id} className="bg-[#cdf8da] text-black border-b border-[#4bf885] hover:bg-[#a1f0c6]">
                                         <td className="px-6 py-4">{loan.id}</td>
                                         <td className="px-6 py-4">{loan.userId}</td>
                                         <td className="px-6 py-4">{loan.name}</td>
@@ -470,7 +477,7 @@ export default function UserTotalLoans() {
 
                                 ))}
 
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 py-2 text-right font-bold" colSpan="4">Sub Total (Rs.) :</td>
                                     <td className="px-6  font-bold">Rs. {totalLoanAmount.toFixed(2)}</td>
                                     <td className="px-6  font-bold">Rs. {totalToBePaid.toFixed(2)}</td>
@@ -480,7 +487,7 @@ export default function UserTotalLoans() {
 
 
                                 </tr>
-                                <tr className="bg-blue-800 text-white">
+                                <tr className="bg-green-800 text-white">
                                     <td className="px-20 pb-3 text-right font-bold" colSpan="4">Total (Rs.) :</td>
                                     <td className="px-6 font-bold">Rs. {totalLoanAmount.toFixed(4)}</td>
                                     <td className="px-6 font-bold">Rs. {totalToBePaid.toFixed(4)}</td>
