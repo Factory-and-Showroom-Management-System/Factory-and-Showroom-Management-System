@@ -1,23 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import { Table, Button } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-export default function Attendance() {
-    const [attendanceList, setAttendanceList] = useState([]);
+const AttendanceComponent = () => {
+    const [attendance, setAttendance] = useState([]);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [isArchived, setIsArchived] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        fetchAttendanceList();
-    }, []);
+        fetchAttendance();
+    }, [currentPage, isArchived]);
 
-    const fetchAttendanceList = async () => {
+    const fetchAttendance = async () => {
         try {
-            const response = await fetch('http://localhost:3000/attendance/showattendance');
+            let url = 'http://localhost:3000/attendance/showattendance';
+            if (isArchived) {
+                url = `http://localhost:3000/attendance/archive-attendance?startDate=${startDate.toISOString().split('T')[0]}&endDate=${endDate.toISOString().split('T')[0]}`;
+            }
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
             const data = await response.json();
-            setAttendanceList(data);
+            setAttendance(data);
         } catch (error) {
-            console.error('Failed to fetch attendance:', error);
+            console.error('Error fetching attendance:', error);
         }
+    // Add the missing closing curly brace
+    };
+
+    const handleViewArchived = () => {
+        setIsArchived(!isArchived);
+        setCurrentPage(1);  // Reset to the first page
     };
 
     const handlePrevPage = () => setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));
@@ -25,13 +46,13 @@ export default function Attendance() {
 
     const handleTimeIn = async (userId, name, role) => {
         const timeIn = new Date().toLocaleTimeString();
-        const updatedAttendanceList = attendanceList.map(attendance => {
-            if (attendance.userId === userId) {
-                return { ...attendance, timeIn: timeIn };
+        const updatedAttendance = attendance.map(att => {
+            if (att.userId === userId) {
+                return { ...att, timeIn: timeIn };
             }
-            return attendance;
+            return att;
         });
-        setAttendanceList(updatedAttendanceList);
+        setAttendance(updatedAttendance);
 
         try {
             await fetch(`http://localhost:3000/attendance/updateattendance/${userId}`, {
@@ -39,7 +60,7 @@ export default function Attendance() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userId, name, role, timeIn }),
+                body: JSON.stringify({ userId, name, role, timeIn })
             });
         } catch (error) {
             console.error('Failed to update time in:', error);
@@ -48,16 +69,15 @@ export default function Attendance() {
 
     const handleTimeOut = async (userId, name, role) => {
         const timeOut = new Date().toLocaleTimeString();
-        const updatedAttendanceList = attendanceList.map(attendance => {
-            if (attendance.userId === userId) {
-                return { ...attendance, timeOut: timeOut };
+        const updatedAttendance = attendance.map(att => {
+            if (att.userId === userId) {
+                return { ...att, timeOut: timeOut };
             }
-            return attendance;
+            return att;
         });
-        setAttendanceList(updatedAttendanceList);
+        setAttendance(updatedAttendance);
 
-        // Fetch the existing timeIn to preserve its value
-        const existingAttendance = attendanceList.find(attendance => attendance.userId === userId);
+        const existingAttendance = attendance.find(att => att.userId === userId);
         const { timeIn } = existingAttendance || {};
 
         try {
@@ -66,9 +86,9 @@ export default function Attendance() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userId, name, role, timeIn, timeOut }),
+                body: JSON.stringify({ userId, name, role, timeIn, timeOut })
             });
-            window.location.reload();  // Refresh the browser
+            window.location.reload();
         } catch (error) {
             console.error('Failed to update time out:', error);
         }
@@ -76,52 +96,33 @@ export default function Attendance() {
 
     const handleGenerateReport = async () => {
         try {
-            const response = await fetch('http://localhost:3000/attendance/generatereport');
+            const response = await fetch(`http://localhost:3000/attendance/generatereport`, { method: 'GET' });
             if (!response.ok) {
                 throw new Error('Failed to generate report');
             }
             const blob = await response.blob();
-             // Fetch the current date and format it
             const currentDate = new Date();
-            const formattedDate = `${currentDate.getFullYear()}-${('0' + (currentDate.getMonth() + 1)).slice(-2)}-${('0' + currentDate.getDate()).slice(-2)}`;
-
-            // Generate file name with date
+            formattedDate = currentDate.getFullYear() + '-' + ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + currentDate.getDate()).slice(-2);
             const fileName = `attendance_report_${formattedDate}.xlsx`;
-
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-            } catch (error) {
-                console.error('Failed to generate report:', error);
-        }
-    };
-
-    const handleResetDailyAttendance = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/attendance/resetdailyattendance', {
-                method: 'POST'
-            });
-            if (response.ok) {
-                fetchAttendanceList(); // Refresh the attendance list
-            } else {
-                console.error('Failed to reset daily attendance');
-            }
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
         } catch (error) {
-            console.error('Failed to reset daily attendance:', error);
+            console.error('Failed to generate report:', error);
         }
     };
 
-    const filteredAttendance = searchTerm
-        ? attendanceList.filter(attendance =>
-            (attendance.userId && attendance.userId.toString().includes(searchTerm)) ||
-            (attendance.name && attendance.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (attendance.role && attendance.role.toLowerCase().includes(searchTerm.toLowerCase()))
+    const filteredAttendance = Array.isArray(attendance)
+        ? attendance.filter(att =>
+            (att.userId && att.userId.toString().includes(searchTerm)) ||
+            (att.name && att.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (att.role && att.role.toLowerCase().includes(searchTerm.toLowerCase()))
         )
-        : attendanceList;
+        : [];
 
     const totalPages = Math.ceil(filteredAttendance.length / rowsPerPage);
     const indexFrom = (currentPage - 1) * rowsPerPage;
@@ -129,15 +130,15 @@ export default function Attendance() {
 
     return (
         <div className="attendance-container">
-            <h2 className="pt-2 pl-1 text-3xl text-black ">Attendance</h2>
-            <div className='flex items-center mt-5 mb-2'>
-                <button onClick={handleGenerateReport} className="px-4 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-700">
+            <h2 className="text-3xl text-black pl-1 pt-2 ">Attendance Records</h2>
+            <div className='mb-2 mt-5 flex items-center'>
+                <Button onClick={handleViewArchived} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    {isArchived ? 'View Current Attendance' : 'View Archived Attendance'}
+                </Button>
+                <Button onClick={handleGenerateReport} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
                     Generate Report
-                </button>
-                <button onClick={handleResetDailyAttendance} className="px-4 py-2 ml-4 font-bold text-white bg-red-600 rounded hover:bg-red-700">
-                    Reset Daily Attendance
-                </button>
-                <div className="relative ml-4"> 
+                </Button>
+                <div className="relative ml-4">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m19 19-4-4m0-7A7 7 0 1 1 1 8 a7 7 0 0 1 14 0Z" />
@@ -152,58 +153,62 @@ export default function Attendance() {
                     />
                 </div>
             </div>
-            <table className="w-full text-sm text-left text-gray-500">
-                <thead className="text-xs text-black uppercase bg-[#54db93]">
-                    <tr>
-                        <th scope="col" className="px-6 py-3">User ID</th>
-                        <th scope="col" className="px-6 py-3">Name</th>
-                        <th scope="col" className="px-6 py-3">Role</th>
-                        <th scope="col" className="px-6 py-3">Date In</th>
-                        <th scope="col" className="px-6 py-3">Time In</th>
-                        <th scope="col" className="px-6 py-3">Time Out</th>
-                        <th scope="col" className="px-6 py-3">Status</th>
-                        <th scope="col" className="px-6 py-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody className="text-xs text-black uppercase bg-[#cdf8da] border-b border-[#4bf885]">
-                    {filteredAttendance.slice(indexFrom, indexTo).map((attendance) => (
-                        <tr key={attendance.userId} className="attendance-item hover:bg-[#a1f0c6]">
-                            <td className="px-6 py-4">{attendance.userId}</td>
-                            <td className="px-6 py-4">{attendance.name}</td>
-                            <td className="px-6 py-4">{attendance.role}</td>
-                            <td className="px-6 py-4">{attendance.dateIn}</td>
-                            <td className="px-6 py-4">{attendance.timeIn}</td>
-                            <td className="px-6 py-4">{attendance.timeOut}</td>
-                            <td className="px-6 py-4">{attendance.status}</td>
-                            <td className="px-6 py-4">
-                                <button 
-                                    className="px-2 py-1 mr-2 text-white bg-green-500 rounded"
-                                    onClick={() => handleTimeIn(attendance.userId, attendance.name, attendance.role)}
-                                >
-                                    Time In
-                                </button>
-                                <button 
-                                    className="px-2 py-1 text-white bg-red-500 rounded"
-                                    onClick={() => handleTimeOut(attendance.userId, attendance.name, attendance.role)}
-                                >
-                                    Time Out
-                                </button>
-                            </td>
+            <div>
+                {isArchived && (
+                    <div>
+                        <label>Start Date: </label>
+                        <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
+                        <label>End Date: </label>
+                        <DatePicker selected={endDate} onChange={date => setEndDate(date)} />
+                        <Button onClick={fetchAttendance} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                            Fetch Archived Attendance
+                        </Button>
+                    </div>
+                )}
+                <Table striped bordered hover responsive className="mt-4">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Date In</th>
+                            <th>Time In</th>
+                            <th>Time Out</th>
+                            <th>Status</th>
+                            {!isArchived && <th>Actions</th>}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            {/* <div className="mt-4 pagination-controls">
-                <button onClick={handlePrevPage} disabled={currentPage === 1}>
-                    Previous
-                </button>
-                <span className="mx-2">
-                    Page {currentPage} of {totalPages}
-                </span>
-                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                    Next
-                </button>
-            </div> */}
+                    </thead>
+                    <tbody>
+                        {filteredAttendance.slice(indexFrom, indexTo).map((att, index) => (
+                            <tr key={index}>
+                                <td>{att.userId}</td>
+                                <td>{att.name}</td>
+                                <td>{att.role}</td>
+                                <td>{att.dateIn}</td>
+                                <td>{att.timeIn}</td>
+                                <td>{att.timeOut}</td>
+                                <td>{att.status}</td>
+                                {!isArchived && (
+                                    <td>
+                                        <Button onClick={() => handleTimeIn(att.userId, att.name, att.role.role)} disabled={!!att.timeIn}>
+                                            Time In
+                                        </Button>
+                                        <Button onClick={() => handleTimeOut(att.userId, att.name, att.role.role)} disabled={!!att.timeOut}>
+                                            Time Out
+                                        </Button>
+                                    </td>
+                                )}
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+            <div className="flex justify-between mt-4">
+                <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
+                <Button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</Button>
+            </div>
         </div>
     );
-}
+};
+
+export default AttendanceComponent;

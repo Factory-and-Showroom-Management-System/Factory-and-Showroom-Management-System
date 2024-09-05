@@ -13,7 +13,8 @@ router.get('/showattendance', attendanceController.attendanceShow);
 router.put('/updateattendance/:attendanceId', attendanceController.updateTimeInAndOut);
 // router.delete('/deleteattendance/:attendanceId', attendanceController.destroy);
 router.get('/generatereport', attendanceController.generateReport);
-router.post('/resetdailyattendance', attendanceController.resetDailyAttendance);
-
+// router.post('/archived', attendanceController.archiveAttendance);
+router.get('/totalMonthlyAttendance', attendanceController.getTotalMonthlyAttendance);
+router.get('/totaldailyattendance', attendanceController.getTotalDailyAttendance);
 
 module.exports = router;
