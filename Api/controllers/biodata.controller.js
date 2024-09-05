@@ -1,12 +1,20 @@
 const models = require('../models');
 const Validator = require('fastest-validator');
 const { updateOrCreateAttendance } = require('./attendance.controller');
+const cron = require('node-cron');
+const { profile } = require('console');
+
 
 // Function to calculate age from birthdate
 function calculateAge(birthdate) {
     const birthYear = new Date(birthdate).getFullYear();
     const currentYear = new Date().getFullYear();
     return currentYear - birthYear;
+}
+
+// Function to find roleName by role ID
+function findRoleNameByRoleId(roleId) {
+    return models.Role.findByPk(roleId).then(role => role ? role.roleName : null);
 }
 
 // Create function to save BioData
@@ -84,26 +92,78 @@ function BioDataSave(req, res) {
             bankNumber: bankNumber,
             imgSrc: imgSrc
         }).then(result => {
-            // Update or create attendance
-            return updateOrCreateAttendance(userId, roleName, nameWini).then(() => {
-                res.status(201).json({
-                    message: "BioData saved successfully",
-                    bioData: result
+            // Fetch roleName by roleId and then update/create attendance
+            findRoleNameByRoleId(role.id)
+                .then(fetchedRoleName => {
+                    if (!fetchedRoleName) {
+                        return res.status(404).json({
+                            message: "Role name not found"
+                        });
+                    }
+                    return updateOrCreateAttendance(userId, fetchedRoleName, nameWini).then(() => {
+                        res.status(201).json({
+                            message: "BioData saved successfully",
+                            bioData: result
+                        });
+                    });
+                })
+                .catch(error => {
+                    res.status(500).json({
+                        message: "Something went wrong",
+                        error: error
+                    });
                 });
-            });
         }).catch(error => {
             res.status(500).json({
                 message: "Something went wrong",
                 error: error
             });
         });
-
     }).catch(error => {
         res.status(500).json({
             message: "Something went wrong",
             error: error
         });
     });
+}
+
+cron.schedule('0 12 * * *', () => { // Runs every day at midnight
+    console.log('Running daily attendance update...');
+    models.BioData.findAll().then(bioDataRecords => {
+        bioDataRecords.forEach(record => {
+            const { userId, roleId, nameWini } = record;
+            findRoleNameByRoleId(roleId).then(roleName => {
+                if (roleName) {
+                    updateOrCreateAttendance(userId, roleName, nameWini)
+                        .then(() => {
+                            console.log("Attendance updated for user: ${nameWini}");
+                        })
+                        .catch(error => {
+                            console.error("Failed to update attendance for user: ${nameWini}", error);
+                        });
+                }
+            });
+        });
+    }).catch(error => {
+        console.error('Failed to fetch BioData records:', error);
+    });
+});
+
+
+// Function to get uploaded file info
+function getUploadedFile(req, res) {
+    const filename = req.params.filename;
+    models.BioData.findOne({ where: { image: filename } })
+        .then(result => {
+            if (result) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({ message: "File not found" });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: "Something went wrong", error: err.message });
+        });
 }
 
 // Create Function Show BioDataSave
@@ -115,7 +175,7 @@ function BioDataShow(req, res) {
                 as: 'role',
                 attributes: ['roleName'],
             }]
-             // Include Role model to get roleName
+        // Include Role model to get roleName
     }).then(result => {
         res.status(200).json(result);
     }).catch(error => {
@@ -269,17 +329,31 @@ function BioDataUpdate(req, res) {
             result.imgSrc = imgSrc;
 
             result.save().then(updatedBioDataRecord => {
-                // Update or create attendance record
-                updateOrCreateAttendance(userId, role.roleName, nameWini, null, null)
-                    .then(() => {
-                        res.status(200).json({
-                            message: "BioData updated successfully",
-                            bioData: updatedBioDataRecord
-                        });
+                // Fetch roleName by roleId and then update/create attendance
+                findRoleNameByRoleId(role.id)
+                    .then(fetchedRoleName => {
+                        if (!fetchedRoleName) {
+                            return res.status(404).json({
+                                message: "Role name not found"
+                            });
+                        }
+                        updateOrCreateAttendance(userId, fetchedRoleName, nameWini, null, null)
+                            .then(() => {
+                                res.status(200).json({
+                                    message: "BioData updated successfully",
+                                    bioData: updatedBioDataRecord
+                                });
+                            })
+                            .catch(error => {
+                                res.status(500).json({
+                                    message: "Failed to update attendance",
+                                    error: error
+                                });
+                            });
                     })
                     .catch(error => {
                         res.status(500).json({
-                            message: "Failed to update attendance",
+                            message: "Something went wrong",
                             error: error
                         });
                     });
@@ -303,6 +377,7 @@ function BioDataUpdate(req, res) {
     });
 }
 
+// Function to find role ID by role name (if needed)
 function findRoleIDbyRoleName(req, res) {
     const roleName = req.params.roleName;
     models.Role.findOne({
@@ -332,5 +407,5 @@ module.exports = {
     biodataShowId,
     BioDataUpdate,
     BioDataDelete,
-    findRoleIDbyRoleName
+    findRoleIDbyRoleName,
 };
