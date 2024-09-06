@@ -130,14 +130,14 @@ const AttendanceComponent = () => {
 
     return (
         <div className="attendance-container">
-            <h2 className="text-3xl text-black pl-1 pt-2 ">Attendance Records</h2>
-            <div className='mb-2 mt-5 flex items-center'>
-                <Button onClick={handleViewArchived} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <h2 className="text-3xl text-black pl-1 pt-2">Attendance Records</h2>
+            <div className="mb-2 mt-5 flex items-center">
+                <button onClick={handleViewArchived} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                     {isArchived ? 'View Current Attendance' : 'View Archived Attendance'}
-                </Button>
-                <Button onClick={handleGenerateReport} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+                </button>
+                <button onClick={handleGenerateReport} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
                     Generate Report
-                </Button>
+                </button>
                 <div className="relative ml-4">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -153,59 +153,64 @@ const AttendanceComponent = () => {
                     />
                 </div>
             </div>
-            <div>
-                {isArchived && (
-                    <div>
-                        <label>Start Date: </label>
-                        <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
-                        <label>End Date: </label>
-                        <DatePicker selected={endDate} onChange={date => setEndDate(date)} />
-                        <Button onClick={fetchAttendance} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
-                            Fetch Archived Attendance
-                        </Button>
-                    </div>
-                )}
-                <Table striped bordered hover responsive className="mt-4">
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Date In</th>
-                            <th>Time In</th>
-                            <th>Time Out</th>
-                            <th>Status</th>
-                            {!isArchived && <th>Actions</th>}
+
+            {isArchived && (
+                <div className="mt-4">
+                    <label className="mr-2">Start Date: </label>
+                    <DatePicker selected={startDate} onChange={date => setStartDate(date)} className="border border-gray-300 rounded" />
+                    <label className="ml-4 mr-2">End Date: </label>
+                    <DatePicker selected={endDate} onChange={date => setEndDate(date)} className="border border-gray-300 rounded" />
+                    <button onClick={fetchAttendance} className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Fetch Archived Attendance
+                    </button>
+                </div>
+            )}
+
+            <table className="w-full text-sm text-left text-gray-500 mt-4">
+                <thead className="text-xs text-black uppercase bg-[#54db93]">
+                    <tr>
+                        <th scope="col" className="px-6 py-3">User ID</th>
+                        <th scope="col" className="px-6 py-3">Name</th>
+                        <th scope="col" className="px-6 py-3">Role</th>
+                        <th scope="col" className="px-6 py-3">Date In</th>
+                        <th scope="col" className="px-6 py-3">Time In</th>
+                        <th scope="col" className="px-6 py-3">Time Out</th>
+                        <th scope="col" className="px-6 py-3">Status</th>
+                        {!isArchived && <th scope="col" className="px-6 py-3">Actions</th>}
+                    </tr>
+                </thead>
+                <tbody className="text-xs text-black bg-[#cdf8da]">
+                    {filteredAttendance.slice(indexFrom, indexTo).map((att, index) => (
+                        <tr key={index} className="hover:bg-[#a1f0c6]">
+                            <td className="px-6 py-4">{att.userId}</td>
+                            <td className="px-6 py-4">{att.name}</td>
+                            <td className="px-6 py-4">{att.role}</td>
+                            <td className="px-6 py-4">{att.dateIn}</td>
+                            <td className="px-6 py-4">{att.timeIn}</td>
+                            <td className="px-6 py-4">{att.timeOut}</td>
+                            <td className="px-6 py-4">{att.status}</td>
+                            {!isArchived && (
+                                <td className="px-6 py-4">
+                                    <button onClick={() => handleTimeIn(att.userId, att.name, att.role)} className="px-2 py-1 mr-2 bg-green-500 text-white rounded" disabled={!!att.timeIn}>
+                                        Time In
+                                    </button>
+                                    <button onClick={() => handleTimeOut(att.userId, att.name, att.role)} className="px-2 py-1 bg-red-500 text-white rounded" disabled={!!att.timeOut}>
+                                        Time Out
+                                    </button>
+                                </td>
+                            )}
                         </tr>
-                    </thead>
-                    <tbody>
-                        {filteredAttendance.slice(indexFrom, indexTo).map((att, index) => (
-                            <tr key={index}>
-                                <td>{att.userId}</td>
-                                <td>{att.name}</td>
-                                <td>{att.role}</td>
-                                <td>{att.dateIn}</td>
-                                <td>{att.timeIn}</td>
-                                <td>{att.timeOut}</td>
-                                <td>{att.status}</td>
-                                {!isArchived && (
-                                    <td>
-                                        <Button onClick={() => handleTimeIn(att.userId, att.name, att.role.role)} disabled={!!att.timeIn}>
-                                            Time In
-                                        </Button>
-                                        <Button onClick={() => handleTimeOut(att.userId, att.name, att.role.role)} disabled={!!att.timeOut}>
-                                            Time Out
-                                        </Button>
-                                    </td>
-                                )}
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </div>
+                    ))}
+                </tbody>
+            </table>
+
             <div className="flex justify-between mt-4">
-                <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
-                <Button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</Button>
+                <button onClick={handlePrevPage} disabled={currentPage === 1} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Previous
+                </button>
+                <button onClick={handleNextPage} disabled={currentPage === totalPages} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Next
+                </button>
             </div>
         </div>
     );

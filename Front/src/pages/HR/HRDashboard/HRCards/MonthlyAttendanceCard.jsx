@@ -29,7 +29,7 @@ const TotalMonthlyAttendanceCard = () => {
     }, [selectedDate]);
 
     return (
-        <div className="card p-4 bg-blue-700 border border-gray-200 rounded-lg shadow w-72 dark:bg-blue-600 dark:border-gray-100 hover:bg-blue-600 dark:hover:bg-blue-70 transition duration-300 ease-in-out transform hover:scale-105">
+        <div className="card p-4 bg-[#a1f0c6] border border-gray-200 rounded-lg shadow w-72 dark:bg-[#54db93] dark:border-gray-100 hover:bg-[#54db93] dark:hover:bg-blue-70 transition duration-300 ease-in-out transform hover:scale-105">
             <div className='flex items-center'>
                 <svg className='' width="60px" height="60px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" strokeWidth="0.00024">
                     {/* SVG Path */}

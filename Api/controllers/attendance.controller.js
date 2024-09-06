@@ -20,7 +20,7 @@ async function save(req, res) {
 
         let status = req.body.timeOut ? 'Present' : 'Absent';
 
-        const attendance = await models.attendance.create({
+        const attendance = await models.Attendance.create({
             userId: req.body.userId,
             name: req.body.name,
             role: req.body.role,
@@ -39,7 +39,7 @@ async function save(req, res) {
 // Helper function to get attendance records
 async function getAttendanceRecords() {
     try {
-        const attendanceRecords = await models.attendance.findAll({
+        const attendanceRecords = await models.Attendance.findAll({
             include: [
                 {
                     model: models.BioData,
@@ -92,7 +92,7 @@ async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn = nul
             status = 'Present';
         }
 
-        const [attendance, created] = await models.attendance.findOrCreate({
+        const [attendance, created] = await models.Attendance.findOrCreate({
             where: { userId: userId },
             defaults: { role: roleName, name: nameWini, dateIn: new Date(), timeIn: timeIn ? moment(timeIn, 'hh:mm:ss').format('hh:mm:ss') : null, timeOut: timeOut ? moment(timeOut, 'hh:mm:ss').format('hh:mm:ss') : null, status: status }
         });
@@ -110,7 +110,7 @@ async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn = nul
 async function updateTimeInAndOut(req, res) {
     try {
         const { userId, timeIn, timeOut } = req.body;
-        const attendance = await models.attendance.findOne({ where: { userId } });
+        const attendance = await models.Attendance.findOne({ where: { userId } });
 
         if (!attendance) {
             return res.status(404).json({ message: 'Attendance record not found' });
@@ -139,7 +139,7 @@ async function updateTimeInAndOut(req, res) {
 
 async function generateReport(req, res) {
     try {
-        const attendance = await models.attendance.findAll({
+        const attendance = await models.Attendance.findAll({
             include: [
                 {
                     model: models.BioData,
@@ -196,7 +196,7 @@ async function archiveAttendance(req, res) {
     try {
         const { startDate, endDate } = req.query;
 
-        const attendanceRecords = await models.attendance.findAll({
+        const attendanceRecords = await models.Attendance.findAll({
             // where: {
             //     dateIn: {
             //         [Op.between]: [startDate, endDate]
@@ -391,25 +391,26 @@ async function getTotalMonthlyAttendance(req, res) {
 }
 
 
-// Function to calculate total daily attendance
 async function getTotalDailyAttendance(req, res) {
     try {
-        const { date } = req.query; // Fetch date from query parameters
+        const { year, month, date } = req.query; // Fetch year, month, date from query parameters
 
-        if (!date) {
-            return res.status(400).json({ message: 'Date parameter is required' });
+        if (!year || !month || !date) {
+            return res.status(400).json({ message: 'Year, month, and date parameters are required' });
         }
 
-        // Fetch attendance records for the selected date from ArchiveAttendance
-        const startDate = moment(date).startOf('day').utc().format('YYYY-MM-DD HH:mm:ss');
-        const endDate = moment(date).endOf('day').utc().format('YYYY-MM-DD HH:mm:ss');
+        // Construct the date from year, month, and date
+        const formattedDate = `${year}-${month}-${date}`;
 
         const dailyAttendanceRecords = await models.ArchiveAttendance.findAll({
             where: {
-                dateIn: {
-                    [Op.between]: [startDate, endDate],
-                },
-                status: 'Present'
+                [Op.and]: [
+                    models.sequelize.where(
+                        models.sequelize.fn('DATE_FORMAT', models.sequelize.col('dateIn'), '%Y-%m-%d'),
+                        formattedDate
+                    ),
+                    { status: 'Present' }
+                ]
             }
         });
 

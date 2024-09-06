@@ -14,7 +14,6 @@ import HRManager from "./pages/dashboard/HRManager";
 import HomePage from "./components/HomePage/HomePage";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfileModal from "./components/Profile/ProfileModal";
-import 'bootstrap/dist/js/bootstrap.min.js';
 
 export default function App() {
   return (
