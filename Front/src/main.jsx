@@ -5,7 +5,6 @@ import './index.css'
 import {store , persistor} from './redux/store.js'
 import {Provider} from 'react-redux'
 import {PersistGate} from 'redux-persist/integration/react'
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
