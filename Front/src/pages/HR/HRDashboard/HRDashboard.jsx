@@ -24,6 +24,7 @@ const HRDashboard = () => {
         <div className='p-4 mt-3'>
           <DailyAttendanceCard />
         </div>
+        <br/>
         <div className='pt-4 mt-3'>
           <AttendanceChart />
         </div>

@@ -20,6 +20,7 @@ function findRoleNameByRoleId(roleId) {
 // Create function to save BioData
 function BioDataSave(req, res) {
     const {
+    // setTimeout(() => {
         userId,
         nameWini,
         nameWFull,
@@ -30,6 +31,7 @@ function BioDataSave(req, res) {
         email,
         bankNumber,
         phoneNumber,
+    // }), 4000;
         imgSrc
     } = req.body;
 
@@ -64,6 +66,7 @@ function BioDataSave(req, res) {
             errors: validationResponse
         });
     }
+
 
     // Find the role based on the roleName
     models.Role.findOne({
@@ -127,7 +130,7 @@ function BioDataSave(req, res) {
     });
 }
 
-cron.schedule('0 12 * * *', () => { // Runs every day at midnight
+cron.schedule('0 0 * * *', () => { // Runs every day at midnight
     console.log('Running daily attendance update...');
     models.BioData.findAll().then(bioDataRecords => {
         bioDataRecords.forEach(record => {
@@ -229,7 +232,7 @@ function BioDataDelete(req, res) {
 
         result.destroy().then(() => {
             // Now delete the corresponding attendance record
-            models.attendance.destroy({
+            models.Attendance.destroy({
                 where: { userId: userId }
             }).then(() => {
                 res.status(200).json({

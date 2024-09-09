@@ -11,4 +11,5 @@ router.put('/updatedata/:id', biodataController.BioDataUpdate);
 router.delete('/destroydata/:id', biodataController.BioDataDelete);
 router.put('/autoUpdateStatus/:userId', biodataController.BioDataUpdate);
 
+
 module.exports = router;

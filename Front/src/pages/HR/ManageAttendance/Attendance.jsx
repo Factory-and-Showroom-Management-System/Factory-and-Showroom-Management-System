@@ -16,11 +16,23 @@ const AttendanceComponent = () => {
         fetchAttendance();
     }, [currentPage, isArchived]);
 
+    // Add this useEffect to check for midnight refresh
+    useEffect(() => {
+        const checkMidnight = setInterval(() => {
+            const now = new Date();
+            if (now.getHours() === 0 && now.getMinutes() === 0) {
+                window.location.reload(); // Refresh the page at midnight
+            }
+        }, 60000); // Check every minute
+
+        return () => clearInterval(checkMidnight); // Cleanup the interval on unmount
+    }, []);
+
     const fetchAttendance = async () => {
         try {
             let url = 'http://localhost:3000/attendance/showattendance';
             if (isArchived) {
-                url = `http://localhost:3000/attendance/archive-attendance?startDate=${startDate.toISOString().split('T')[0]}&endDate=${endDate.toISOString().split('T')[0]}`;
+                url = `http://localhost:3000/attendance/get-attendance?startDate=${startDate.toISOString().split('T')[0]}&endDate=${endDate.toISOString().split('T')[0]}`;
             }
             const response = await fetch(url, {
                 method: 'GET',
@@ -33,7 +45,6 @@ const AttendanceComponent = () => {
         } catch (error) {
             console.error('Error fetching attendance:', error);
         }
-    // Add the missing closing curly brace
     };
 
     const handleViewArchived = () => {
@@ -102,7 +113,7 @@ const AttendanceComponent = () => {
             }
             const blob = await response.blob();
             const currentDate = new Date();
-            formattedDate = currentDate.getFullYear() + '-' + ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + currentDate.getDate()).slice(-2);
+            const formattedDate = currentDate.getFullYear() + '-' + ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' + ('0' + currentDate.getDate()).slice(-2);
             const fileName = `attendance_report_${formattedDate}.xlsx`;
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -115,7 +126,7 @@ const AttendanceComponent = () => {
             console.error('Failed to generate report:', error);
         }
     };
-
+    
     const filteredAttendance = Array.isArray(attendance)
         ? attendance.filter(att =>
             (att.userId && att.userId.toString().includes(searchTerm)) ||
@@ -132,10 +143,10 @@ const AttendanceComponent = () => {
         <div className="attendance-container">
             <h2 className="text-3xl text-black pl-1 pt-2">Attendance Records</h2>
             <div className="mb-2 mt-5 flex items-center">
-                <button onClick={handleViewArchived} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={handleViewArchived} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ">
                     {isArchived ? 'View Current Attendance' : 'View Archived Attendance'}
                 </button>
-                <button onClick={handleGenerateReport} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+                <button onClick={handleGenerateReport} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">
                     Generate Report
                 </button>
                 <div className="relative ml-4">
@@ -176,32 +187,37 @@ const AttendanceComponent = () => {
                         <th scope="col" className="px-6 py-3">Time In</th>
                         <th scope="col" className="px-6 py-3">Time Out</th>
                         <th scope="col" className="px-6 py-3">Status</th>
-                        {!isArchived && <th scope="col" className="px-6 py-3">Actions</th>}
+                        {!isArchived && (
+                            <th scope="col" className="px-6 py-3">Actions</th>
+                        )}
                     </tr>
                 </thead>
                 <tbody className="text-xs text-black bg-[#cdf8da]">
-                    {filteredAttendance.slice(indexFrom, indexTo).map((att, index) => (
-                        <tr key={index} className="hover:bg-[#a1f0c6]">
-                            <td className="px-6 py-4">{att.userId}</td>
-                            <td className="px-6 py-4">{att.name}</td>
-                            <td className="px-6 py-4">{att.role}</td>
-                            <td className="px-6 py-4">{att.dateIn}</td>
-                            <td className="px-6 py-4">{att.timeIn}</td>
-                            <td className="px-6 py-4">{att.timeOut}</td>
-                            <td className="px-6 py-4">{att.status}</td>
-                            {!isArchived && (
-                                <td className="px-6 py-4">
-                                    <button onClick={() => handleTimeIn(att.userId, att.name, att.role)} className="px-2 py-1 mr-2 bg-green-500 text-white rounded" disabled={!!att.timeIn}>
-                                        Time In
-                                    </button>
-                                    <button onClick={() => handleTimeOut(att.userId, att.name, att.role)} className="px-2 py-1 bg-red-500 text-white rounded" disabled={!!att.timeOut}>
-                                        Time Out
-                                    </button>
-                                </td>
-                            )}
-                        </tr>
-                    ))}
-                </tbody>
+                {filteredAttendance.slice(indexFrom, indexTo).map((att, index) => (
+                    <tr key={index} className="hover:bg-[#a1f0c6]">
+                        <td className="px-6 py-4">{att.userId}</td>
+                        <td className="px-6 py-4">{att.name}</td>
+                        <td className="px-6 py-4">{att.role}</td>
+                        <td className="px-6 py-4">
+                            {new Date(att.dateIn).toISOString().split('T')[0]}
+                        </td>
+                        <td className="px-6 py-4">{att.timeIn}</td>
+                        <td className="px-6 py-4">{att.timeOut}</td>
+                        <td className="px-6 py-4">{att.status}</td>
+                        {!isArchived && (
+                            <td className="px-6 py-4">
+                                <button onClick={() => handleTimeIn(att.userId, att.name, att.role)} className="px-2 py-1 mr-2 bg-green-500 text-white rounded" disabled={!!att.timeIn}>
+                                    Time In
+                                </button>
+                                <button onClick={() => handleTimeOut(att.userId, att.name, att.role)} className="px-2 py-1 bg-red-500 text-white rounded" disabled={!!att.timeOut}>
+                                    Time Out
+                                </button>
+                            </td>
+                        )}
+                    </tr>
+                ))}
+            </tbody>
+
             </table>
 
             <div className="flex justify-between mt-4">

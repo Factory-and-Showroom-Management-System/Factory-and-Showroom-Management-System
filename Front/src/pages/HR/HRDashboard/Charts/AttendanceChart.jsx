@@ -1,33 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
-import { blue } from '@mui/material/colors';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 export default function AttendanceChart() {
-    const [attendanceData, setAttendanceData] = useState({ names: [], statuses: [] });
+    const [attendanceData, setAttendanceData] = useState({ names: [], averages: [] });
 
     useEffect(() => {
-        fetch('http://localhost:3000/attendance/showattendance')
+        fetch('http://localhost:3000/attendance/average-archived-attendance')
             .then(response => response.json())
             .then(data => {
-                const names = data.map(item => item.name);
-                const statuses = data.map(item => item.status === 'Present' ? 1 : 0); // 1 for Present, 0 for Absent
-                setAttendanceData({ names, statuses });
+                console.log('Fetched data:', data); // Log the data to check its structure
+                const names = data.averages.map(item => item.name);
+                const averages = data.averages.map(item => item.averageAttendance);
+    
+                setAttendanceData({ names, averages });
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    // Check if data is populated
+    console.log('Attendance Data:', attendanceData);
+
     return (
         <div>
-            <h2>Attendance by User</h2>
-            <BarChart
-                width={500}
-                height={300}
-                data={attendanceData.names.map((name, index) => ({ x: name, y: attendanceData.statuses[index] }))}
-                xAxisLabel="Name"
-                yAxisLabel="Attendance"
-                series={[{ data: attendanceData.names.map((name, index) => ({ x: name, y: attendanceData.statuses[index] })), label: 'Attendance', type: 'bar' }]}
-                colors={[blue[600]]}
-            />
+            <h2>Average Archived Attendance by User</h2>
+            {attendanceData.names.length > 0 && attendanceData.averages.length > 0 ? (
+                <BarChart
+                    width={500}
+                    height={300}
+                    data={attendanceData.names.map((name, index) => ({
+                        name: name, 
+                        averageAttendance: attendanceData.averages[index]
+                    }))}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="averageAttendance" fill="#a1f0c6" />
+                </BarChart>
+            ) : (
+                <p>No data available</p>
+            )}
         </div>
     );
 }
