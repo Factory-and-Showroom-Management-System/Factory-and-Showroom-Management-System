@@ -1,4 +1,4 @@
-const moment = require('moment');
+const moment = require('moment-timezone')
 const cron = require('node-cron');
 const Validator = require('fastest-validator');
 const models = require('../models');
@@ -24,7 +24,7 @@ async function save(req, res) {
             userId: req.body.userId,
             name: req.body.name,
             role: req.body.role,
-            dateIn: moment(req.body.dateIn).utc().format('YYYY-MM-DD'),
+            dateIn: moment().tz('Asia/Colombo').format('YYYY-MM-DD'),  // Use startOf('day')
             timeIn: req.body.timeIn ? moment(req.body.timeIn, 'HH:mm:ss').utc().format('HH:mm:ss') : null,
             timeOut: req.body.timeOut ? moment(req.body.timeOut, 'HH:mm:ss').format('HH:mm:ss') : null,
             status: status,
@@ -109,7 +109,7 @@ async function updateOrCreateAttendance(userId, roleName, nameWini, timeIn = nul
 // Function to update timeIn and timeOut
 async function updateTimeInAndOut(req, res) {
     try {
-        const { userId, timeIn, timeOut } = req.body;
+        const { userId, dateIn, timeIn, timeOut } = req.body;
         const attendance = await models.Attendance.findOne({ where: { userId } });
 
         if (!attendance) {
@@ -123,7 +123,8 @@ async function updateTimeInAndOut(req, res) {
             status = (timeIn && timeOut) ? 'Present' : 'Absent';
         }
 
-        await attendance.update({
+        await attendance.update({        
+            dateIn: dateIn !== undefined ? moment(dateIn, 'YYYY-MM-DD').format('YYYY-MM-DD') : attendance.dateIn,
             timeIn: timeIn !== undefined ? (timeIn !== null ? moment(timeIn, 'HH:mm:ss').format('HH:mm:ss') : null) : attendance.timeIn,
             timeOut: timeOut !== undefined ? (timeOut !== null ? moment(timeOut, 'HH:mm:ss').format('HH:mm:ss') : null) : attendance.timeOut,
             status: status,
@@ -197,11 +198,11 @@ async function archiveAttendance(req, res) {
         const { startDate, endDate } = req.query;
 
         const attendanceRecords = await models.Attendance.findAll({
-            // where: {
-            //     dateIn: {
-            //         [Op.between]: [startDate, endDate]
-            //     }
-            // }
+            where: {
+                dateIn: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
         });
 
         if (!attendanceRecords || attendanceRecords.length === 0) {
@@ -209,8 +210,7 @@ async function archiveAttendance(req, res) {
         }
 
         const archivedRecords = attendanceRecords.map(record => {
-            // Check for undefined or null status and skip invalid records
-            if (!record || !record.status) {
+            if (!record || typeof record.status === 'undefined') {
                 console.warn(`Skipping invalid record for userId: ${record?.userId || 'unknown'}`);
                 return null; // Skip this record if it's invalid
             }
@@ -222,7 +222,6 @@ async function archiveAttendance(req, res) {
                 timeIn: record.timeIn,
                 timeOut: record.timeOut,
                 status: record.status,
-                
             };
         }).filter(record => record !== null); // Filter out any null values
 
@@ -234,7 +233,7 @@ async function archiveAttendance(req, res) {
         await models.ArchiveAttendance.bulkCreate(archivedRecords);
 
         // Delete old records
-        await models.attendance.destroy({
+        await models.Attendance.destroy({
             where: {
                 dateIn: {
                     [Op.between]: [startDate, endDate]
@@ -250,14 +249,41 @@ async function archiveAttendance(req, res) {
 }
 
 // Cron job to archive attendance daily at midnight
-cron.schedule('0 12 * * *', async () => {
-    const startDate = moment().subtract(1, 'day').startOf('day').utc().format('YYYY-MM-DD');
-    const endDate = moment().subtract(1, 'day').endOf('day').utc().format('YYYY-MM-DD');
+cron.schedule('0 0 * * *', async () => {
+    const startDate = moment().tz('Asia/Colombo').subtract(1, 'day').startOf('day').format('YYYY-MM-DD');
+    const endDate = moment().tz('Asia/Colombo').subtract(1, 'day').endOf('day').format('YYYY-MM-DD');
+    
     
     await archiveAttendance({
         query: { startDate, endDate }
     });
 });
+
+
+// Function to retrieve archived attendance data by date
+async function getArchivedAttendance(req, res) {
+    try {
+        const { startDate, endDate } = req.query;
+
+        const archivedAttendance = await models.ArchiveAttendance.findAll({
+            where: {
+                dateIn: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+
+        if (!archivedAttendance || archivedAttendance.length === 0) {
+            return res.status(404).json({ message: 'No archived attendance records found for the specified date range' });
+        }
+
+        res.status(200).json(archivedAttendance);
+    } catch (error) {
+        console.error('Error fetching archived attendance:', error);
+        res.status(500).json({ message: 'Something went wrong', error });
+    }
+}
+
 
 // Existing cron job to update or create attendance every minute
 // cron.schedule('* * * * *', async () => {
@@ -285,29 +311,37 @@ cron.schedule('0 12 * * *', async () => {
 // });
 
 // Cron job to update timeIn and timeOut every minute
-cron.schedule('0 12 * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
     try {
-        console.log('Cron job running every minute to update timeIn and timeOut');
+        console.log('Cron job running at midnight to update dateIn');
 
+        // Fetch all bioData records
         const bioDataRecords = await models.BioData.findAll();
 
+        // Loop through each record and update dateIn to current date
         for (const bioData of bioDataRecords) {
             const { userId } = bioData;
 
-            // Reset timeIn and timeOut to null
-            const timeIn = null;
+            // Set dateIn to the current date (midnight)
+            console.log("Server current date and time:", new Date());
+            const dateIn = moment().tz('Asia/Colombo').startOf('day').format('YYYY-MM-DD');
+            const timeIn = null; // Optionally reset timeIn and timeOut to null
             const timeOut = null;
 
-            await updateTimeInAndOut({ body: { userId, timeIn, timeOut } }, { status: () => {} });
+            // Update timeIn, timeOut, and dateIn using your updateTimeInAndOut function
+            await updateTimeInAndOut(
+                { body: { userId, dateIn, timeIn, timeOut } },
+                { status: () => {} } // Mocking the response object
+            );
         }
     } catch (error) {
-        console.error('Error running cron job for updateTimeInAndOut:', error);
+        console.error('Error running cron job for dateIn update:', error);
     }
 });
 
 
 // Cron job to log attendance records daily at 12:00 PM
-cron.schedule('0 12 * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
     try {
         console.log('Running cron job to log attendance records...');
         
@@ -425,6 +459,65 @@ async function getTotalDailyAttendance(req, res) {
 }
 
 
+async function getAverageArchivedAttendance(req, res) {
+    try {
+        let { startDate, endDate } = req.query;
+
+        // If no startDate and endDate are provided, use current month range
+        if (!startDate || !endDate) {
+            const now = moment(); // Current date and time
+            startDate = now.startOf('month').format('YYYY-MM-DD');
+            endDate = now.endOf('month').format('YYYY-MM-DD');
+        }
+
+        // Fetch attendance records within the specified date range
+        const archivedAttendanceRecords = await models.ArchiveAttendance.findAll({
+            where: {
+                dateIn: {
+                    [Op.between]: [startDate, endDate],
+                },
+            },
+            include: [
+                {
+                    model: models.BioData,
+                    as: 'BioData',
+                    attributes: ['nameWini'], // Fetch the short name of the user
+                },
+            ],
+        });
+
+        if (!archivedAttendanceRecords.length) {
+            return res.status(404).json({ message: 'No archived attendance records found in the specified range' });
+        }
+
+        // Create a map to store the total and present counts for each user
+        const attendanceMap = archivedAttendanceRecords.reduce((acc, record) => {
+            // Use BioData.nameWini to get the name
+            const nameWini = record.BioData ? record.BioData.nameWini : 'Unknown'; // Handle null BioData
+            if (!acc[nameWini]) {
+                acc[nameWini] = { total: 0, present: 0 };
+            }
+            acc[nameWini].total += 1;
+            if (record.status === 'Present') {
+                acc[nameWini].present += 1;
+            }
+            return acc;
+        }, {});
+
+        // Calculate the average attendance for each user
+        const averages = Object.keys(attendanceMap).map(nameWini => ({
+            name: nameWini,
+            averageAttendance: (attendanceMap[nameWini].present / attendanceMap[nameWini].total) * 100,
+        }));
+
+        res.status(200).json({ averages });
+    } catch (error) {
+        console.error('Error calculating average archived attendance:', error);
+        res.status(500).json({ message: 'Something went wrong', error });
+    }
+}
+
+
 module.exports = {
     save,
     updateOrCreateAttendance,
@@ -432,7 +525,9 @@ module.exports = {
     attendanceShow,
     generateReport,
     // archiveAttendance,
+    getArchivedAttendance,
     getArchivedAttendanceByDate,
     getTotalMonthlyAttendance,
     getTotalDailyAttendance,
+    getAverageArchivedAttendance,
 };

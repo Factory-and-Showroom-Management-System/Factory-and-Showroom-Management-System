@@ -6,6 +6,7 @@ import { storage } from '../../../firebase';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 import { v4 } from 'uuid';
 
+
 // import { use } from '../../../../../Api/routes/biodata';
 
 const MySwal = withReactContent(Swal);
@@ -16,7 +17,7 @@ export default function Biodata() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchTerm, setSearchTerm] = useState('');
     const [imageUpload, setImageUpload] = useState(null);
-    const [imageList, setImageList] = useState([]);
+    const setImageList = useState([]);
     const [imgSrc, setImgSrc] = useState(''); // Add state for imgSrc
 
     useEffect(() => {
@@ -288,45 +289,45 @@ export default function Biodata() {
     
     
 
-const handleAdd = async () => {
-    const { value: formValues } = await MySwal.fire({
-        title: 'Add New Biodata',
-        html: `
-            <input id="swal-input1" class="swal2-input" placeholder="User ID">
-            <input id="swal-input2" class="swal2-input" placeholder="Name with Initials">
-            <input id="swal-input3" class="swal2-input" placeholder="Full Name">
-            <input id="swal-input4" class="swal2-input" placeholder="Birthdate" type="date">
-            <select id="swal-input5" class="swal2-input">
-                <option value="" selected>Select Role</option>
-                <option value="Admin">Admin</option>
-                <option value="Finance Manager">Finance Manager</option>
-                <option value="Sales Manager">Sales Manager</option>
-                <option value="HR Manager">HR Manager</option>
-                <option value="Inventory Manager">Inventory Manager</option>
-                <option value="Employee">Employee</option>
-            </select>
-            <div>
-                <label><input type="radio" name="gender" value="Male"> Male</label>
-                <label><input type="radio" name="gender" value="Female"> Female</label>
-            </div>
-            <input id="swal-input7" class="swal2-input" placeholder="Address">
-            <input id="swal-input8" class="swal2-input" placeholder="Email">
-            <input id="swal-input9" class="swal2-input" placeholder="Phone Number">
-            <input id="swal-input10" class="swal2-input" placeholder="Bank Number">
-            <input type="file" class="form-control rounded-none" id="swal-input11" name="image" />`,
+    const handleAdd = async () => {
+        const { value: formValues } = await MySwal.fire({
+            title: 'Add New Biodata',
+            html: `
+                <input id="swal-input1" class="swal2-input" placeholder="User ID">
+                <input id="swal-input2" class="swal2-input" placeholder="Name with Initials">
+                <input id="swal-input3" class="swal2-input" placeholder="Full Name">
+                <input id="swal-input4" class="swal2-input" placeholder="Birthdate" type="date">
+                <select id="swal-input5" class="swal2-input">
+                    <option value="" selected>Select Role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Finance Manager">Finance Manager</option>
+                    <option value="Sales Manager">Sales Manager</option>
+                    <option value="HR Manager">HR Manager</option>
+                    <option value="Inventory Manager">Inventory Manager</option>
+                    <option value="Employee">Employee</option>
+                </select>
+                <div>
+                    <label><input type="radio" name="gender" value="Male"> Male</label>
+                    <label><input type="radio" name="gender" value="Female"> Female</label>
+                </div>
+                <input id="swal-input7" class="swal2-input" placeholder="Address">
+                <input id="swal-input8" class="swal2-input" placeholder="Email">
+                <input id="swal-input9" class="swal2-input" placeholder="Phone Number">
+                <input id="swal-input10" class="swal2-input" placeholder="Bank Number">
+                <input type="file" class="form-control rounded-none" id="swal-input11" name="image" />`,
             didOpen: () => {
                 document.getElementById('swal-input11').addEventListener('change', (event) => {
                     setImageUpload(event.target.files[0]);
                 });
             },
-                customClass: {
-                    popup: 'custom-swal2-modal'
-                },
-                focusConfirm: false,
-                showCancelButton: true,
-                confirmButtonColor: '#008000',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Save Changes',
+            customClass: {
+                popup: 'custom-swal2-modal'
+            },
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonColor: '#008000',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Save Changes',
             preConfirm: async () => {
                 const userIdString = document.getElementById('swal-input1').value;
                 const nameWini = document.getElementById('swal-input2').value;
@@ -338,7 +339,6 @@ const handleAdd = async () => {
                 const email = document.getElementById('swal-input8').value;
                 const phoneNumber = document.getElementById('swal-input9').value;
                 const bankNumber = document.getElementById('swal-input10').value;
-                // const imgSrc = document.getElementById('swal-input11').value;  
                 const userId = parseInt(userIdString, 10);
     
                 try {
@@ -347,25 +347,28 @@ const handleAdd = async () => {
                     }
     
                     // Handle image upload before sending the rest of the data
-                    let imgSrc = '';
-                    if (imageUpload) {
-                        try {
-                            const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-                            const snapshot = await uploadBytes(imageRef, imageUpload);
-                            imgSrc = snapshot.metadata.fullPath;
-                        } catch (uploadError) {
-                            console.error('Image upload failed:', uploadError);
-                            MySwal.fire({
-                                icon: 'error',
-                                title: 'Image upload failed!',
-                                text: 'Please try again.',
-                            });
-                            return;
-                        }
-                    }
+                    const uploadImage = () => {
+                        return new Promise((resolve, reject) => {
+                            if (imageUpload) {
+                                const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+                                uploadBytes(imageRef, imageUpload)
+                                    .then((snapshot) => {
+                                        const imgSrc = snapshot.metadata.fullPath;
+                                        resolve(imgSrc); // Resolve with the image source path
+                                    })
+                                    .catch((uploadError) => {
+                                        reject(uploadError); // Reject if upload fails
+                                    });
+                            } else {
+                                resolve(''); // If no image uploaded, resolve with empty string
+                            }
+                        });
+                    };
     
-                    // Now submit the form with the imgSrc set
-                    await fetch(`http://localhost:3000/biodata/adddata`, {
+                    const imgSrc = await uploadImage(); // Await image upload before continuing
+    
+                    // Proceed with form submission after the image is uploaded
+                    const response = await fetch(`http://localhost:3000/biodata/adddata`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -385,13 +388,12 @@ const handleAdd = async () => {
                         })
                     });
     
-                    MySwal.fire({
-                        icon: 'success',
-                        title: 'Added!',
-                        text: 'New biodata has been added.',
-                    });
-    
-                    fetchBiodataList();
+                    if (response.ok) {
+                        console.log('Profile added successfully');
+                        fetchBiodataList(); // Refresh the biodata list after successful submission
+                    } else {
+                        console.error('Failed to add profile:', response.statusText);
+                    }
     
                 } catch (error) {
                     console.error('Failed to add biodata:', error);
@@ -409,6 +411,7 @@ const handleAdd = async () => {
             return; // User canceled the operation
         }
     };
+    
 
 // Updated handleUploadImage to update the file state
 
@@ -422,41 +425,80 @@ const handleUploadImage = () => {
 }; 
 
 const handleRemove = async (id) => {
-    try {
-        const biodataToRemove = biodataList.find(biodata => biodata.id === id);
-        if (biodataToRemove && biodataToRemove.imgSrc) {
-            const imageRef = ref(storage, biodataToRemove.imgSrc);
-            await deleteObject(imageRef);
-        }
+    const biodataToRemove = biodataList.find(biodata => biodata.id === id);
 
-        const response = await fetch(`http://localhost:3000/biodata/destroydata/${id}`, {
-            method: 'delete'
+    if (!biodataToRemove) {
+        MySwal.fire({
+            icon: 'error',
+            title: 'Profile not found',
+            text: 'The profile you are trying to remove does not exist.'
         });
-        if (response.ok) {
-            setBiodataList(biodataList.filter(biodata => biodata.id !== id));
-            MySwal.fire({
-                icon: 'success',
-                title: 'Profile removed successfully',
-                timer: 1500,
-                showConfirmButton: false
+        return;
+    }
+
+    // Display the confirmation dialog
+    const result = await MySwal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to remove this profile? This action cannot be undone!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, remove it!',
+        cancelButtonText: 'No, cancel',
+        reverseButtons: true
+    });
+
+    if (result.isConfirmed) {
+        // If the user confirmed, proceed with the deletion
+        try {
+            // Check if there's an associated image to remove
+            if (biodataToRemove.imgSrc) {
+                const imageRef = ref(storage, biodataToRemove.imgSrc);
+                await deleteObject(imageRef); // Delete image from Firebase storage
+            }
+
+            // Proceed with the profile removal from the server
+            const response = await fetch(`http://localhost:3000/biodata/destroydata/${id}`, {
+                method: 'delete'
             });
-        } else {
-            console.error('Failed to remove profile:', response.statusText);
+
+            if (response.ok) {
+                // If the profile is successfully removed, update the UI
+                setBiodataList(biodataList.filter(biodata => biodata.id !== id));
+
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Profile removed successfully',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            } else {
+                console.error('Failed to remove profile:', response.statusText);
+                MySwal.fire({
+                    icon: 'error',
+                    title: 'Failed to remove profile',
+                    text: response.statusText
+                });
+            }
+        } catch (error) {
+            console.error('Failed to remove profile:', error);
             MySwal.fire({
                 icon: 'error',
                 title: 'Failed to remove profile',
-                text: response.statusText
+                text: error.message
             });
         }
-    } catch (error) {
-        console.error('Failed to remove profile:', error);
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // If the user canceled, show a cancellation message
         MySwal.fire({
-            icon: 'error',
-            title: 'Failed to remove profile',
-            text: error.message
+            title: 'Cancelled',
+            text: 'The profile is safe!',
+            icon: 'info',
+            timer: 1500,
+            showConfirmButton: false
         });
     }
 };
+
 
 const handlePrevPage = () => setCurrentPage(prev => prev > 1 ? prev - 1 : prev);
 const handleNextPage = () => setCurrentPage(prev => prev < totalPages ? prev + 1 : prev);
@@ -524,9 +566,6 @@ const indexTo = currentPage * rowsPerPage;
                             <td className="px-6 py-4">{biodata.phoneNumber}</td>
                             <td className="px-6 py-4">
                             <img src={biodata.imgSrc} alt="Profile" className="rounded-full w-12 h-12 object-cover border-4" onChange={handleUploadImage}/>
-                            {/* {biodata.imgSrc ? (
-                            <img src={biodata.imgSrc} alt="Profile" className="w-16 h-16 rounded-full" /> 
-                            ) : ( 'No Image')} */}
                             </td>
                             <td className="px-6 py-4">
                                 <button className="px-2 py-1 mr-2 bg-green-500 text-white rounded" onClick={() => handleEdit(biodata.id)}>Edit</button>

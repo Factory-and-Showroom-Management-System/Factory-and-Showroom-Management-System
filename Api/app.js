@@ -7,6 +7,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 
+
 const bioDataRouter = require('./routes/biodata');
 const attendanceRouter = require('./routes/attendance');
 const usersRouter = require('./routes/user');
