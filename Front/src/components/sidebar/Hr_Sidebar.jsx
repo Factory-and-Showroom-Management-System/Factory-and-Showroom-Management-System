@@ -23,16 +23,25 @@ export function Hr_Sidebar() {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const [logoutClicked, setLogoutClicked] = useState(false);
+  const [ProfileClicked, setProfileClicked] = useState(false);
+  const [AttendanceClicked, setAttendanceClicked] = useState(false);
 
 
   const handleDashboardClick = () => {
     setDashboardClicked(true);
-    setProductClicked(false); // Ensure other button color is reset
+    setProfileClicked(false);
+    setAttendanceClicked(false)
   };
 
-  const handleProductClick = () => {
-    setProductClicked(true);
-    setDashboardClicked(false); // Ensure other button color is reset
+  const handleAttendanceClick = () => {
+    setDashboardClicked(false);
+    setProfileClicked(false);
+    setAttendanceClicked(true)
+  };
+  const handleProfileClick = () => {
+    setDashboardClicked(false);
+    setProfileClicked(true);
+    setAttendanceClicked(false)
   };
 
 
@@ -77,7 +86,7 @@ export function Hr_Sidebar() {
          
           <div className="mb-2">
             <Link to="/hr?tab=hrprofile" >
-              <Sidebar.Item href="" icon={HiUser} className={` rounded-full  hover:bg-[#cdf8da] ${dashboardClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleDashboardClick}>
+              <Sidebar.Item href="" icon={HiUser} className={` rounded-full  hover:bg-[#cdf8da] ${ProfileClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleProfileClick}>
                 Profiles
               </Sidebar.Item>
             </Link>
@@ -85,7 +94,7 @@ export function Hr_Sidebar() {
 
           <div className="mb-2">
             <Link to="/hr?tab=hrattendance" >
-              <Sidebar.Item href="" icon={HiCalendar} className={` rounded-full  hover:bg-[#cdf8da] ${dashboardClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleDashboardClick}>
+              <Sidebar.Item href="" icon={HiCalendar} className={` rounded-full  hover:bg-[#cdf8da] ${AttendanceClicked ? "bg-[#cdf8da] text-black" : ""}`} onClick={handleAttendanceClick}>
                 Attendance
               </Sidebar.Item>
             </Link>

@@ -20,10 +20,10 @@ import { GiMoneyStack } from "react-icons/gi";
 import { TbMoneybag } from "react-icons/tb";
 import { AiFillTags } from "react-icons/ai";
 
-
-
 export function Admin_Sidebar() {
   const [dashboardClicked, setDashboardClicked] = useState(false);
+  const [ProfileClicked, setProfileClicked] = useState(false);
+  const [AttendanceClicked, setAttendanceClicked] = useState(false);
   const [productClicked, setProductClicked] = useState(false);
   const [earningClicked, setEarningClicked] = useState(false);
   const [additionClicked, setAdditionClicked] = useState(false);
@@ -47,7 +47,7 @@ export function Admin_Sidebar() {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const tab = queryParams.get('tab');
+    const tab = queryParams.get("tab");
 
     // Reset all states
     setDashboardClicked(false);
@@ -67,91 +67,95 @@ export function Admin_Sidebar() {
     setEPFETFClicked(false);
     setSalaryDashboardClicked(false);
     setLogoutClicked(false);
+    setAttendanceClicked(false);
+    setProfileClicked(false);
 
     // Set the relevant state based on the 'tab' query parameter
     switch (tab) {
-      case 'admindash':
+      case "adminprofile":
+        setProfileClicked(true);
+        break;
+        case "adminattendance":
+        setAttendanceClicked(true);
+        break;
+      case "admindash":
         setDashboardClicked(true);
         break;
-      case 'adminproduct':
+      case "adminproduct":
         setProductClicked(true);
         break;
-      case 'adminmaterial':
+      case "adminmaterial":
         setMaterialClicked(true);
         break;
-      case 'adminsalarydashboard':
+      case "adminsalarydashboard":
         setSalaryDashboardClicked(true);
         break;
-      case 'adminsAllMonthSalarySheet':
-          setSalaryDashboardClicked(true);
-          break;
+      case "adminsAllMonthSalarySheet":
+        setSalaryDashboardClicked(true);
+        break;
 
-      case 'adminsalaryEarning':
+      case "adminsalaryEarning":
         setEarningClicked(true);
         break;
-      case 'adminsBasicSalary':
+      case "adminsBasicSalary":
         setEarningClicked(true);
         break;
-      case 'adminsRoleIncome':
+      case "adminsRoleIncome":
         setEarningClicked(true);
         break;
-      case 'adminsBudgetedAllowance':
+      case "adminsBudgetedAllowance":
         setEarningClicked(true);
         break;
-      case 'adminsEarning':
+      case "adminsEarning":
         setEarningClicked(true);
         break;
-      case 'adminsalaryDeduction':
+      case "adminsalaryDeduction":
         setDeductionClicked(true);
         break;
-      case 'adminsUserMonrhLoan':
+      case "adminsUserMonrhLoan":
         setDeductionClicked(true);
         break;
-      case 'adminsUserMonrhLoan':
-          setDeductionClicked(true);
-          break;
-      case 'adminsDeduction':
-            setDeductionClicked(true);
-            break;
-      case 'adminsUserTotalLoane':
-              setDeductionClicked(true);
-              break;
+      case "adminsUserMonrhLoan":
+        setDeductionClicked(true);
+        break;
+      case "adminsDeduction":
+        setDeductionClicked(true);
+        break;
+      case "adminsUserTotalLoane":
+        setDeductionClicked(true);
+        break;
 
-      case 'adminsalaryAddition':
+      case "adminsalaryAddition":
         setAdditionClicked(true);
         break;
-      case 'adminsFoodAllowance':
-          setAdditionClicked(true);
-          break;
-      case 'adminsMonthOT':
-            setAdditionClicked(true);
-            break;
-      case 'adminsAddition':
-              setAdditionClicked(true);
-              break;
-      case 'adminsRoleOTIncome':
-            setAdditionClicked(true);
-            break;
+      case "adminsFoodAllowance":
+        setAdditionClicked(true);
+        break;
+      case "adminsMonthOT":
+        setAdditionClicked(true);
+        break;
+      case "adminsAddition":
+        setAdditionClicked(true);
+        break;
+      case "adminsRoleOTIncome":
+        setAdditionClicked(true);
+        break;
 
-      case 'adminsalaryEPF':
+      case "adminsalaryEPF":
         setEPFETFClicked(true);
         break;
-      case 'adminsalaryNettpay':
+      case "adminsalaryNettpay":
         setNettPayClicked(true);
         break;
-      case 'adminsSalesorder':
+      case "adminsSalesorder":
         setOrderClicked(true);
         break;
-      case 'adminsSalescustomer':
+      case "adminsSalescustomer":
         setCustomerClicked(true);
         break;
-      case 'adminsSaleswastage':
+      case "adminsSaleswastage":
         setWastageClicked(true);
         break;
-
-          
-
-
 
       default:
         break;
@@ -388,6 +392,45 @@ export function Admin_Sidebar() {
                 </Link>
               </div>
             </Sidebar.Collapse>
+
+            {/* hr */}
+            <Sidebar.Collapse
+              icon={TbMoneybag}
+              className={`rounded-full hover:bg-[#cdf8da] ${
+                salesClicked ? "bg-[#cdf8da] text-black" : ""
+              }`}
+              label="HR"
+            >
+              <div className="w-full">
+                <Link to="/admin?tab=adminprofile">
+                  <Sidebar.Item
+                    icon={LiaJediOrder}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      ProfileClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={() => setProfileClicked(true)}
+                  >
+                    Profile
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+              <div className="w-full">
+                <Link to="/admin?tab=adminattendance">
+                  <Sidebar.Item
+                    icon={FaUsersBetweenLines}
+                    className={`rounded-full hover:bg-[#cdf8da] ${
+                      AttendanceClicked ? "bg-[#cdf8da] text-black" : ""
+                    }`}
+                    onClick={() => setAttendanceClicked(true)}
+                  >
+                    Attendance
+                  </Sidebar.Item>
+                </Link>
+              </div>
+
+             
+            </Sidebar.Collapse>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
 
@@ -407,7 +450,9 @@ export function Admin_Sidebar() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="overflow-hidden bg-white rounded-lg shadow-lg w-96">
             <div className="p-4">
-              <h2 className="mb-4 text-xl font-bold">Do you want to log out?</h2>
+              <h2 className="mb-4 text-xl font-bold">
+                Do you want to log out?
+              </h2>
               <div className="flex justify-end space-x-4">
                 <button
                   className="px-4 py-2 font-bold text-white bg-gray-500 rounded cursor-pointer"

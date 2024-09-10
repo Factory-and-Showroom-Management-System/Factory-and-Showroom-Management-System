@@ -30,9 +30,8 @@ import MonthEpfEtfs from "../Admin/FinanceSalary/EpfEtf/MonthEpfEtfs";
 import EaringDash from "../Admin/FinanceSalary/Earning/EaringDash";
 import DeductionDash from "../Admin/FinanceSalary/Deduction/DeductionDash";
 
-
-
-
+import Attendance from "../Admin/AdminHr/ManageAttendance/Attendance"
+import AdminProfile from "../Admin/AdminHr/ManageProfile/Profiles"
 
 
 export function Admin() {
@@ -55,6 +54,8 @@ export function Admin() {
           {tab === "admindash" && <AdminDashboard/>}
           {tab === "adminproduct" && <AdminProduct/>}
           {tab === "adminmaterial" && <AdminRowMaterial/>}
+          {tab === "adminattendance" && <Attendance/>}
+         {tab === "adminprofile" && <AdminProfile/>} 
         
           
           
